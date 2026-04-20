@@ -6,4 +6,5 @@ export type {
   CardDescriptionProps,
   CardContentProps,
 } from "./card";
+export { ListGroup, ListItem, type ListGroupProps, type ListItemProps } from "./list-item";
 export { Separator, type SeparatorProps } from "./separator";

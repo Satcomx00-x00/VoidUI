@@ -1,3 +1,4 @@
+export { BottomNav, BottomNavItem, type BottomNavProps, type BottomNavItemProps } from "./bottom-nav";
 export {
   Tabs,
   TabsList,
