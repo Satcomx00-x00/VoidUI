@@ -1,14 +1,24 @@
-export { Button, type ButtonProps } from "./button";
-export { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./card";
+// ── Typography ────────────────────────────────────────────────────────────────
+export { Text, type TextProps } from "./typography";
+
+// ── Forms ─────────────────────────────────────────────────────────────────────
+export { Button, type ButtonProps } from "./forms";
+export { Input, type InputProps } from "./forms";
+export { Toggle, type ToggleProps } from "./forms";
+
+// ── Data Display ──────────────────────────────────────────────────────────────
+export { Badge, type BadgeProps } from "./data-display";
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+export { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./layout";
 export type {
   CardProps,
   CardHeaderProps,
   CardTitleProps,
   CardDescriptionProps,
   CardContentProps,
-} from "./card";
-export { Text, type TextProps } from "./text";
-export { Input, type InputProps } from "./input";
-export { Badge, type BadgeProps } from "./badge";
-export { Toggle, type ToggleProps } from "./toggle";
-export { Separator, type SeparatorProps } from "./separator";
+} from "./layout";
+export { Separator, type SeparatorProps } from "./layout";
+
+// ── Charts ────────────────────────────────────────────────────────────────────
+export { HeatMap, type HeatMapProps, type HeatMapEntry } from "./charts";

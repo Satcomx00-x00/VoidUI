@@ -22,17 +22,17 @@
 
 ```bash
 # Install dependencies
-npm install
+bun install
 
 # Start development server (Turbopack)
-npm run dev
+bun dev
 
 # Type-check
-npm run typecheck
+bun typecheck
 
 # Lint & format
-npm run lint
-npm run format
+bun lint
+bun format
 ```
 
 ## Project Structure
@@ -44,15 +44,13 @@ src/
 │   ├── layout.tsx        # Root layout (dark mode, fonts)
 │   └── page.tsx          # Component showcase / demo page
 ├── components/
-│   └── ui/               # Core UI primitives
-│       ├── button.tsx    # Button (primary, secondary, ghost, danger)
-│       ├── card.tsx      # Card, CardHeader, CardTitle, CardDescription, CardContent
-│       ├── text.tsx      # Polymorphic text / typography
-│       ├── input.tsx     # Text input with error state
-│       ├── badge.tsx     # Pill badge (default, accent, success, muted)
-│       ├── toggle.tsx    # Toggle switch with spring animation
-│       ├── separator.tsx # Horizontal / vertical separator
-│       └── index.ts      # Barrel export
+│   └── ui/               # Core UI primitives, organized by category
+│       ├── typography/   # Text — polymorphic type system
+│       ├── forms/        # Button, Input, Toggle
+│       ├── data-display/ # Badge (soft / hard tone)
+│       ├── layout/       # Card, Separator
+│       ├── charts/       # HeatMap (contribution graph)
+│       └── index.ts      # Barrel re-export
 └── lib/
     ├── cn.ts             # Tailwind class merge utility (clsx + twMerge)
     └── index.ts          # Barrel export
@@ -69,14 +67,14 @@ All tokens live in `src/app/globals.css` under the `@theme inline` block. Key to
 
 ## Scripts
 
-| Script              | Description                     |
-| ------------------- | ------------------------------- |
-| `npm run dev`       | Start dev server with Turbopack |
-| `npm run build`     | Production build                |
-| `npm run typecheck` | TypeScript strict type check    |
-| `npm run lint`      | ESLint + Prettier check         |
-| `npm run lint:fix`  | Auto-fix lint + format          |
-| `npm run format`    | Format all files with Prettier  |
+| Script          | Description                     |
+| --------------- | ------------------------------- |
+| `bun dev`       | Start dev server with Turbopack |
+| `bun run build` | Production build                |
+| `bun typecheck` | TypeScript strict type check    |
+| `bun lint`      | ESLint + Prettier check         |
+| `bun lint:fix`  | Auto-fix lint + format          |
+| `bun format`    | Format all files with Prettier  |
 
 ## License
 
