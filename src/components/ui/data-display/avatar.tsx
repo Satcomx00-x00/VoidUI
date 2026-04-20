@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, forwardRef } from "react";
+import { type HTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/cn";
 
 /** Size presets for the Avatar component. */
@@ -9,9 +9,11 @@ const avatarSizes = {
   xl: "size-16 text-lg",
 } as const;
 
-export interface AvatarProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> {
+export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   /** Image source URL. When omitted, `fallback` initials are shown. */
   src?: string;
+  /** Alt text for the image. @default "" */
+  alt?: string;
   /**
    * Up to two characters shown when `src` is absent.
    * Automatically uppercased and trimmed to two chars.
@@ -25,9 +27,10 @@ export interface AvatarProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "
  * A circular avatar with optional image and initials fallback.
  *
  * When neither `src` nor `fallback` is provided, a generic person icon renders.
+ * The `ref` is forwarded to the outer `<span>` wrapper.
  */
 export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ className, src, fallback, size = "md", alt = "", ...props }, ref) => (
+  ({ className, src, alt = "", fallback, size = "md", ...props }, ref) => (
     <span
       ref={ref}
       className={cn(
@@ -37,9 +40,10 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         avatarSizes[size],
         className,
       )}
+      {...props}
     >
       {src ? (
-        <img src={src} alt={alt} className="size-full object-cover" {...props} />
+        <img src={src} alt={alt} className="size-full object-cover" />
       ) : fallback ? (
         <span aria-hidden>{fallback.slice(0, 2).toUpperCase()}</span>
       ) : (

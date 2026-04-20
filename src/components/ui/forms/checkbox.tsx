@@ -64,7 +64,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             htmlFor={id}
             className={cn(
               "select-none text-sm text-text-secondary",
-              disabled && "cursor-not-allowed opacity-40",
+              disabled && "opacity-40",
             )}
           >
             {label}
