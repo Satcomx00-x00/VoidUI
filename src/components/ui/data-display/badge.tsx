@@ -17,8 +17,8 @@ const badgeStyles = {
     hard: "bg-nothing-red text-void-white",
   },
   success: {
-    soft: "bg-emerald-500/10 text-emerald-400",
-    hard: "bg-emerald-500 text-void-white",
+    soft: "bg-void-700/40 text-void-200",
+    hard: "bg-void-600 text-void-100",
   },
   muted: {
     soft: "bg-void-900 text-void-500",
