@@ -43,7 +43,14 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         <span
           role="button"
           aria-label="Dismiss"
-          tabIndex={-1}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              onDismiss();
+            }
+          }}
           onClick={(e) => {
             e.stopPropagation();
             onDismiss();
