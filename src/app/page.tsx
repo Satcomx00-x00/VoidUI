@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import {
+  Avatar,
   Badge,
   Button,
   Card,
@@ -9,11 +10,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Checkbox,
   HeatMap,
   type HeatMapEntry,
   Input,
+  Progress,
+  Select,
   Separator,
+  Spinner,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Text,
+  Textarea,
   Toggle,
 } from "@/components/ui";
 
@@ -53,6 +63,8 @@ function CategoryHeader({ label }: { label: string }) {
 export default function ShowcasePage() {
   const [toggleA, setToggleA] = useState(false);
   const [toggleB, setToggleB] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [progress, setProgress] = useState(40);
   const heatmapData = useMemo(() => generateHeatMapData(), []);
 
   return (
@@ -151,6 +163,54 @@ export default function ShowcasePage() {
             </label>
           </div>
         </div>
+
+        {/* Checkbox */}
+        <div className="space-y-4">
+          <Text variant="caption" className="text-text-muted">
+            Checkbox
+          </Text>
+          <div className="flex flex-wrap items-center gap-6">
+            <Checkbox label="Unchecked" checked={checked} onChange={() => setChecked(!checked)} />
+            <Checkbox label="Checked" defaultChecked />
+            <Checkbox label="Error state" error defaultChecked />
+            <Checkbox label="Disabled" disabled />
+          </div>
+        </div>
+
+        {/* Textarea */}
+        <div className="space-y-4">
+          <Text variant="caption" className="text-text-muted">
+            Textarea — states
+          </Text>
+          <div className="flex max-w-sm flex-col gap-3">
+            <Textarea placeholder="Write something…" />
+            <Textarea placeholder="Error state…" error />
+            <Textarea placeholder="Disabled…" disabled />
+          </div>
+        </div>
+
+        {/* Select */}
+        <div className="space-y-4">
+          <Text variant="caption" className="text-text-muted">
+            Select — states
+          </Text>
+          <div className="flex max-w-sm flex-col gap-3">
+            <Select defaultValue="">
+              <option value="" disabled>
+                Choose an option…
+              </option>
+              <option value="a">Option A</option>
+              <option value="b">Option B</option>
+              <option value="c">Option C</option>
+            </Select>
+            <Select error defaultValue="a">
+              <option value="a">Error state</option>
+            </Select>
+            <Select disabled defaultValue="a">
+              <option value="a">Disabled</option>
+            </Select>
+          </div>
+        </div>
       </section>
 
       <Separator />
@@ -160,6 +220,51 @@ export default function ShowcasePage() {
       ══════════════════════════════════════════════════════════════ */}
       <section className="space-y-8">
         <CategoryHeader label="Data Display" />
+
+        {/* Avatar */}
+        <div className="space-y-3">
+          <Text variant="caption" className="text-text-muted">
+            Avatar — sizes &amp; fallbacks
+          </Text>
+          <div className="flex flex-wrap items-center gap-4">
+            <Avatar size="sm" fallback="AB" />
+            <Avatar size="md" fallback="CD" />
+            <Avatar size="lg" fallback="EF" />
+            <Avatar size="xl" fallback="GH" />
+            <Avatar size="md" />
+          </div>
+        </div>
+
+        {/* Progress */}
+        <div className="space-y-3">
+          <Text variant="caption" className="text-text-muted">
+            Progress — determinate &amp; indeterminate
+          </Text>
+          <div className="flex max-w-sm flex-col gap-4">
+            <Progress value={progress} />
+            <Progress value={75} />
+            <Progress indeterminate />
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => setProgress((p) => Math.max(0, p - 10))}
+              >
+                −10
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => setProgress((p) => Math.min(100, p + 10))}
+              >
+                +10
+              </Button>
+              <Text variant="caption" className="self-center text-text-muted">
+                {progress}%
+              </Text>
+            </div>
+          </div>
+        </div>
 
         {/* Badges — soft */}
         <div className="space-y-3">
@@ -197,6 +302,61 @@ export default function ShowcasePage() {
               Muted
             </Badge>
           </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* ════════════════════════════════════════════════════════════
+          CATEGORY: Feedback
+      ══════════════════════════════════════════════════════════════ */}
+      <section className="space-y-6">
+        <CategoryHeader label="Feedback" />
+
+        {/* Spinner */}
+        <div className="space-y-3">
+          <Text variant="caption" className="text-text-muted">
+            Spinner — sizes
+          </Text>
+          <div className="flex flex-wrap items-center gap-6">
+            <Spinner size="sm" />
+            <Spinner size="md" />
+            <Spinner size="lg" />
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* ════════════════════════════════════════════════════════════
+          CATEGORY: Navigation
+      ══════════════════════════════════════════════════════════════ */}
+      <section className="space-y-6">
+        <CategoryHeader label="Navigation" />
+
+        {/* Tabs */}
+        <div className="space-y-3">
+          <Text variant="caption" className="text-text-muted">
+            Tabs
+          </Text>
+          <Tabs defaultValue="overview">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview">
+              <Text variant="body">
+                Overview panel — minimal, clean, nothing-inspired content area.
+              </Text>
+            </TabsContent>
+            <TabsContent value="analytics">
+              <Text variant="body">Analytics panel — surface your metrics here.</Text>
+            </TabsContent>
+            <TabsContent value="settings">
+              <Text variant="body">Settings panel — configure your experience.</Text>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
