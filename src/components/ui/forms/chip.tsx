@@ -40,27 +40,19 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     >
       {children}
       {onDismiss && (
-        <span
-          role="button"
+        <button
+          type="button"
           aria-label="Dismiss"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              e.stopPropagation();
-              onDismiss();
-            }
-          }}
           onClick={(e) => {
             e.stopPropagation();
             onDismiss();
           }}
-          className="ml-0.5 flex size-3.5 items-center justify-center rounded-full text-current opacity-60 hover:opacity-100"
+          className="ml-0.5 flex size-3.5 items-center justify-center rounded-full text-current opacity-60 hover:opacity-100 focus-visible:outline-none focus-visible:opacity-100"
         >
           <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" className="size-2.5">
             <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" />
           </svg>
-        </span>
+        </button>
       )}
     </button>
   ),

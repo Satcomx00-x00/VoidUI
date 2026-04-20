@@ -16,6 +16,7 @@ import {
   Checkbox,
   Chip,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -512,11 +513,9 @@ export default function ShowcasePage() {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Dialog>
-                  <DialogTrigger className="inline-flex h-9 cursor-pointer items-center rounded-[var(--radius-md)] bg-void-900 px-4 text-sm text-text-secondary hover:bg-void-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-                    Cancel
-                  </DialogTrigger>
-                </Dialog>
+                <DialogClose className="inline-flex h-9 cursor-pointer items-center rounded-[var(--radius-md)] bg-void-900 px-4 text-sm text-text-secondary hover:bg-void-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Cancel
+                </DialogClose>
                 <Button variant="danger" size="sm">Confirm reset</Button>
               </DialogFooter>
             </DialogContent>

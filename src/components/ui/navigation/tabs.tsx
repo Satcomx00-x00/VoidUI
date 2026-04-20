@@ -110,12 +110,30 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         id={`${baseId}-tab-${value}`}
         aria-controls={`${baseId}-panel-${value}`}
         aria-selected={isActive}
+        data-value={value}
         tabIndex={isActive ? 0 : -1}
         onClick={() => setActiveTab(value)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             setActiveTab(value);
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.preventDefault();
+            const tablist = e.currentTarget.closest('[role="tablist"]');
+            if (!tablist) return;
+            const tabs = Array.from(
+              tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]:not(:disabled)'),
+            );
+            const idx = tabs.indexOf(e.currentTarget as HTMLButtonElement);
+            const next =
+              e.key === "ArrowRight"
+                ? tabs[(idx + 1) % tabs.length]
+                : tabs[(idx - 1 + tabs.length) % tabs.length];
+            if (next) {
+              next.focus();
+              const nextValue = next.getAttribute("data-value");
+              if (nextValue) setActiveTab(nextValue);
+            }
           }
         }}
         className={cn(

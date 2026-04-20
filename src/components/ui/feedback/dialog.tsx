@@ -141,7 +141,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
           "bg-void-black/70 backdrop-blur-sm",
         )}
         onClick={() => !disableOverlayClose && setOpen(false)}
-        aria-hidden
       >
         <div
           ref={(node) => {
@@ -256,3 +255,29 @@ export const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
 );
 
 DialogFooter.displayName = "DialogFooter";
+
+// ── DialogClose ───────────────────────────────────────────────────────────────
+
+export type DialogCloseProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
+/** A button that closes the enclosing Dialog when clicked. */
+export const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
+  ({ onClick, children, ...props }, ref) => {
+    const { setOpen } = useDialogContext();
+    return (
+      <button
+        ref={ref}
+        type="button"
+        onClick={(e) => {
+          setOpen(false);
+          onClick?.(e);
+        }}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  },
+);
+
+DialogClose.displayName = "DialogClose";

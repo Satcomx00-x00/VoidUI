@@ -34,6 +34,7 @@ export { Separator, type SeparatorProps } from "./layout";
 export { Alert, type AlertProps } from "./feedback";
 export {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -41,6 +42,7 @@ export {
   DialogTitle,
   DialogTrigger,
   type DialogProps,
+  type DialogCloseProps,
   type DialogContentProps,
   type DialogDescriptionProps,
   type DialogFooterProps,

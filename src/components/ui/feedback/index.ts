@@ -1,6 +1,7 @@
 export { Alert, type AlertProps } from "./alert";
 export {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -8,6 +9,7 @@ export {
   DialogTitle,
   DialogTrigger,
   type DialogProps,
+  type DialogCloseProps,
   type DialogContentProps,
   type DialogDescriptionProps,
   type DialogFooterProps,
