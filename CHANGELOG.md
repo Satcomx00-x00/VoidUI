@@ -11,11 +11,18 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 - **button:** Redesign to match templates.html — offset-shadow hover, fg-fill primary, accent variant, ButtonKbd (f1acc49)
 
 
+### 🌀 Other
+- Code structure for improved readability and maintainability (43df65d)
+
+
 ### 🤖 CI/CD
 - **commitlint:** Raise header-max-length to 300 characters (310e64c)
 
 
 ### 🧹 Chores
+- Add changeset for PR #21 [skip ci] by @github-actions[bot] (4999e31)
+- Bunch of components (6d07f0d)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (0642bed)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (372335b)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (b88d38a)
 
