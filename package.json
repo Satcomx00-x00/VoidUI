@@ -1,34 +1,101 @@
 {
   "name": "voidui",
-  "version": "0.1.0",
-  "private": true,
-  "description": "A state-of-the-art Next.js UI library inspired by Nothing Brand — minimalist, dark-first, with fine micro-animations.",
+  "version": "0.0.0",
+  "description": "VoidUI — A minimalist, dark-first Next.js UI component library inspired by Nothing Brand.",
+  "license": "MIT",
+  "author": "Satcomx00-x00",
+  "homepage": "https://github.com/Satcomx00-x00/VoidUI#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Satcomx00-x00/VoidUI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Satcomx00-x00/VoidUI/issues"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "ui",
+    "components",
+    "design-system",
+    "tailwindcss",
+    "dark-mode",
+    "minimalist",
+    "nothing"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "packageManager": "npm@10.9.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:lib": "tsup",
     "start": "next start",
-    "lint": "eslint . && prettier --check .",
-    "lint:fix": "eslint --fix . && prettier --write .",
+    "lint": "next lint && prettier --check .",
+    "lint:fix": "next lint --fix && prettier --write .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint",
+    "clean": "rm -rf .next dist node_modules/.cache",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build:lib && changeset publish",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "next": "16.2.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.4",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.8.3",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.11",
+    "@eslint/eslintrc": "^3.2.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "next": "^15.1.0",
+    "postcss": "^8.5.0",
+    "prettier": "^3.4.0",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.0"
   }
 }

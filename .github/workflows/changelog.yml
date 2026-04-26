@@ -1,0 +1,106 @@
+name: Changelog
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+    paths-ignore:
+      - "CHANGELOG.md"
+      - ".changeset/**"
+      - "docs/**"
+      - "**/*.md"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Optional release tag to generate the changelog up to (e.g. v0.1.0). Leave blank for unreleased."
+        required: false
+        type: string
+
+# One run at a time so the auto-commit is linear.
+concurrency:
+  group: changelog-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Generate CHANGELOG.md (git-cliff)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    # Skip the workflow's own bot commits to avoid an infinite loop.
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.actor != 'github-actions[bot]' &&
+       !startsWith(github.event.head_commit.message, 'chore(changelog):'))
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Generate changelog
+        id: cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --verbose ${{ inputs.tag && format('--tag {0}', inputs.tag) || '--unreleased --bump' }}
+        env:
+          OUTPUT: CHANGELOG.md
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changelog
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain CHANGELOG.md)" ]]; then
+            echo "No changelog updates."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "chore(changelog): update CHANGELOG.md [skip ci]"
+          git push
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "### git-cliff" >> "$GITHUB_STEP_SUMMARY"
+          echo '```markdown' >> "$GITHUB_STEP_SUMMARY"
+          head -n 60 CHANGELOG.md >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+  release-notes:
+    name: Attach changelog to GitHub Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate release notes for ${{ github.ref_name }}
+        id: cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --latest --strip header
+        env:
+          OUTPUT: RELEASE_NOTES.md
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update GitHub Release body
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          body_path: RELEASE_NOTES.md
+          append_body: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

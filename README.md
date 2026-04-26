@@ -1,81 +1,81 @@
 # VoidUI
 
-> A state-of-the-art Next.js UI library inspired by **Nothing Brand** — minimalist, dark-first, with fine micro-animations.
+> A minimalist, dark-first Next.js UI component library inspired by **Nothing Brand**.
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss)
-![License](https://img.shields.io/badge/License-Apache_2.0-red)
+[![Next.js](https://img.shields.io/badge/Next.js-15-000?logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 
 ---
 
-## Design Philosophy
+## Philosophy
 
-| Principle            | Description                                                                                  |
-| -------------------- | -------------------------------------------------------------------------------------------- |
-| **Dark-first**       | `#0a0a0a` void-black surfaces by default, with Nothing's signature red (`#d71921`) as accent |
-| **Minimalist**       | Clean geometry, no decoration noise, functional whitespace                                   |
-| **Micro-animations** | Subtle scale, fade, and slide transitions using exponential easing                           |
-| **Type-safe**        | Strict TypeScript throughout — `noUncheckedIndexedAccess`, `noUnusedLocals`, and more        |
+VoidUI is monochromatic, dark-first, and driven by precise micro-animations.
+Neutral greys with a single signature accent (`#d71921`). No gradients, no
+ornamental shadows — every pixel earns its place.
 
-## Quick Start
+See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for the
+full design and engineering charter.
 
-```bash
-# Install dependencies
-bun install
+## Stack
 
-# Start development server (Turbopack)
-bun dev
+| Layer            | Choice                                  |
+| ---------------- | --------------------------------------- |
+| Framework        | Next.js 15 (App Router, Turbopack)      |
+| Language         | TypeScript 5.7 (strict)                 |
+| Styling          | Tailwind CSS v4 (`@theme inline`)       |
+| Lint / Format    | ESLint 9 (flat config) + Prettier 3     |
+| Class merging    | `clsx` + `tailwind-merge`               |
 
-# Type-check
-bun typecheck
-
-# Lint & format
-bun lint
-bun format
-```
-
-## Project Structure
+## Project structure
 
 ```
 src/
-├── app/                  # Next.js App Router pages
-│   ├── globals.css       # Design tokens, animations, resets
-│   ├── layout.tsx        # Root layout (dark mode, fonts)
-│   └── page.tsx          # Component showcase / demo page
+├── app/              # Next.js App Router (pages, layouts, metadata, globals.css)
 ├── components/
-│   └── ui/               # Core UI primitives, organized by category
-│       ├── typography/   # Text — polymorphic type system
-│       ├── forms/        # Button, Input, Toggle
-│       ├── data-display/ # Badge (soft / hard tone)
-│       ├── layout/       # Card, Separator
-│       ├── charts/       # HeatMap (contribution graph)
-│       └── index.ts      # Barrel re-export
-└── lib/
-    ├── cn.ts             # Tailwind class merge utility (clsx + twMerge)
-    └── index.ts          # Barrel export
+│   └── ui/           # Core UI primitives (Button, Card, Input, …)
+├── lib/              # Shared utilities (cn, helpers)
+└── hooks/            # Custom React hooks
 ```
-
-## Design Tokens
-
-All tokens live in `src/app/globals.css` under the `@theme inline` block. Key tokens:
-
-- **Colors**: `void-black` through `void-white` neutral scale, `nothing-red` accent
-- **Semantic colors**: `surface`, `surface-elevated`, `border`, `text-primary/secondary/muted`, `accent`
-- **Animations**: `ease-out-expo`, `ease-spring`, and `duration-fast/normal/slow/slower`
-- **Radii**: `radius-sm` through `radius-full`
 
 ## Scripts
 
-| Script          | Description                     |
-| --------------- | ------------------------------- |
-| `bun dev`       | Start dev server with Turbopack |
-| `bun run build` | Production build                |
-| `bun typecheck` | TypeScript strict type check    |
-| `bun lint`      | ESLint + Prettier check         |
-| `bun lint:fix`  | Auto-fix lint + format          |
-| `bun format`    | Format all files with Prettier  |
+| Command              | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| `npm run dev`        | Start the dev server (Turbopack)              |
+| `npm run build`      | Production build                              |
+| `npm run start`      | Run the production build                      |
+| `npm run lint`       | ESLint + Prettier check                       |
+| `npm run lint:fix`   | Auto-fix lint & formatting issues             |
+| `npm run typecheck`  | `tsc --noEmit` strict type-check              |
+| `npm run check`      | typecheck + lint (run before every commit)    |
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+## Release & CI/CD
+
+VoidUI ships through **Changesets** + **GitHub Actions** with **npm provenance**.
+See [docs/RELEASING.md](./docs/RELEASING.md) for the full pipeline and where to
+configure the `NPM_TOKEN` secret.
+
+| Workflow                                          | Trigger                | Purpose                                       |
+| ------------------------------------------------- | ---------------------- | --------------------------------------------- |
+| [ci.yml](./.github/workflows/ci.yml)              | PR + push to `main`    | Lint, typecheck, build (Node 20 & 22)         |
+| [release.yml](./.github/workflows/release.yml)    | push to `main`         | Version PR & publish to npm with provenance   |
+| [changelog.yml](./.github/workflows/changelog.yml)| push to `main` / tag   | Generate CHANGELOG.md & release notes (git-cliff) |
+| [codeql.yml](./.github/workflows/codeql.yml)      | PR + weekly schedule   | Static security analysis                      |
+
+```bash
+npm run changeset    # describe a change before opening your PR
+```
 
 ## License
 
-[Apache License 2.0](./LICENSE)
+MIT

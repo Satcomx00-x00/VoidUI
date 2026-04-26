@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Only one release run at a time on main.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write       # create tags + GitHub Releases
+  pull-requests: write  # open / update the "Version Packages" PR
+  id-token: write       # required for npm provenance (Sigstore)
+  issues: write         # changesets bot may comment on issues
+
+jobs:
+  release:
+    name: Version & Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Avoid running on the bot's own version-bump commits in some setups.
+    if: github.repository == 'Satcomx00-x00/VoidUI'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Use a PAT here only if you need release commits to retrigger CI.
+          # token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Verify (lint + typecheck)
+        run: npm run check
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Create Release PR or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          publish: npm run release
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Release outcome" >> $GITHUB_STEP_SUMMARY
+          echo "- Published: \`${{ steps.changesets.outputs.published }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- PR opened: \`${{ steps.changesets.outputs.pullRequestNumber }}\`" >> $GITHUB_STEP_SUMMARY
