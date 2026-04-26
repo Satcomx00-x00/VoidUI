@@ -1,9 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
-  "changelog": [
-    "@changesets/changelog-github",
-    { "repo": "Satcomx00-x00/VoidUI" }
-  ],
+  "changelog": ["@changesets/changelog-github", { "repo": "Satcomx00-x00/VoidUI" }],
   "commit": false,
   "fixed": [],
   "linked": [],

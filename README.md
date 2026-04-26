@@ -19,13 +19,13 @@ full design and engineering charter.
 
 ## Stack
 
-| Layer            | Choice                                  |
-| ---------------- | --------------------------------------- |
-| Framework        | Next.js 15 (App Router, Turbopack)      |
-| Language         | TypeScript 5.7 (strict)                 |
-| Styling          | Tailwind CSS v4 (`@theme inline`)       |
-| Lint / Format    | ESLint 9 (flat config) + Prettier 3     |
-| Class merging    | `clsx` + `tailwind-merge`               |
+| Layer         | Choice                              |
+| ------------- | ----------------------------------- |
+| Framework     | Next.js 15 (App Router, Turbopack)  |
+| Language      | TypeScript 5.7 (strict)             |
+| Styling       | Tailwind CSS v4 (`@theme inline`)   |
+| Lint / Format | ESLint 9 (flat config) + Prettier 3 |
+| Class merging | `clsx` + `tailwind-merge`           |
 
 ## Project structure
 
@@ -40,15 +40,15 @@ src/
 
 ## Scripts
 
-| Command              | Purpose                                       |
-| -------------------- | --------------------------------------------- |
-| `npm run dev`        | Start the dev server (Turbopack)              |
-| `npm run build`      | Production build                              |
-| `npm run start`      | Run the production build                      |
-| `npm run lint`       | ESLint + Prettier check                       |
-| `npm run lint:fix`   | Auto-fix lint & formatting issues             |
-| `npm run typecheck`  | `tsc --noEmit` strict type-check              |
-| `npm run check`      | typecheck + lint (run before every commit)    |
+| Command             | Purpose                                    |
+| ------------------- | ------------------------------------------ |
+| `npm run dev`       | Start the dev server (Turbopack)           |
+| `npm run build`     | Production build                           |
+| `npm run start`     | Run the production build                   |
+| `npm run lint`      | ESLint + Prettier check                    |
+| `npm run lint:fix`  | Auto-fix lint & formatting issues          |
+| `npm run typecheck` | `tsc --noEmit` strict type-check           |
+| `npm run check`     | typecheck + lint (run before every commit) |
 
 ## Getting started
 
@@ -65,13 +65,13 @@ VoidUI ships through **Changesets** + **GitHub Actions** with **npm provenance**
 See [docs/RELEASING.md](./docs/RELEASING.md) for the full pipeline and where to
 configure the `NPM_TOKEN` secret.
 
-| Workflow                                          | Trigger                | Purpose                                       |
-| ------------------------------------------------- | ---------------------- | --------------------------------------------- |
-| [ci.yml](./.github/workflows/ci.yml)              | PR + push to `main`    | Commitlint → lint → typecheck → build (Node 20 & 22) |
-| [release.yml](./.github/workflows/release.yml)    | push to `main`         | Version PR & publish to npm with provenance   |
-| [changelog.yml](./.github/workflows/changelog.yml)| push to `main` / tag   | Generate CHANGELOG.md & release notes (git-cliff) |
-| [pages.yml](./.github/workflows/pages.yml)        | push to `main`         | Static export → deploy to GitHub Pages        |
-| [codeql.yml](./.github/workflows/codeql.yml)      | PR + weekly schedule   | Static security analysis                      |
+| Workflow                                           | Trigger              | Purpose                                              |
+| -------------------------------------------------- | -------------------- | ---------------------------------------------------- |
+| [ci.yml](./.github/workflows/ci.yml)               | PR + push to `main`  | Commitlint → lint → typecheck → build (Node 20 & 22) |
+| [release.yml](./.github/workflows/release.yml)     | push to `main`       | Version PR & publish to npm with provenance          |
+| [changelog.yml](./.github/workflows/changelog.yml) | push to `main` / tag | Generate CHANGELOG.md & release notes (git-cliff)    |
+| [pages.yml](./.github/workflows/pages.yml)         | push to `main`       | Static export → deploy to GitHub Pages               |
+| [codeql.yml](./.github/workflows/codeql.yml)       | PR + weekly schedule | Static security analysis                             |
 
 ```bash
 npm run changeset    # describe a change before opening your PR
