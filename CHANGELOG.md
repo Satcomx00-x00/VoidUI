@@ -8,6 +8,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 ## [unreleased]
 
 ### ✨ Features
+- **button:** Redesign to match templates.html — offset-shadow hover, fg-fill primary, accent variant, ButtonKbd (f1acc49)
 - **fonts:** Load Inter, JetBrains Mono and VT323 via next/font (d3c3f3c)
 - **button:** Add Button primitive with variants, sizes, loading state (44cdc8b)
 - Add Nothing UI inspired components (Radio, Slider, Chip, ListItem, Alert, Dialog, BottomNav, StatusDot) by @Copilot (a5fb0a1)
@@ -39,6 +40,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (b88d38a)
 - Update release workflow and add auto changeset generation (3f6ce4f)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (0e6cd06)
 - **deploy:** Retire old GitHub Pages workflow and replace with no-op (64366bd)
