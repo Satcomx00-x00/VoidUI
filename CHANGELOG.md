@@ -21,6 +21,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🐛 Bug Fixes
+- **eslint:** Use direct plugin imports to avoid ESM subpath resolution failure (eb5c127)
 - **build:** Disable incremental for dts and remove use-client banner (e345de5)
 - **ci:** Use --unreleased without --bump to avoid tag_pattern mismatch (869a034)
 - Make Chip dismiss button keyboard accessible by @Copilot (e40e9d4)
@@ -33,6 +34,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (90f31d0)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7b95840)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (eafe526)
 - Configuration github page (47238e9)
