@@ -47,9 +47,9 @@ const variantClasses = {
 } as const satisfies Record<ButtonVariant, string>;
 
 const sizeClasses = {
-  sm: "h-[26px] px-2.5 text-[10px] gap-1.5 rounded-md",
-  md: "h-8 px-3.5 text-xs gap-2 rounded-md",
-  lg: "h-[42px] px-5 text-[13px] gap-2 rounded-md",
+  sm: "h-[26px] px-2.5 text-[10px] gap-1.5 rounded-[6px]",
+  md: "h-8 px-3.5 text-xs gap-2 rounded-[6px]",
+  lg: "h-[42px] px-5 text-[13px] gap-2 rounded-[6px]",
 } as const satisfies Record<ButtonSize, string>;
 
 const baseClasses =

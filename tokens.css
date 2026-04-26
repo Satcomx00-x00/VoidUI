@@ -1,0 +1,108 @@
+/* =========================================================
+   VOID UI — DESIGN TOKENS
+   A monochrome, dot-matrix-inspired component system.
+   All values tuned for monospace-forward typography.
+   ========================================================= */
+
+:root {
+  /* ---------- COLOR: NEUTRAL RAMP (warm near-black / near-white) ---------- */
+  /* chroma held under 0.01 — true mono with a trace of warmth */
+  --void-000: oklch(99.2% 0.003 60);   /* page bg (light) */
+  --void-050: oklch(97.5% 0.004 60);
+  --void-100: oklch(94.0% 0.005 60);
+  --void-200: oklch(88.0% 0.005 60);
+  --void-300: oklch(78.0% 0.005 60);
+  --void-400: oklch(62.0% 0.005 60);
+  --void-500: oklch(48.0% 0.005 60);
+  --void-600: oklch(36.0% 0.005 60);
+  --void-700: oklch(24.0% 0.005 60);
+  --void-800: oklch(16.0% 0.005 60);   /* surface (dark) */
+  --void-900: oklch(10.0% 0.004 60);   /* page bg (dark) */
+  --void-950: oklch(6.0%  0.003 60);
+
+  /* ---------- ACCENT: AMETHYST ---------- */
+  /* single-hue scale at fixed chroma = 0.18, hue = 300 (purple/amethyst) */
+  --amethyst-200: oklch(88% 0.10 300);
+  --amethyst-300: oklch(80% 0.18 300);
+  --amethyst-400: oklch(72% 0.26 300);
+  --amethyst-500: oklch(62% 0.30 300);  /* primary accent */
+  --amethyst-600: oklch(52% 0.28 300);
+  --amethyst-700: oklch(40% 0.22 300);
+  --amethyst-800: oklch(30% 0.16 300);
+
+  /* ---------- SEMANTIC (LIGHT) ---------- */
+  --bg:            var(--void-000);
+  --bg-subtle:     var(--void-050);
+  --bg-muted:      var(--void-100);
+  --surface:       var(--void-000);
+  --surface-raised: #ffffff;
+  --border:        var(--void-200);
+  --border-strong: var(--void-400);
+  --fg:            var(--void-900);
+  --fg-muted:      var(--void-500);
+  --fg-subtle:     var(--void-400);
+  --accent:        var(--amethyst-500);
+  --accent-fg:     #ffffff;
+  --accent-soft:   color-mix(in oklch, var(--amethyst-500) 12%, transparent);
+
+  /* ---------- TYPE ---------- */
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Space Mono', ui-monospace, monospace;
+  --font-dot:  'VT323', 'JetBrains Mono', monospace;   /* dot-matrix display */
+  --font-sans: 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 13px;
+  --text-md:   14px;
+  --text-lg:   16px;
+  --text-xl:   20px;
+  --text-2xl:  28px;
+  --text-3xl:  40px;
+  --text-4xl:  64px;
+  --text-hero: 96px;
+
+  --tracking-tight: -0.01em;
+  --tracking-wide:  0.08em;
+  --tracking-mega:  0.18em;
+
+  /* ---------- SPACE / RADII / MOTION ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 8px;
+  --radius-pill: 999px;
+
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-med:  180ms;
+
+  /* dot-matrix unit */
+  --dot-size: 2px;
+  --dot-gap:  3px;
+}
+
+/* ---------- DARK ---------- */
+:root[data-theme="dark"] {
+  --bg:            var(--void-900);
+  --bg-subtle:     var(--void-800);
+  --bg-muted:      var(--void-800);
+  --surface:       var(--void-900);
+  --surface-raised: var(--void-800);
+  --border:        var(--void-700);
+  --border-strong: var(--void-500);
+  --fg:            var(--void-050);
+  --fg-muted:      var(--void-400);
+  --fg-subtle:     var(--void-500);
+  --accent:        var(--amethyst-400);
+  --accent-fg:     var(--void-950);
+  --accent-soft:   color-mix(in oklch, var(--amethyst-400) 18%, transparent);
+}

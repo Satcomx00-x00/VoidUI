@@ -54,7 +54,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 3008",
     "build": "next build",
     "build:lib": "tsup",
     "start": "next start",
