@@ -10,10 +10,10 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write       # create tags + GitHub Releases
-  pull-requests: write  # open / update the "Version Packages" PR
-  id-token: write       # required for npm provenance (Sigstore)
-  issues: write         # changesets bot may comment on issues
+  contents: write # create tags + GitHub Releases
+  pull-requests: write # open / update the "Version Packages" PR
+  id-token: write # required for npm provenance (Sigstore)
+  issues: write # changesets bot may comment on issues
 
 jobs:
   release:

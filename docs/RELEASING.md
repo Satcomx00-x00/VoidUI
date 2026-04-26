@@ -106,7 +106,7 @@ This skips Changesets — you must then manually bump the version and push a tag
 
 ## Where keys live — quick reference
 
-| Secret             | Where                                                                                          | Used by                |
-| ------------------ | ---------------------------------------------------------------------------------------------- | ---------------------- |
-| `NPM_TOKEN`        | GitHub → repo Settings → Secrets and variables → Actions → **Repository secrets**              | [release.yml](../.github/workflows/release.yml) |
-| `GITHUB_TOKEN`     | Auto-provided by GitHub Actions; no setup needed                                               | All workflows          |
+| Secret         | Where                                                                             | Used by                                         |
+| -------------- | --------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `NPM_TOKEN`    | GitHub → repo Settings → Secrets and variables → Actions → **Repository secrets** | [release.yml](../.github/workflows/release.yml) |
+| `GITHUB_TOKEN` | Auto-provided by GitHub Actions; no setup needed                                  | All workflows                                   |
