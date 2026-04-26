@@ -16,6 +16,9 @@ permissions:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
+    # Feature flag: set repository variable ENABLE_CODEQL to "false" to disable
+    # this job. Defaults to enabled when the variable is unset or any other value.
+    if: vars.ENABLE_CODEQL != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
