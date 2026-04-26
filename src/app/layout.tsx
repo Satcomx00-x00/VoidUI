@@ -1,5 +1,25 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, VT323 } from "next/font/google";
 import "./globals.css";
+
+const fontSans = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
+
+const fontDisplay = VT323({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +47,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.ReactElement {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable}`}
+    >
       <body>{children}</body>
     </html>
   );
