@@ -21,6 +21,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🐛 Bug Fixes
+- **commitlint:** Add ignore rule for dependabot signed-off messages (1a67e93)
 - **eslint:** Use direct plugin imports to avoid ESM subpath resolution failure (eb5c127)
 - **build:** Disable incremental for dts and remove use-client banner (e345de5)
 - **ci:** Use --unreleased without --bump to avoid tag_pattern mismatch (869a034)
@@ -34,6 +35,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (fb8b877)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (20f2e97)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (90f31d0)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7b95840)
