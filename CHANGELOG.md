@@ -39,6 +39,8 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **deploy:** Retire old GitHub Pages workflow and replace with no-op (64366bd)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7edd7cf)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (6bf39af)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (d91d809)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (fb8b877)
