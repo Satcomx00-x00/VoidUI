@@ -23,14 +23,26 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 ### 🐛 Bug Fixes
 
+- **package:** Update package name to scoped format @nextjs-voidui/voidui (821b341)
+- **commitlint:** Add ignore rule for dependabot signed-off messages (1a67e93)
+- **eslint:** Use direct plugin imports to avoid ESM subpath resolution failure (eb5c127)
 - **build:** Disable incremental for dts and remove use-client banner (e345de5)
 - **ci:** Use --unreleased without --bump to avoid tag_pattern mismatch (869a034)
 - Make Chip dismiss button keyboard accessible by @Copilot (e40e9d4)
 - Address code review feedback on Checkbox label cursor and Avatar props by @Copilot (270e36a)
 - Use Bun in deploy workflow, replace emerald with void-palette in Badge success by @Copilot (1c9dc83)
 
+### 🤖 CI/CD
+
+- **codeql:** Add ENABLE_CODEQL feature flag to gate analysis job (fdd3fb6)
+
 ### 🧹 Chores
 
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (d91d809)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (fb8b877)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (20f2e97)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (90f31d0)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7b95840)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (eafe526)
 - Configuration github page (47238e9)
 - Init (c0589e6)

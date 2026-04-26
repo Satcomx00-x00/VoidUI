@@ -1,5 +1,5 @@
 {
-  "name": "voidui",
+  "name": "@nextjs-voidui/voidui",
   "version": "0.0.0",
   "description": "VoidUI — A minimalist, dark-first Next.js UI component library inspired by Nothing Brand.",
   "license": "MIT",
@@ -59,7 +59,7 @@
     "build:lib": "tsup",
     "start": "next start",
     "lint": "eslint . && prettier --check .",
-    "lint:fix": "eslint --fix . && prettier --write .",
+    "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run lint",
