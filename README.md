@@ -67,9 +67,10 @@ configure the `NPM_TOKEN` secret.
 
 | Workflow                                          | Trigger                | Purpose                                       |
 | ------------------------------------------------- | ---------------------- | --------------------------------------------- |
-| [ci.yml](./.github/workflows/ci.yml)              | PR + push to `main`    | Lint, typecheck, build (Node 20 & 22)         |
+| [ci.yml](./.github/workflows/ci.yml)              | PR + push to `main`    | Commitlint → lint → typecheck → build (Node 20 & 22) |
 | [release.yml](./.github/workflows/release.yml)    | push to `main`         | Version PR & publish to npm with provenance   |
 | [changelog.yml](./.github/workflows/changelog.yml)| push to `main` / tag   | Generate CHANGELOG.md & release notes (git-cliff) |
+| [pages.yml](./.github/workflows/pages.yml)        | push to `main`         | Static export → deploy to GitHub Pages        |
 | [codeql.yml](./.github/workflows/codeql.yml)      | PR + weekly schedule   | Static security analysis                      |
 
 ```bash

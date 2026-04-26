@@ -16,8 +16,52 @@ permissions:
   contents: read
 
 jobs:
+  commitlint:
+    name: Commit messages (Conventional Commits)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Need full history so we can lint the entire PR / push range.
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Resolve commit range
+        id: range
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            FROM="${{ github.event.pull_request.base.sha }}"
+            TO="${{ github.event.pull_request.head.sha }}"
+          elif [[ -n "${{ github.event.before }}" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            FROM="${{ github.event.before }}"
+            TO="${{ github.sha }}"
+          else
+            # First push to a new branch — lint just the latest commit.
+            FROM="${{ github.sha }}~1"
+            TO="${{ github.sha }}"
+          fi
+          echo "from=$FROM" >> "$GITHUB_OUTPUT"
+          echo "to=$TO"     >> "$GITHUB_OUTPUT"
+          echo "Linting commits in range: $FROM..$TO"
+
+      - name: Lint commit messages
+        run: npx --no-install commitlint --from "${{ steps.range.outputs.from }}" --to "${{ steps.range.outputs.to }}" --verbose
+
   verify:
     name: Lint · Typecheck · Build
+    needs: commitlint
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
