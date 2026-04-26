@@ -460,7 +460,6 @@ function ShowcaseMountToast({ version }: { version: string }): null {
       position: "top-right",
       duration: 5000,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version]);
   return null;
 }

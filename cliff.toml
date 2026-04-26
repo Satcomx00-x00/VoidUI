@@ -22,7 +22,7 @@ body = """
     {% for commit in commits -%}
         - {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.message | upper_first }}\
             {% if commit.remote.username %} by @{{ commit.remote.username }}{% endif %}\
-            {% if commit.remote.pr_number %} in [#{{ commit.remote.pr_number }}]({{ self::repo_url() }}/pull/{{ commit.remote.pr_number }}){% endif %} ({{ commit.id | truncate(length=7, end="") }})
+            {% if commit.remote.pr_number %} in [#{{ commit.remote.pr_number }}](https://github.com/Satcomx00-x00/VoidUI/pull/{{ commit.remote.pr_number }}){% endif %} ({{ commit.id | truncate(length=7, end="") }})
     {% endfor %}
 {% endfor %}
 """
@@ -31,9 +31,6 @@ footer = """
 """
 trim = true
 postprocessors = []
-
-[changelog.macros]
-repo_url = """https://github.com/Satcomx00-x00/VoidUI"""
 
 [bump]
 # Ensure auto-bumped versions are prefixed with `v` to satisfy `tag_pattern`.
