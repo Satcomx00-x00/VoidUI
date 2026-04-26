@@ -1,16 +1,17 @@
-import { forwardRef, type ButtonHTMLAttributes } from "react";
+import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from "react";
 
 import { cn } from "../../lib/cn";
 
 /**
  * Visual variants for the {@link Button} component.
  *
- * - `primary`   — Nothing-red accent fill. High emphasis.
- * - `secondary` — Raised void surface with subtle border. Medium emphasis.
+ * - `primary`   — Foreground fill (high-contrast, inverted). Highest emphasis.
+ * - `secondary` — Outlined with foreground border. Medium emphasis.
  * - `ghost`     — Transparent until hovered. Low emphasis.
- * - `danger`    — Same shape as `primary` but reserved for destructive intent.
+ * - `accent`    — Nothing-red fill. Use for the single most important CTA.
+ * - `danger`    — Outlined destructive action (transparent bg, fg border).
  */
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "accent" | "danger";
 
 /**
  * Size scale for the {@link Button} component.
@@ -18,30 +19,46 @@ export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const variantClasses = {
-  primary:
-    "bg-accent text-accent-foreground hover:bg-accent/90 active:bg-accent/80 disabled:bg-void-700 disabled:text-text-muted",
-  secondary:
-    "bg-surface-raised text-text-primary border border-border hover:border-border-strong hover:bg-void-700 active:bg-void-600 disabled:bg-surface disabled:text-text-muted disabled:border-border",
-  ghost:
-    "bg-transparent text-text-secondary hover:bg-surface hover:text-text-primary active:bg-surface-raised disabled:bg-transparent disabled:text-text-muted",
-  danger:
-    "bg-accent text-accent-foreground hover:bg-accent/90 active:bg-accent/80 disabled:bg-void-700 disabled:text-text-muted",
+  primary: [
+    "bg-text-primary text-background border border-text-primary",
+    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "active:translate-x-0 active:translate-y-0 active:shadow-none",
+  ].join(" "),
+  secondary: [
+    "bg-transparent text-text-primary border border-text-primary",
+    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "active:translate-x-0 active:translate-y-0 active:shadow-none",
+  ].join(" "),
+  ghost: [
+    "bg-transparent text-text-muted border border-transparent",
+    "hover:text-text-primary hover:bg-surface hover:border-border",
+    "active:bg-surface-raised",
+  ].join(" "),
+  accent: [
+    "bg-accent text-accent-foreground border border-accent",
+    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-accent)]",
+    "active:translate-x-0 active:translate-y-0 active:shadow-none",
+  ].join(" "),
+  danger: [
+    "bg-transparent text-text-primary border border-text-primary",
+    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "active:translate-x-0 active:translate-y-0 active:shadow-none",
+  ].join(" "),
 } as const satisfies Record<ButtonVariant, string>;
 
 const sizeClasses = {
-  sm: "h-8 px-3 text-xs gap-1.5 rounded-sm",
-  md: "h-10 px-4 text-sm gap-2 rounded-md",
-  lg: "h-12 px-6 text-base gap-2.5 rounded-md",
+  sm: "h-[26px] px-2.5 text-[10px] gap-1.5 rounded-md",
+  md: "h-8 px-3.5 text-xs gap-2 rounded-md",
+  lg: "h-[42px] px-5 text-[13px] gap-2 rounded-md",
 } as const satisfies Record<ButtonSize, string>;
 
 const baseClasses =
   "inline-flex items-center justify-center font-mono uppercase tracking-[0.08em] " +
   "select-none whitespace-nowrap " +
-  "transition-[background-color,border-color,color,transform,opacity] " +
+  "transition-[background-color,border-color,color,transform,box-shadow,opacity] " +
   "duration-[var(--duration-fast)] ease-[var(--ease-snap)] " +
-  "active:scale-[0.98] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
-  "disabled:pointer-events-none disabled:cursor-not-allowed";
+  "disabled:opacity-40 disabled:pointer-events-none";
 
 /**
  * Public props for the {@link Button} component.
@@ -62,7 +79,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 /**
  * VoidUI primary action primitive.
  *
- * A monochromatic, dark-first button with Nothing-style micro-animations.
+ * Sharp, uppercase, utilitarian. Offset-shadow hover signals the press before
+ * it happens — a signature Nothing-style micro-interaction.
  * Forwards its ref to the underlying `<button>` element.
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -106,6 +124,34 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 });
 
 Button.displayName = "Button";
+
+/**
+ * Keyboard shortcut label rendered inside a {@link Button}.
+ *
+ * ```tsx
+ * <Button variant="accent">
+ *   Confirm <ButtonKbd>⌘↵</ButtonKbd>
+ * </Button>
+ * ```
+ */
+export const ButtonKbd = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
+  function ButtonKbd({ className, children, ...rest }, ref) {
+    return (
+      <kbd
+        ref={ref}
+        className={cn(
+          "ml-1.5 text-[10px] tracking-normal normal-case opacity-55",
+          className,
+        )}
+        {...rest}
+      >
+        {children}
+      </kbd>
+    );
+  },
+);
+
+ButtonKbd.displayName = "ButtonKbd";
 
 function ButtonSpinner(): React.ReactElement {
   return (

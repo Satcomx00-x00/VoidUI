@@ -5,5 +5,5 @@
  * and is re-exported from this barrel.
  */
 
-export { Button } from "./button";
+export { Button, ButtonKbd } from "./button";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./button";
