@@ -2,113 +2,160 @@
 
 /* ============================================================================
  * VoidUI — Design Tokens
- * Dark-first, monochromatic, Nothing-inspired.
- * All tokens are exposed as CSS custom properties and registered with Tailwind
- * via the @theme inline directive so they become first-class utilities.
+ * Monochrome dot-matrix system. oklch neutral ramp + amethyst accent.
+ * Dark-first. True neutral (achromatic) greys.
  * ========================================================================== */
 
 :root {
-  /* Void greyscale ramp */
-  --color-void-50: #f5f5f5;
-  --color-void-100: #e5e5e5;
-  --color-void-200: #c7c7c7;
-  --color-void-300: #a1a1a1;
-  --color-void-400: #737373;
-  --color-void-500: #525252;
-  --color-void-600: #3d3d3d;
-  --color-void-700: #2a2a2a;
-  --color-void-800: #1a1a1a;
-  --color-void-900: #111111;
-  --color-void-950: #0a0a0a;
+  /* ---------- NEUTRAL RAMP (oklch, true neutral, chroma 0) ---------- */
+  --void-000: oklch(99.2% 0 0);
+  --void-050: oklch(97.5% 0 0);
+  --void-100: oklch(94.0% 0 0);
+  --void-200: oklch(88.0% 0 0);
+  --void-300: oklch(78.0% 0 0);
+  --void-400: oklch(62.0% 0 0);
+  --void-500: oklch(48.0% 0 0);
+  --void-600: oklch(36.0% 0 0);
+  --void-700: oklch(24.0% 0 0);
+  --void-800: oklch(16.0% 0 0);
+  --void-900: oklch(10.0% 0 0);
+  --void-950: oklch(6.0%  0 0);
 
-  /* Signature accent — Nothing red */
-  --color-nothing-red: #d71921;
-  --color-nothing-red-soft: rgba(215, 25, 33, 0.12);
+  /* ---------- ACCENT: AMETHYST (hue 300, single-hue scale) ---------- */
+  --amethyst-200: oklch(88% 0.10 300);
+  --amethyst-300: oklch(80% 0.18 300);
+  --amethyst-400: oklch(72% 0.26 300);
+  --amethyst-500: oklch(62% 0.30 300);
+  --amethyst-600: oklch(52% 0.28 300);
+  --amethyst-700: oklch(40% 0.22 300);
+  --amethyst-800: oklch(30% 0.16 300);
 
-  /* Semantic surfaces (dark-first defaults) */
-  --color-background: var(--color-void-950);
-  --color-surface: var(--color-void-900);
-  --color-surface-raised: var(--color-void-800);
-  --color-border: var(--color-void-700);
-  --color-border-strong: var(--color-void-600);
+  /* ---------- SEMANTIC — LIGHT DEFAULTS ---------- */
+  --bg:             var(--void-000);
+  --bg-subtle:      var(--void-050);
+  --bg-muted:       var(--void-100);
+  --surface:        var(--void-000);
+  --surface-raised: #ffffff;
+  --border:         var(--void-200);
+  --border-strong:  var(--void-400);
+  --fg:             var(--void-900);
+  --fg-muted:       var(--void-500);
+  --fg-subtle:      var(--void-400);
+  --accent:         var(--amethyst-500);
+  --accent-fg:      #ffffff;
+  --accent-soft:    color-mix(in oklch, var(--amethyst-500) 12%, transparent);
 
-  /* Semantic text */
-  --color-text-primary: var(--color-void-50);
-  --color-text-secondary: var(--color-void-300);
-  --color-text-muted: var(--color-void-400);
-  --color-text-inverse: var(--color-void-950);
+  /* ---------- TYPOGRAPHY ---------- */
+  /* next/font injects --font-mono (JetBrains Mono) and --font-display (VT323) */
+  --font-mono-fallback: 'IBM Plex Mono', 'Space Mono', ui-monospace, monospace;
+  --font-dot-fallback:  'JetBrains Mono', monospace;
+  --font-sans:  var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+  --font-dot:   var(--font-display, 'VT323', monospace);
 
-  /* Accent semantics */
-  --color-accent: var(--color-nothing-red);
-  --color-accent-soft: var(--color-nothing-red-soft);
-  --color-accent-foreground: #ffffff;
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 13px;
+  --text-md:   14px;
+  --text-lg:   16px;
+  --text-xl:   20px;
+  --text-2xl:  28px;
+  --text-3xl:  40px;
+  --text-4xl:  64px;
+  --text-hero: 96px;
 
-  /* Motion — short, snappy, Nothing-style */
-  --duration-instant: 80ms;
-  --duration-fast: 120ms;
-  --duration-medium: 220ms;
-  --duration-slow: 360ms;
-  --duration-slower: 500ms;
+  --tracking-tight: -0.01em;
+  --tracking-wide:  0.08em;
+  --tracking-mega:  0.18em;
 
-  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-exp-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* ---------- RADII ---------- */
+  --radius-0:    0px;
+  --radius-1:    2px;
+  --radius-2:    4px;
+  --radius-3:    8px;
+  --radius-pill: 999px;
 
-  /* Radii */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-full: 9999px;
+  /* ---------- MOTION ---------- */
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:  120ms;
+  --dur-med:   180ms;
 
-  /* Typography — next/font injects --font-sans, --font-mono, --font-display
-     on <html>. These fallbacks apply only if the loader fails. */
-  --font-sans-fallback: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono-fallback: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-display-fallback: var(--font-mono, var(--font-mono-fallback));
+  /* ---------- DOT-MATRIX ---------- */
+  --dot-size: 2px;
+  --dot-gap:  3px;
+}
+
+/* ---------- DARK ---------- */
+:root[data-theme="dark"] {
+  --bg:             var(--void-900);
+  --bg-subtle:      var(--void-800);
+  --bg-muted:       var(--void-800);
+  --surface:        var(--void-900);
+  --surface-raised: var(--void-800);
+  --border:         var(--void-700);
+  --border-strong:  var(--void-500);
+  --fg:             var(--void-050);
+  --fg-muted:       var(--void-400);
+  --fg-subtle:      var(--void-500);
+  --accent:         var(--amethyst-400);
+  --accent-fg:      var(--void-950);
+  --accent-soft:    color-mix(in oklch, var(--amethyst-400) 18%, transparent);
 }
 
 /* ============================================================================
- * Tailwind v4 — expose tokens as utilities
+ * Tailwind v4 — expose tokens as utilities via @theme inline
  * ========================================================================== */
 
 @theme inline {
-  --color-background: var(--color-background);
-  --color-surface: var(--color-surface);
-  --color-surface-raised: var(--color-surface-raised);
-  --color-border: var(--color-border);
-  --color-border-strong: var(--color-border-strong);
+  /* Semantic colors */
+  --color-bg:             var(--bg);
+  --color-bg-subtle:      var(--bg-subtle);
+  --color-bg-muted:       var(--bg-muted);
+  --color-surface:        var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border:         var(--border);
+  --color-border-strong:  var(--border-strong);
+  --color-fg:             var(--fg);
+  --color-fg-muted:       var(--fg-muted);
+  --color-fg-subtle:      var(--fg-subtle);
+  --color-accent:         var(--accent);
+  --color-accent-fg:      var(--accent-fg);
+  --color-accent-soft:    var(--accent-soft);
 
-  --color-text-primary: var(--color-text-primary);
-  --color-text-secondary: var(--color-text-secondary);
-  --color-text-muted: var(--color-text-muted);
-  --color-text-inverse: var(--color-text-inverse);
+  /* Amethyst scale */
+  --color-amethyst-200: var(--amethyst-200);
+  --color-amethyst-300: var(--amethyst-300);
+  --color-amethyst-400: var(--amethyst-400);
+  --color-amethyst-500: var(--amethyst-500);
+  --color-amethyst-600: var(--amethyst-600);
+  --color-amethyst-700: var(--amethyst-700);
+  --color-amethyst-800: var(--amethyst-800);
 
-  --color-accent: var(--color-accent);
-  --color-accent-soft: var(--color-accent-soft);
-  --color-accent-foreground: var(--color-accent-foreground);
+  /* Void neutral scale */
+  --color-void-000: var(--void-000);
+  --color-void-050: var(--void-050);
+  --color-void-100: var(--void-100);
+  --color-void-200: var(--void-200);
+  --color-void-300: var(--void-300);
+  --color-void-400: var(--void-400);
+  --color-void-500: var(--void-500);
+  --color-void-600: var(--void-600);
+  --color-void-700: var(--void-700);
+  --color-void-800: var(--void-800);
+  --color-void-900: var(--void-900);
+  --color-void-950: var(--void-950);
 
-  --color-void-50: var(--color-void-50);
-  --color-void-100: var(--color-void-100);
-  --color-void-200: var(--color-void-200);
-  --color-void-300: var(--color-void-300);
-  --color-void-400: var(--color-void-400);
-  --color-void-500: var(--color-void-500);
-  --color-void-600: var(--color-void-600);
-  --color-void-700: var(--color-void-700);
-  --color-void-800: var(--color-void-800);
-  --color-void-900: var(--color-void-900);
-  --color-void-950: var(--color-void-950);
+  /* Fonts */
+  --font-sans:    var(--font-sans);
+  --font-mono:    var(--font-mono), var(--font-mono-fallback);
+  --font-dot:     var(--font-dot);
+  --font-display: var(--font-display), var(--font-dot-fallback);
 
-  --font-sans: var(--font-sans), var(--font-sans-fallback);
-  --font-mono: var(--font-mono), var(--font-mono-fallback);
-  --font-display: var(--font-display), var(--font-display-fallback);
-
-  --radius-xs: var(--radius-xs);
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-full: var(--radius-full);
+  /* Radii */
+  --radius-none: 0px;
+  --radius-xs:   var(--radius-1);
+  --radius-sm:   var(--radius-2);
+  --radius-md:   var(--radius-3);
+  --radius-pill: var(--radius-pill);
 }
 
 /* ============================================================================
@@ -116,7 +163,7 @@
  * ========================================================================== */
 
 * {
-  border-color: var(--color-border);
+  border-color: var(--border);
 }
 
 html {
@@ -124,20 +171,557 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans), var(--font-sans-fallback);
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-accent-foreground);
+  background-color: var(--accent);
+  color: var(--accent-fg);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* ============================================================================
+ * Component animations
+ * ========================================================================== */
+
+@keyframes void-skel-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+@keyframes void-toast-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes void-toast-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateX(8px); }
+}
+
+@keyframes void-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes void-dialog-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes void-drawer-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: none; }
+}
+
+@keyframes void-drawer-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: none; }
+}
+
+@keyframes void-drawer-in-bottom {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+
+@keyframes void-spin-dots {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+@keyframes void-popover-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.void-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-muted) 25%,
+    var(--bg-subtle) 50%,
+    var(--bg-muted) 75%
+  );
+  background-size: 400% 100%;
+  animation: void-skel-shimmer 1.4s ease infinite;
+}
+
+.void-select-chevron {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%23888' fill='none' stroke-width='1.2'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.void-progress-track {
+  background: repeating-linear-gradient(90deg, var(--bg) 0 3px, var(--bg-subtle) 3px 4px);
+}
+
+.void-progress-striped {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0 6px,
+    color-mix(in oklch, var(--accent) 65%, black) 6px 12px
+  );
+}
+
+/* ============================================================================
+ * Showcase shell — chrome for the dev preview app.
+ * Mirrors the layout used in templates.html (sidebar + main + hero + sections).
+ * ========================================================================== */
+
+.void-app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.void-aside {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.void-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.void-brand-mark {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.void-brand-mark i {
+  background: var(--fg);
+  display: block;
+  border-radius: 1px;
+}
+
+.void-brand-mark i.off {
+  background: var(--border);
+}
+
+.void-brand-name {
+  font-family: var(--font-dot);
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.void-brand-ver {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: 0.12em;
+}
+
+.void-nav {
+  padding: 16px 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.void-nav-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--fg-subtle);
+  padding: 12px 10px 6px;
+  text-transform: uppercase;
+}
+
+.void-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--fg-muted);
+  border-radius: 6px;
+  transition: all var(--dur-fast) var(--ease-snap);
+}
+
+.void-nav a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 50%;
+  flex: none;
+  transition: inherit;
+}
+
+.void-nav a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+.void-nav a.active {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+.void-nav a.active::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.void-side-foot {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: 0.12em;
+}
+
+.void-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 32px;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--bg) 85%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.void-crumbs {
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.void-crumbs b {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.void-crumbs .sep {
+  color: var(--border-strong);
+}
+
+.void-status-pill {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.void-status-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: void-pulse 1.6s var(--ease-snap) infinite;
+}
+
+@keyframes void-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+.void-hero {
+  padding: 72px 48px 80px;
+  border-bottom: 1px dashed var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.void-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  mask-image: linear-gradient(180deg, transparent, black 20%, black 60%, transparent);
+  pointer-events: none;
+}
+
+.void-hero-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 48px;
+  align-items: end;
+}
+
+.void-hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.void-hero-eyebrow b {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.void-hero h1 {
+  font-family: var(--font-dot);
+  font-size: var(--text-hero);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  margin: 0 0 20px;
+  font-weight: 400;
+}
+
+.void-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.void-hero-lead {
+  font-size: 14px;
+  color: var(--fg-muted);
+  max-width: 52ch;
+  margin: 0 0 32px;
+}
+
+.void-hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.void-hero-meta {
+  border: 1px solid var(--border);
+  padding: 16px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.void-hero-meta .row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--fg-muted);
+}
+
+.void-hero-meta .row b {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.void-hero-meta hr {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 10px 0;
+}
+
+.void-ticker {
+  display: flex;
+  gap: 40px;
+  overflow: hidden;
+  border-block: 1px solid var(--border);
+  padding: 10px 0;
+  margin-top: 40px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.void-ticker span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.void-ticker span::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: var(--fg-subtle);
+  border-radius: 50%;
+}
+
+.void-page {
+  padding: 64px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.void-page section + section {
+  margin-top: 96px;
+}
+
+.void-section-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.void-section-meta .idx {
+  color: var(--fg-muted);
+}
+
+.void-section-meta .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.void-section-title {
+  font-family: var(--font-dot);
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  margin: 0 0 8px;
+  font-weight: 400;
+}
+
+.void-section-sub {
+  color: var(--fg-muted);
+  font-size: 12px;
+  max-width: 60ch;
+  margin: 0 0 32px;
+}
+
+.void-demo {
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+:root[data-theme="dark"] .void-demo {
+  background: var(--void-800);
+}
+
+.void-demo-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.void-demo-head .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.void-demo-head .name {
+  color: var(--fg);
+  letter-spacing: 0.12em;
+}
+
+.void-demo-head .spacer {
+  flex: 1;
+}
+
+.void-demo-body {
+  padding: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+}
+
+.void-demo-body.col {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.void-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.void-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.void-foot {
+  border-top: 1px solid var(--border);
+  padding: 48px;
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.void-foot .mark {
+  font-family: var(--font-dot);
+  font-size: 40px;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+.void-foot-links {
+  display: flex;
+  gap: 24px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 920px) {
+  .void-app { grid-template-columns: 1fr; }
+  .void-aside { position: relative; height: auto; }
+  .void-two, .void-three, .void-hero-inner { grid-template-columns: 1fr; }
+}
+

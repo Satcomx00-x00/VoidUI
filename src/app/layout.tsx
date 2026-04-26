@@ -1,12 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, VT323 } from "next/font/google";
+import { JetBrains_Mono, VT323 } from "next/font/google";
 import "./globals.css";
-
-const fontSans = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-sans",
-});
 
 const fontMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -51,7 +45,7 @@ export default function RootLayout({
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable}`}
+      className={`${fontMono.variable} ${fontDisplay.variable}`}
     >
       <body>{children}</body>
     </html>
