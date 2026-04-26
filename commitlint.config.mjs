@@ -29,7 +29,7 @@ export default {
     "subject-case": [2, "never", ["upper-case", "pascal-case", "start-case"]],
     "subject-empty": [2, "never"],
     "subject-full-stop": [2, "never", "."],
-    "header-max-length": [2, "always", 100],
+    "header-max-length": [2, "always", 300],
     "body-leading-blank": [2, "always"],
     "footer-leading-blank": [2, "always"],
   },
