@@ -20,28 +20,28 @@ export type ButtonSize = "sm" | "md" | "lg";
 
 const variantClasses = {
   primary: [
-    "bg-text-primary text-background border border-text-primary",
-    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "bg-fg text-bg border border-fg",
+    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--fg)]",
     "active:translate-x-0 active:translate-y-0 active:shadow-none",
   ].join(" "),
   secondary: [
-    "bg-transparent text-text-primary border border-text-primary",
-    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "bg-transparent text-fg border border-fg",
+    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--fg)]",
     "active:translate-x-0 active:translate-y-0 active:shadow-none",
   ].join(" "),
   ghost: [
-    "bg-transparent text-text-muted border border-transparent",
-    "hover:text-text-primary hover:bg-surface hover:border-border",
+    "bg-transparent text-fg-muted border border-transparent",
+    "hover:text-fg hover:bg-surface hover:border-border",
     "active:bg-surface-raised",
   ].join(" "),
   accent: [
-    "bg-accent text-accent-foreground border border-accent",
-    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-accent)]",
+    "bg-accent text-accent-fg border border-accent",
+    "hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--accent)]",
     "active:translate-x-0 active:translate-y-0 active:shadow-none",
   ].join(" "),
   danger: [
-    "bg-transparent text-text-primary border border-text-primary",
-    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--color-text-primary)]",
+    "bg-transparent text-fg border border-fg",
+    "hover:bg-surface hover:-translate-x-px hover:-translate-y-px hover:shadow-[2px_2px_0_var(--fg)]",
     "active:translate-x-0 active:translate-y-0 active:shadow-none",
   ].join(" "),
 } as const satisfies Record<ButtonVariant, string>;
@@ -56,8 +56,8 @@ const baseClasses =
   "inline-flex items-center justify-center font-mono uppercase tracking-[0.08em] " +
   "select-none whitespace-nowrap " +
   "transition-[background-color,border-color,color,transform,box-shadow,opacity] " +
-  "duration-[var(--duration-fast)] ease-[var(--ease-snap)] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
+  "duration-[var(--dur-fast)] ease-[var(--ease-snap)] " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg " +
   "disabled:opacity-40 disabled:pointer-events-none";
 
 /**

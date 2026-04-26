@@ -4,13 +4,13 @@ export default function HomePage(): React.ReactElement {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-16 p-8">
       <header className="text-center">
-        <p className="text-text-muted font-mono text-xs tracking-[0.2em] uppercase">
+        <p className="text-fg-muted font-mono text-xs tracking-[0.2em] uppercase">
           VoidUI · v0.0.0
         </p>
-        <h1 className="font-display mt-4 text-6xl tracking-tight">
+        <h1 className="font-dot mt-4 text-6xl tracking-tight">
           void<span className="text-accent">.</span>
         </h1>
-        <p className="text-text-secondary mt-4 max-w-md text-sm">
+        <p className="text-fg-muted mt-4 max-w-md text-sm">
           A minimalist, dark-first component system.
         </p>
       </header>
@@ -50,7 +50,7 @@ function ButtonRow({
 }): React.ReactElement {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-text-muted font-mono text-[10px] tracking-[0.2em] uppercase">{label}</p>
+      <p className="text-fg-muted font-mono text-[10px] tracking-[0.2em] uppercase">{label}</p>
       <div className="flex flex-wrap items-center gap-3">{children}</div>
     </div>
   );

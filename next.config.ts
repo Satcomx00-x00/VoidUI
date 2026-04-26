@@ -16,9 +16,7 @@ const nextConfig: NextConfig = {
   assetPrefix: repoBasePath || undefined,
   images: { unoptimized: isPages },
   trailingSlash: isPages,
-  experimental: {
-    typedRoutes: true,
-  },
+  typedRoutes: true,
 };
 
 export default nextConfig;
