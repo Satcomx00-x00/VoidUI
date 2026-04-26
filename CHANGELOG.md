@@ -15,11 +15,18 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 - Code structure for improved readability and maintainability (43df65d)
 
 
+### 🐛 Bug Fixes
+- **ci:** Unblock Pages build and Changelog generation (0a791b2)
+- **select:** Resolve TypeScript strict-mode errors in [#22](https://github.com/Satcomx00-x00/VoidUI/pull/22) (4f5d6da)
+
+
 ### 🤖 CI/CD
 - **commitlint:** Raise header-max-length to 300 characters (310e64c)
 
 
 ### 🧹 Chores
+- Fmt (6da61ae)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (5a0f2a9)
 - Add changeset for PR #21 [skip ci] by @github-actions[bot] (4999e31)
 - Bunch of components (6d07f0d)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (0642bed)
