@@ -28,7 +28,12 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 - Use Bun in deploy workflow, replace emerald with void-palette in Badge success by @Copilot (1c9dc83)
 
 
+### 🤖 CI/CD
+- **codeql:** Add ENABLE_CODEQL feature flag to gate analysis job (fdd3fb6)
+
+
 ### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7b95840)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (eafe526)
 - Configuration github page (47238e9)
 - Init (c0589e6)
