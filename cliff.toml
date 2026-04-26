@@ -35,6 +35,10 @@ postprocessors = []
 [changelog.macros]
 repo_url = """https://github.com/Satcomx00-x00/VoidUI"""
 
+[bump]
+# Ensure auto-bumped versions are prefixed with `v` to satisfy `tag_pattern`.
+initial_tag = "v0.1.0"
+
 [git]
 conventional_commits = true
 filter_unconventional = true

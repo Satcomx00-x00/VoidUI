@@ -48,7 +48,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          args: --verbose ${{ inputs.tag && format('--tag {0}', inputs.tag) || '--unreleased --bump' }}
+          args: --verbose ${{ inputs.tag && format('--tag {0}', inputs.tag) || '--unreleased' }}
         env:
           OUTPUT: CHANGELOG.md
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
