@@ -159,7 +159,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
     (c): c is ReactElement<SelectOptionProps> =>
       isValidElement(c) &&
       (c.type === SelectOption ||
-        (typeof c.type === "function" && c.type.displayName === "SelectOption")),
+        (typeof c.type === "function" &&
+          (c.type as { displayName?: string }).displayName === "SelectOption")),
+
   );
 
   interface OptionData {
@@ -345,7 +347,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
           {options.map((opt, i) => {
             // Find matching element to preserve any custom props / className
             const el = optionElements[i];
-            const extra = el !== undefined ? el.props : {};
+            const extra: Partial<SelectOptionProps> = el !== undefined ? el.props : {};
             return cloneElement(
               el ?? (
                 <SelectOption key={opt.value} value={opt.value}>
