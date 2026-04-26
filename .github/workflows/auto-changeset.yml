@@ -1,0 +1,122 @@
+name: Auto Changeset
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+concurrency:
+  group: auto-changeset-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  auto-changeset:
+    name: Generate changeset if missing
+    runs-on: ubuntu-latest
+    # Skip the bot's own version-bump PRs — they already carry changesets.
+    if: >
+      !startsWith(github.head_ref, 'changeset-release/') &&
+      github.head_ref != 'chore/release'
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          # Use GITHUB_TOKEN so the push is attributed to github-actions bot.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for existing changeset
+        id: check
+        run: |
+          # Count .md files under .changeset/ that are not README.md
+          count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Existing changeset files: $count"
+
+      - name: Determine bump type
+        if: steps.check.outputs.count == '0'
+        id: bump
+        run: |
+          set -euo pipefail
+
+          # Priority 1 – explicit PR labels (patch / minor / major)
+          LABELS='${{ toJson(github.event.pull_request.labels.*.name) }}'
+          if echo "$LABELS" | grep -qi '"major"'; then
+            echo "type=major" >> "$GITHUB_OUTPUT"
+            echo "Bump type from label: major"
+          elif echo "$LABELS" | grep -qi '"minor"'; then
+            echo "type=minor" >> "$GITHUB_OUTPUT"
+            echo "Bump type from label: minor"
+          elif echo "$LABELS" | grep -qi '"patch"'; then
+            echo "type=patch" >> "$GITHUB_OUTPUT"
+            echo "Bump type from label: patch"
+          else
+            # Priority 2 – analyze conventional commits in the PR range
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+            COMMITS=$(git log --format="%s" "$BASE_SHA".."$HEAD_SHA" 2>/dev/null || echo "")
+            echo "Commits in range:"
+            echo "$COMMITS"
+
+            BUMP="patch"
+            while IFS= read -r msg; do
+              # Breaking change markers
+              if echo "$msg" | grep -qE '(\!:|BREAKING[-_ ]CHANGE)'; then
+                BUMP="major"
+                break
+              fi
+              # New features
+              if echo "$msg" | grep -qE '^feat(\(.+\))?:'; then
+                BUMP="minor"
+              fi
+            done <<< "$COMMITS"
+
+            echo "type=$BUMP" >> "$GITHUB_OUTPUT"
+            echo "Bump type from commits: $BUMP"
+          fi
+
+      - name: Generate changeset file
+        if: steps.check.outputs.count == '0'
+        run: |
+          set -euo pipefail
+
+          BUMP="${{ steps.bump.outputs.type }}"
+          PACKAGE="@nextjs-voidui/voidui"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+
+          # Sanitize title for use in the changeset summary
+          SUMMARY=$(echo "$PR_TITLE" | sed 's/"/\\"/g')
+
+          # Create a deterministic filename so re-runs are idempotent
+          FILENAME=".changeset/pr-${PR_NUMBER}.md"
+
+          cat > "$FILENAME" <<EOF
+          ---
+          "$PACKAGE": $BUMP
+          ---
+
+          $SUMMARY (PR #${PR_NUMBER})
+          EOF
+
+          # Normalize indentation (heredoc adds leading spaces)
+          sed -i 's/^          //' "$FILENAME"
+
+          echo "Created $FILENAME:"
+          cat "$FILENAME"
+
+      - name: Commit changeset
+        if: steps.check.outputs.count == '0'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .changeset/
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: add changeset for PR #${{ github.event.pull_request.number }} [skip ci]"
+          git push origin HEAD:"${{ github.head_ref }}"
