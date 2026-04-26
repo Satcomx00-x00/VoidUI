@@ -34,71 +34,69 @@ export interface SelectOptionProps extends HTMLAttributes<HTMLDivElement> {
   _active?: boolean;
 }
 
-export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
-  function SelectOption(
-    {
-      className,
-      value: _value,
-      disabled = false,
-      children,
-      icon,
-      _selected = false,
-      _active = false,
-      ...rest
-    },
-    ref,
-  ) {
-    return (
-      <div
-        ref={ref}
-        role="option"
-        aria-selected={_selected}
-        data-selected={_selected || undefined}
-        data-active={_active || undefined}
-        data-disabled={disabled || undefined}
-        className={cn(
-          "group relative flex w-full cursor-pointer select-none items-center gap-2 rounded-[7px] px-2.5 py-[7px]",
-          "font-mono text-[12px] leading-none",
-          "transition-[background,color] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
-          "text-fg-muted hover:bg-bg-subtle hover:text-fg",
-          "data-[active=true]:bg-bg-subtle data-[active=true]:text-fg",
-          "data-[selected=true]:text-fg",
-          "data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-40",
-          "data-[disabled=true]:hover:bg-transparent data-[disabled=true]:hover:text-fg-muted",
-          className,
-        )}
-        {...rest}
-      >
-        {_selected ? (
-          <span
-            aria-hidden="true"
-            className="absolute inset-y-[3px] left-0 w-[2.5px] rounded-full bg-accent"
-          />
-        ) : null}
-        {/* Check slot — always reserves 16 px to keep labels aligned */}
+export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(function SelectOption(
+  {
+    className,
+    value: _value,
+    disabled = false,
+    children,
+    icon,
+    _selected = false,
+    _active = false,
+    ...rest
+  },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      role="option"
+      aria-selected={_selected}
+      data-selected={_selected || undefined}
+      data-active={_active || undefined}
+      data-disabled={disabled || undefined}
+      className={cn(
+        "group relative flex w-full cursor-pointer items-center gap-2 rounded-[7px] px-2.5 py-[7px] select-none",
+        "font-mono text-[12px] leading-none",
+        "transition-[background,color] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
+        "text-fg-muted hover:bg-bg-subtle hover:text-fg",
+        "data-[active=true]:bg-bg-subtle data-[active=true]:text-fg",
+        "data-[selected=true]:text-fg",
+        "data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-40",
+        "data-[disabled=true]:hover:text-fg-muted data-[disabled=true]:hover:bg-transparent",
+        className,
+      )}
+      {...rest}
+    >
+      {_selected ? (
         <span
           aria-hidden="true"
-          className={cn(
-            "flex h-4 w-4 shrink-0 items-center justify-center text-[10px] text-accent",
-            !_selected && "opacity-0",
-          )}
+          className="bg-accent absolute inset-y-[3px] left-0 w-[2.5px] rounded-full"
+        />
+      ) : null}
+      {/* Check slot — always reserves 16 px to keep labels aligned */}
+      <span
+        aria-hidden="true"
+        className={cn(
+          "text-accent flex h-4 w-4 shrink-0 items-center justify-center text-[10px]",
+          !_selected && "opacity-0",
+        )}
+      >
+        ✓
+      </span>
+      {/* Icon badge — matches DropdownItem */}
+      {icon !== undefined ? (
+        <span
+          aria-hidden="true"
+          className="bg-bg-muted flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[4px] text-[11px] opacity-70 group-hover:opacity-100 group-data-[active=true]:opacity-100"
         >
-          ✓
+          {icon}
         </span>
-        {/* Icon badge — matches DropdownItem */}
-        {icon !== undefined ? (
-          <span
-            aria-hidden="true"
-            className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[4px] bg-bg-muted text-[11px] opacity-70 group-hover:opacity-100 group-data-[active=true]:opacity-100"
-          >
-            {icon}
-          </span>
-        ) : null}
-        <span className="flex-1 truncate">{children}</span>
-      </div>
-    );
-  },
-);
+      ) : null}
+      <span className="flex-1 truncate">{children}</span>
+    </div>
+  );
+});
 SelectOption.displayName = "SelectOption";
 
 /* -------------------------------------------------------------------------- */
@@ -161,7 +159,6 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
       (c.type === SelectOption ||
         (typeof c.type === "function" &&
           (c.type as { displayName?: string }).displayName === "SelectOption")),
-
   );
 
   interface OptionData {
@@ -295,11 +292,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
         onKeyDown={handleKeyDown}
         onClick={() => (open ? closeMenu() : openMenu())}
         className={cn(
-          "flex h-9 w-full items-center justify-between gap-2 rounded-[6px] border border-border px-3",
-          "bg-bg font-mono text-[13px] text-fg",
+          "border-border flex h-9 w-full items-center justify-between gap-2 rounded-[6px] border px-3",
+          "bg-bg text-fg font-mono text-[13px]",
           "transition-[border-color,box-shadow] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
           "hover:border-border-strong",
-          "focus-visible:border-accent focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_var(--accent-soft)]",
+          "focus-visible:border-accent focus-visible:shadow-[0_0_0_3px_var(--accent-soft)] focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "data-[invalid=true]:border-[oklch(60%_0.18_25)]",
           "data-[open=true]:border-accent data-[open=true]:shadow-[0_0_0_3px_var(--accent-soft)]",
@@ -309,7 +306,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
         {selectedOption?.icon !== undefined && selectedOption.icon !== null ? (
           <span
             aria-hidden="true"
-            className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[4px] bg-bg-muted text-[11px] opacity-70"
+            className="bg-bg-muted flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[4px] text-[11px] opacity-70"
           >
             {selectedOption.icon}
           </span>
@@ -338,8 +335,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
           aria-label="Options"
           style={{ animation: "void-popover-in 160ms var(--ease-snap)" }}
           className={cn(
-            "absolute left-0 right-0 top-[calc(100%+6px)] z-50 overflow-hidden",
-            "rounded-xl border border-border bg-surface-raised p-1.5",
+            "absolute top-[calc(100%+6px)] right-0 left-0 z-50 overflow-hidden",
+            "border-border bg-surface-raised rounded-xl border p-1.5",
             "shadow-[0_12px_32px_color-mix(in_oklch,black_28%,transparent),0_2px_8px_color-mix(in_oklch,black_12%,transparent)]",
             "backdrop-blur-sm",
           )}

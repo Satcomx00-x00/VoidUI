@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Fragment,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "../../lib/cn";
 
@@ -248,7 +240,7 @@ function IndeterminateCheckbox({
       className={cn(
         "h-3.5 w-3.5 cursor-pointer rounded-[3px]",
         "transition-colors duration-[var(--dur-fast)]",
-        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
+        "focus-visible:outline-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1",
       )}
       style={{ accentColor: "var(--accent)" }}
     />
@@ -287,7 +279,7 @@ function FilterPill({ config, activeValue, onChange }: FilterPillProps): ReactNo
         aria-haspopup="listbox"
         className={cn(
           "flex items-center gap-1.5 rounded border px-2.5 py-1.5",
-          "text-[10px] uppercase tracking-[0.14em]",
+          "text-[10px] tracking-[0.14em] uppercase",
           "transition-colors duration-[var(--dur-fast)]",
           activeValue !== null
             ? "border-accent bg-accent-soft text-accent"
@@ -296,10 +288,7 @@ function FilterPill({ config, activeValue, onChange }: FilterPillProps): ReactNo
       >
         {activeValue ?? config.label}
         <IcoChevronDown
-          className={cn(
-            "transition-transform duration-[var(--dur-fast)]",
-            open && "rotate-180",
-          )}
+          className={cn("transition-transform duration-[var(--dur-fast)]", open && "rotate-180")}
         />
       </button>
 
@@ -308,8 +297,8 @@ function FilterPill({ config, activeValue, onChange }: FilterPillProps): ReactNo
           role="listbox"
           aria-label={config.label}
           className={cn(
-            "absolute left-0 top-full z-50 mt-1 min-w-[150px]",
-            "rounded border border-border bg-surface-raised",
+            "absolute top-full left-0 z-50 mt-1 min-w-[150px]",
+            "border-border bg-surface-raised rounded border",
             "shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6)]",
           )}
         >
@@ -325,7 +314,7 @@ function FilterPill({ config, activeValue, onChange }: FilterPillProps): ReactNo
               }}
               className={cn(
                 "w-full px-3 py-2 text-left text-[11px] tracking-wide",
-                "transition-colors hover:bg-bg-subtle",
+                "hover:bg-bg-subtle transition-colors",
                 activeValue === opt.value ? "text-accent" : "text-fg-muted",
               )}
             >
@@ -546,12 +535,12 @@ export function DataTable<T extends object>({
       {hasToolbar && (
         <div
           className={cn(
-            "flex flex-wrap items-center gap-2 rounded-t-lg border border-border bg-surface-raised px-3 py-2.5",
+            "border-border bg-surface-raised flex flex-wrap items-center gap-2 rounded-t-lg border px-3 py-2.5",
           )}
         >
           {searchable && (
             <div className="relative min-w-[180px] flex-1">
-              <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle">
+              <span className="text-fg-subtle pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2">
                 <IcoSearch />
               </span>
               <input
@@ -563,9 +552,9 @@ export function DataTable<T extends object>({
                 }}
                 placeholder={searchPlaceholder}
                 className={cn(
-                  "w-full rounded border border-border bg-bg py-1.5 pl-7 pr-3",
-                  "text-[11px] uppercase tracking-[0.1em] text-fg placeholder:text-fg-subtle",
-                  "transition-colors focus:border-border-strong focus:outline-none",
+                  "border-border bg-bg w-full rounded border py-1.5 pr-3 pl-7",
+                  "text-fg placeholder:text-fg-subtle text-[11px] tracking-[0.1em] uppercase",
+                  "focus:border-border-strong transition-colors focus:outline-none",
                 )}
               />
             </div>
@@ -589,7 +578,7 @@ export function DataTable<T extends object>({
           ))}
 
           <div className="ml-auto flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-[0.14em] text-fg-muted">
+            <span className="text-fg-muted text-[10px] tracking-[0.14em] uppercase">
               {totalFiltered} {rowNoun}
             </span>
 
@@ -598,9 +587,9 @@ export function DataTable<T extends object>({
                 type="button"
                 onClick={() => onExport?.(pageRows)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded border border-border bg-surface-raised px-2.5 py-1.5",
-                  "text-[10px] uppercase tracking-[0.14em] text-fg",
-                  "transition-colors hover:border-border-strong",
+                  "border-border bg-surface-raised flex items-center gap-1.5 rounded border px-2.5 py-1.5",
+                  "text-fg text-[10px] tracking-[0.14em] uppercase",
+                  "hover:border-border-strong transition-colors",
                 )}
               >
                 <IcoDownload />
@@ -619,11 +608,11 @@ export function DataTable<T extends object>({
           role="status"
           aria-live="polite"
           className={cn(
-            "flex items-center justify-between border-x border-border",
+            "border-border flex items-center justify-between border-x",
             "bg-accent-soft px-4 py-2",
           )}
         >
-          <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
+          <span className="text-accent text-[11px] font-medium tracking-[0.14em] uppercase">
             {selectedKeys.size} {selectedKeys.size === 1 ? "ROW" : "ROWS"} SELECTED
           </span>
           {selectionActions !== undefined && (
@@ -639,7 +628,7 @@ export function DataTable<T extends object>({
       {/* --------------------------------------------------------------- */}
       <div
         className={cn(
-          "overflow-x-auto border border-border bg-surface-raised",
+          "border-border bg-surface-raised overflow-x-auto border",
           !hasToolbar && "rounded-t-lg",
           totalPages <= 1 && "rounded-b-lg",
         )}
@@ -649,7 +638,7 @@ export function DataTable<T extends object>({
           <thead>
             <tr>
               {selectable && (
-                <th className="w-10 border-b border-border-strong px-3 py-2.5 align-middle">
+                <th className="border-border-strong w-10 border-b px-3 py-2.5 align-middle">
                   <IndeterminateCheckbox
                     checked={allPageSelected}
                     indeterminate={somePageSelected}
@@ -667,10 +656,7 @@ export function DataTable<T extends object>({
               )}
 
               {expandable && (
-                <th
-                  className="w-8 border-b border-border-strong"
-                  aria-label="Expand"
-                />
+                <th className="border-border-strong w-8 border-b" aria-label="Expand" />
               )}
 
               {columns.map((col) => (
@@ -688,11 +674,10 @@ export function DataTable<T extends object>({
                       : undefined
                   }
                   className={cn(
-                    "select-none border-b border-border-strong px-3.5 py-2.5 align-middle",
-                    "text-[10px] font-medium uppercase tracking-[0.18em] text-fg-muted",
+                    "border-border-strong border-b px-3.5 py-2.5 align-middle select-none",
+                    "text-fg-muted text-[10px] font-medium tracking-[0.18em] uppercase",
                     col.numeric === true ? "text-right tabular-nums" : "text-left",
-                    col.sortable === true &&
-                      "cursor-pointer transition-colors hover:text-fg",
+                    col.sortable === true && "hover:text-fg cursor-pointer transition-colors",
                     sortCol === col.key && "text-fg",
                   )}
                 >
@@ -704,7 +689,7 @@ export function DataTable<T extends object>({
               ))}
 
               {/* Actions column */}
-              <th className="w-10 border-b border-border-strong" aria-hidden="true" />
+              <th className="border-border-strong w-10 border-b" aria-hidden="true" />
             </tr>
           </thead>
 
@@ -712,13 +697,10 @@ export function DataTable<T extends object>({
           <tbody>
             {pageRows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={totalColCount}
-                  className="px-4 py-16 text-center"
-                >
+                <td colSpan={totalColCount} className="px-4 py-16 text-center">
                   <div className="mx-auto flex flex-col items-center gap-2">
-                    <span className="text-[13px] text-fg">No results</span>
-                    <span className="text-[11px] text-fg-subtle">
+                    <span className="text-fg text-[13px]">No results</span>
+                    <span className="text-fg-subtle text-[11px]">
                       Try adjusting your search or filters.
                     </span>
                   </div>
@@ -737,9 +719,7 @@ export function DataTable<T extends object>({
                       data-expanded={isExpanded ? "true" : undefined}
                       className={cn(
                         "transition-colors",
-                        isSelected
-                          ? "bg-accent-soft"
-                          : "hover:[&>td]:bg-bg-subtle",
+                        isSelected ? "bg-accent-soft" : "hover:[&>td]:bg-bg-subtle",
                         /* remove bottom border when expanded so inline-row and detail-row merge */
                         isExpanded && "[&>td]:border-b-transparent",
                       )}
@@ -748,7 +728,7 @@ export function DataTable<T extends object>({
                       {selectable && (
                         <td
                           className={cn(
-                            "border-b border-border px-3 py-2.5",
+                            "border-border border-b px-3 py-2.5",
                             isSelected && "border-accent/20",
                           )}
                         >
@@ -771,7 +751,7 @@ export function DataTable<T extends object>({
                       {expandable && (
                         <td
                           className={cn(
-                            "border-b border-border px-2 py-2.5 text-fg-subtle",
+                            "border-border text-fg-subtle border-b px-2 py-2.5",
                             isSelected && "border-accent/20",
                           )}
                         >
@@ -789,7 +769,7 @@ export function DataTable<T extends object>({
                             }}
                             className={cn(
                               "flex h-5 w-5 items-center justify-center rounded",
-                              "transition-colors hover:bg-bg-muted hover:text-fg",
+                              "hover:bg-bg-muted hover:text-fg transition-colors",
                             )}
                           >
                             <IcoChevronRight
@@ -807,7 +787,7 @@ export function DataTable<T extends object>({
                         <td
                           key={col.key}
                           className={cn(
-                            "border-b border-border px-3.5 py-2.5 align-middle",
+                            "border-border border-b px-3.5 py-2.5 align-middle",
                             col.numeric === true && "text-right tabular-nums",
                             isSelected && "border-accent/20",
                           )}
@@ -823,7 +803,7 @@ export function DataTable<T extends object>({
                       {/* Row actions */}
                       <td
                         className={cn(
-                          "border-b border-border px-2 py-2.5 text-right",
+                          "border-border border-b px-2 py-2.5 text-right",
                           isSelected && "border-accent/20",
                         )}
                       >
@@ -831,8 +811,8 @@ export function DataTable<T extends object>({
                           type="button"
                           aria-label="Row actions"
                           className={cn(
-                            "flex h-5 w-5 items-center justify-center rounded text-fg-subtle",
-                            "ml-auto transition-colors hover:bg-bg-muted hover:text-fg",
+                            "text-fg-subtle flex h-5 w-5 items-center justify-center rounded",
+                            "hover:bg-bg-muted hover:text-fg ml-auto transition-colors",
                           )}
                         >
                           <IcoDotsH />
@@ -846,7 +826,7 @@ export function DataTable<T extends object>({
                         <td
                           colSpan={totalColCount}
                           className={cn(
-                            "border-b border-border p-0",
+                            "border-border border-b p-0",
                             isSelected && "border-accent/20",
                           )}
                         >
@@ -855,9 +835,7 @@ export function DataTable<T extends object>({
                             className={cn(
                               "overflow-hidden",
                               "transition-[max-height,opacity] duration-[var(--dur-med)] ease-[var(--ease-snap)]",
-                              isExpanded
-                                ? "max-h-[640px] opacity-100"
-                                : "max-h-0 opacity-0",
+                              isExpanded ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0",
                             )}
                           >
                             <div
@@ -888,11 +866,11 @@ export function DataTable<T extends object>({
         <div
           className={cn(
             "flex flex-wrap items-center justify-between gap-3",
-            "rounded-b-lg border border-t-0 border-border bg-surface-raised px-4 py-2.5",
+            "border-border bg-surface-raised rounded-b-lg border border-t-0 px-4 py-2.5",
           )}
         >
           {/* Rows per page */}
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-fg-muted">
+          <div className="text-fg-muted flex items-center gap-2 text-[10px] tracking-[0.14em] uppercase">
             Rows per page
             <select
               value={pageSize}
@@ -901,10 +879,10 @@ export function DataTable<T extends object>({
                 setPage(1);
               }}
               className={cn(
-                "rounded border border-border bg-bg px-1.5 py-0.5",
-                "text-[10px] uppercase text-fg",
+                "border-border bg-bg rounded border px-1.5 py-0.5",
+                "text-fg text-[10px] uppercase",
                 "focus:outline-none",
-                "transition-colors hover:border-border-strong",
+                "hover:border-border-strong transition-colors",
               )}
             >
               {pageSizeOptions.map((s) => (
@@ -917,7 +895,11 @@ export function DataTable<T extends object>({
 
           {/* Page buttons */}
           <div className="flex items-center gap-0.5">
-            <PageButton onClick={() => setPage(1)} disabled={safeCurrentPage === 1} aria-label="First page">
+            <PageButton
+              onClick={() => setPage(1)}
+              disabled={safeCurrentPage === 1}
+              aria-label="First page"
+            >
               «
             </PageButton>
             <PageButton
@@ -932,7 +914,7 @@ export function DataTable<T extends object>({
               p === "ellipsis" ? (
                 <span
                   key={`ellipsis-${i}`}
-                  className="px-1.5 text-[11px] text-fg-subtle"
+                  className="text-fg-subtle px-1.5 text-[11px]"
                   aria-hidden="true"
                 >
                   ···
@@ -967,10 +949,10 @@ export function DataTable<T extends object>({
           </div>
 
           {/* Row count */}
-          <span className="text-[10px] uppercase tracking-[0.14em] text-fg-muted">
+          <span className="text-fg-muted text-[10px] tracking-[0.14em] uppercase">
             {(safeCurrentPage - 1) * pageSize + 1}–
-            {Math.min(safeCurrentPage * pageSize, totalFiltered)} of{" "}
-            {totalRows ?? totalFiltered} {rowNoun}
+            {Math.min(safeCurrentPage * pageSize, totalFiltered)} of {totalRows ?? totalFiltered}{" "}
+            {rowNoun}
           </span>
         </div>
       )}

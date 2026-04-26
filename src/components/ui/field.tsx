@@ -1,8 +1,4 @@
-import {
-  forwardRef,
-  type HTMLAttributes,
-  type LabelHTMLAttributes,
-} from "react";
+import { forwardRef, type HTMLAttributes, type LabelHTMLAttributes } from "react";
 
 import { cn } from "../../lib/cn";
 
@@ -40,27 +36,28 @@ export interface FieldLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
 }
 
-export const FieldLabel = forwardRef<HTMLLabelElement, FieldLabelProps>(
-  function FieldLabel({ className, required = false, children, ...rest }, ref) {
-    return (
-      <label
-        ref={ref}
-        className={cn(
-          "flex justify-between text-[10px] uppercase tracking-[0.18em] text-fg-muted",
-          className,
-        )}
-        {...rest}
-      >
-        <span>{children}</span>
-        {required ? (
-          <span aria-hidden="true" className="text-accent">
-            *
-          </span>
-        ) : null}
-      </label>
-    );
-  },
-);
+export const FieldLabel = forwardRef<HTMLLabelElement, FieldLabelProps>(function FieldLabel(
+  { className, required = false, children, ...rest },
+  ref,
+) {
+  return (
+    <label
+      ref={ref}
+      className={cn(
+        "text-fg-muted flex justify-between text-[10px] tracking-[0.18em] uppercase",
+        className,
+      )}
+      {...rest}
+    >
+      <span>{children}</span>
+      {required ? (
+        <span aria-hidden="true" className="text-accent">
+          *
+        </span>
+      ) : null}
+    </label>
+  );
+});
 FieldLabel.displayName = "FieldLabel";
 
 /**
@@ -73,7 +70,7 @@ export const FieldHint = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLPar
       <p
         ref={ref}
         className={cn(
-          "m-0 text-[10px] tracking-[0.1em] text-fg-subtle",
+          "text-fg-subtle m-0 text-[10px] tracking-[0.1em]",
           "group-data-[error=true]/field:text-[oklch(60%_0.18_25)]",
           className,
         )}

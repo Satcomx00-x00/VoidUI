@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  type AnchorHTMLAttributes,
-  type HTMLAttributes,
-  type ReactNode,
-} from "react";
+import { forwardRef, type AnchorHTMLAttributes, type HTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
@@ -19,7 +14,7 @@ export const Sidebar = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(func
     <aside
       ref={ref}
       className={cn(
-        "flex h-full flex-col gap-3 border-r border-border bg-surface p-3.5",
+        "border-border bg-surface flex h-full flex-col gap-3 border-r p-3.5",
         className,
       )}
       {...rest}
@@ -41,10 +36,7 @@ export const SidebarLabel = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
     return (
       <div
         ref={ref}
-        className={cn(
-          "mb-2 px-2 text-[10px] uppercase tracking-[0.2em] text-fg-subtle",
-          className,
-        )}
+        className={cn("text-fg-subtle mb-2 px-2 text-[10px] tracking-[0.2em] uppercase", className)}
         {...rest}
       />
     );
@@ -83,7 +75,7 @@ export const SidebarLink = forwardRef<HTMLAnchorElement, SidebarLinkProps>(funct
         <span
           aria-hidden="true"
           className={cn(
-            "h-[5px] w-[5px] rounded-full bg-border-strong",
+            "bg-border-strong h-[5px] w-[5px] rounded-full",
             "group-data-[active=true]:bg-accent group-data-[active=true]:shadow-[0_0_0_2px_var(--accent-soft)]",
           )}
         />

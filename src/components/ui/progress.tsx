@@ -21,14 +21,7 @@ const clamp = (value: number, min: number, max: number): number =>
  * `indeterminate` for unknown durations.
  */
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress(
-  {
-    className,
-    value = 0,
-    max = 100,
-    striped = false,
-    indeterminate = false,
-    ...rest
-  },
+  { className, value = 0, max = 100, striped = false, indeterminate = false, ...rest },
   ref,
 ) {
   const safeMax = max <= 0 ? 100 : max;
@@ -44,7 +37,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
       aria-valuenow={indeterminate ? undefined : safeValue}
       data-indeterminate={indeterminate || undefined}
       className={cn(
-        "void-progress-track relative h-2 overflow-hidden rounded-[3px] border border-border",
+        "void-progress-track border-border relative h-2 overflow-hidden rounded-[3px] border",
         className,
       )}
       {...rest}

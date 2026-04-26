@@ -48,14 +48,7 @@ export interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
  * `<AccordionTrigger>`, and `<AccordionContent>`.
  */
 export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(function Accordion(
-  {
-    className,
-    type = "single",
-    value: controlled,
-    defaultValue = [],
-    onValueChange,
-    ...rest
-  },
+  { className, type = "single", value: controlled, defaultValue = [], onValueChange, ...rest },
   ref,
 ) {
   const [uncontrolled, setUncontrolled] = useState<readonly string[]>(defaultValue);
@@ -112,33 +105,34 @@ export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
 }
 
-export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
-  function AccordionItem({ className, value, ...rest }, ref) {
-    const { open } = useAccordionContext("AccordionItem");
-    const isOpen = open.has(value);
-    const baseId = useId();
-    const itemCtx = useMemo<ItemContextValue>(
-      () => ({
-        value,
-        open: isOpen,
-        triggerId: `${baseId}-trigger`,
-        contentId: `${baseId}-content`,
-      }),
-      [value, isOpen, baseId],
-    );
+export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(function AccordionItem(
+  { className, value, ...rest },
+  ref,
+) {
+  const { open } = useAccordionContext("AccordionItem");
+  const isOpen = open.has(value);
+  const baseId = useId();
+  const itemCtx = useMemo<ItemContextValue>(
+    () => ({
+      value,
+      open: isOpen,
+      triggerId: `${baseId}-trigger`,
+      contentId: `${baseId}-content`,
+    }),
+    [value, isOpen, baseId],
+  );
 
-    return (
-      <ItemContext.Provider value={itemCtx}>
-        <div
-          ref={ref}
-          data-state={isOpen ? "open" : "closed"}
-          className={cn("mb-1.5 overflow-hidden rounded-lg border border-border", className)}
-          {...rest}
-        />
-      </ItemContext.Provider>
-    );
-  },
-);
+  return (
+    <ItemContext.Provider value={itemCtx}>
+      <div
+        ref={ref}
+        data-state={isOpen ? "open" : "closed"}
+        className={cn("border-border mb-1.5 overflow-hidden rounded-lg border", className)}
+        {...rest}
+      />
+    </ItemContext.Provider>
+  );
+});
 AccordionItem.displayName = "AccordionItem";
 
 export const AccordionTrigger = forwardRef<HTMLButtonElement, HTMLAttributes<HTMLButtonElement>>(
@@ -160,7 +154,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, HTMLAttributes<HTM
         }}
         className={cn(
           "group flex w-full cursor-pointer items-center justify-between px-4 py-3.5 text-left",
-          "text-xs tracking-[0.06em] text-fg",
+          "text-fg text-xs tracking-[0.06em]",
           "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
           "hover:bg-bg-subtle data-[state=open]:bg-bg-subtle",
           className,
@@ -171,9 +165,9 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, HTMLAttributes<HTM
         <span
           aria-hidden="true"
           className={cn(
-            "text-[11px] text-fg-muted",
+            "text-fg-muted text-[11px]",
             "transition-transform duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
-            "group-data-[state=open]:rotate-180 group-data-[state=open]:text-accent",
+            "group-data-[state=open]:text-accent group-data-[state=open]:rotate-180",
           )}
         >
           ▾
@@ -197,7 +191,7 @@ export const AccordionContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDi
         aria-hidden={!open}
         data-state={open ? "open" : "closed"}
         className={cn(
-          "overflow-hidden text-xs leading-relaxed text-fg-muted",
+          "text-fg-muted overflow-hidden text-xs leading-relaxed",
           "transition-[max-height,padding] duration-[var(--dur-med)] ease-[var(--ease-snap)]",
           open ? "max-h-[400px] px-4 pb-3.5" : "max-h-0 px-4 pb-0",
           className,

@@ -32,10 +32,7 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(function Brea
     <nav
       ref={ref}
       aria-label="Breadcrumb"
-      className={cn(
-        "flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em]",
-        className,
-      )}
+      className={cn("flex items-center gap-1.5 text-[11px] tracking-[0.1em] uppercase", className)}
       {...rest}
     >
       <ol className="contents">
@@ -60,46 +57,39 @@ export interface BreadcrumbItemProps extends AnchorHTMLAttributes<HTMLAnchorElem
  * Single segment. Renders an `<a>` by default; with `current` renders a
  * `<span>` and exposes `aria-current="page"`.
  */
-export const BreadcrumbItem = forwardRef<HTMLElement, BreadcrumbItemProps>(
-  function BreadcrumbItem({ className, current = false, children, href, ...rest }, ref) {
-    if (current) {
-      return (
-        <span
-          ref={ref as React.Ref<HTMLSpanElement>}
-          aria-current="page"
-          className={cn("text-fg", className)}
-        >
-          {children}
-        </span>
-      );
-    }
+export const BreadcrumbItem = forwardRef<HTMLElement, BreadcrumbItemProps>(function BreadcrumbItem(
+  { className, current = false, children, href, ...rest },
+  ref,
+) {
+  if (current) {
     return (
-      <a
-        ref={ref as React.Ref<HTMLAnchorElement>}
-        href={href}
-        className={cn(
-          "cursor-pointer text-fg-muted transition-colors hover:text-fg",
-          className,
-        )}
-        {...rest}
+      <span
+        ref={ref as React.Ref<HTMLSpanElement>}
+        aria-current="page"
+        className={cn("text-fg", className)}
       >
         {children}
-      </a>
+      </span>
     );
-  },
-);
+  }
+  return (
+    <a
+      ref={ref as React.Ref<HTMLAnchorElement>}
+      href={href}
+      className={cn("text-fg-muted hover:text-fg cursor-pointer transition-colors", className)}
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+});
 BreadcrumbItem.displayName = "BreadcrumbItem";
 
 /** Visual separator (rendered automatically between items). */
 export const BreadcrumbSeparator = forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanElement>>(
   function BreadcrumbSeparator({ className, children = "/", ...rest }, ref) {
     return (
-      <span
-        ref={ref}
-        aria-hidden="true"
-        className={cn("text-border-strong", className)}
-        {...rest}
-      >
+      <span ref={ref} aria-hidden="true" className={cn("text-border-strong", className)} {...rest}>
         {children}
       </span>
     );
@@ -116,8 +106,8 @@ export const BreadcrumbEllipsis = forwardRef<HTMLButtonElement, HTMLAttributes<H
         type="button"
         aria-label="Show more"
         className={cn(
-          "inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] border border-border bg-bg px-2 py-[3px]",
-          "text-[10px] uppercase tracking-[0.18em] text-fg-muted",
+          "border-border bg-bg inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] border px-2 py-[3px]",
+          "text-fg-muted text-[10px] tracking-[0.18em] uppercase",
           "hover:text-fg",
           className,
         )}

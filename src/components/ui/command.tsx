@@ -6,24 +6,25 @@ import { cn } from "../../lib/cn";
  * Outer command palette surface — bordered, raised, with the signature
  * heavy drop shadow.
  */
-export const Command = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function Command({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        role="combobox"
-        aria-expanded="true"
-        aria-haspopup="listbox"
-        className={cn(
-          "mx-auto max-w-[540px] overflow-hidden rounded-[10px] border border-border-strong bg-surface-raised",
-          "shadow-[0_16px_48px_color-mix(in_oklch,black_28%,transparent)]",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
+export const Command = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function Command(
+  { className, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      role="combobox"
+      aria-expanded="true"
+      aria-haspopup="listbox"
+      className={cn(
+        "border-border-strong bg-surface-raised mx-auto max-w-[540px] overflow-hidden rounded-[10px] border",
+        "shadow-[0_16px_48px_color-mix(in_oklch,black_28%,transparent)]",
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
 Command.displayName = "Command";
 
 export interface CommandInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -53,20 +54,20 @@ export const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(func
   ref,
 ) {
   return (
-    <div className="flex items-center gap-2.5 border-b border-border px-4 py-3">
-      <span className="flex-none text-fg-muted">{icon}</span>
+    <div className="border-border flex items-center gap-2.5 border-b px-4 py-3">
+      <span className="text-fg-muted flex-none">{icon}</span>
       <input
         ref={ref}
         type="search"
         className={cn(
-          "flex-1 border-none bg-transparent font-mono text-sm text-fg outline-none",
+          "text-fg flex-1 border-none bg-transparent font-mono text-sm outline-none",
           "placeholder:text-fg-subtle",
           className,
         )}
         {...rest}
       />
       {tag !== undefined ? (
-        <span className="rounded-[3px] border border-border px-1.5 py-0.5 text-[10px] tracking-[0.1em] text-fg-muted">
+        <span className="border-border text-fg-muted rounded-[3px] border px-1.5 py-0.5 text-[10px] tracking-[0.1em]">
           {tag}
         </span>
       ) : null}
@@ -95,8 +96,8 @@ export const CommandGroupLabel = forwardRef<HTMLDivElement, HTMLAttributes<HTMLD
       <div
         ref={ref}
         className={cn(
-          "flex items-center gap-2 px-2.5 pb-1 pt-2 text-[9px] uppercase tracking-[0.18em] text-fg-subtle",
-          "before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border",
+          "text-fg-subtle flex items-center gap-2 px-2.5 pt-2 pb-1 text-[9px] tracking-[0.18em] uppercase",
+          "before:bg-border after:bg-border before:h-px before:flex-1 after:h-px after:flex-1",
           className,
         )}
         {...rest}
@@ -130,11 +131,12 @@ export const CommandItem = forwardRef<HTMLButtonElement, CommandItemProps>(funct
       data-state={active ? "active" : "inactive"}
       disabled={disabled}
       className={cn(
-        "group relative flex w-full cursor-pointer select-none items-center gap-2 rounded-[7px] px-2.5 py-[7px] text-left",
-        "font-mono text-[12px] leading-none text-fg-muted transition-[background,color] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
+        "group relative flex w-full cursor-pointer items-center gap-2 rounded-[7px] px-2.5 py-[7px] text-left select-none",
+        "text-fg-muted font-mono text-[12px] leading-none transition-[background,color] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
         "hover:bg-bg-subtle hover:text-fg",
         "data-[state=active]:bg-bg-subtle data-[state=active]:text-fg",
-        disabled === true && "cursor-not-allowed opacity-40 hover:bg-transparent hover:text-fg-muted",
+        disabled === true &&
+          "hover:text-fg-muted cursor-not-allowed opacity-40 hover:bg-transparent",
         className,
       )}
       {...rest}
@@ -142,14 +144,16 @@ export const CommandItem = forwardRef<HTMLButtonElement, CommandItemProps>(funct
       {icon !== undefined ? (
         <span
           aria-hidden="true"
-          className="flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[4px] bg-bg-muted text-[11px] opacity-70 group-hover:opacity-100 group-data-[state=active]:opacity-100"
+          className="bg-bg-muted flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[4px] text-[11px] opacity-70 group-hover:opacity-100 group-data-[state=active]:opacity-100"
         >
           {icon}
         </span>
       ) : null}
       <span className="flex-1">{children}</span>
       {meta !== undefined ? (
-        <span className="ml-auto shrink-0 text-[10px] tracking-[0.08em] text-fg-subtle">{meta}</span>
+        <span className="text-fg-subtle ml-auto shrink-0 text-[10px] tracking-[0.08em]">
+          {meta}
+        </span>
       ) : null}
     </button>
   );
@@ -162,7 +166,7 @@ export const CommandFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEl
       <div
         ref={ref}
         className={cn(
-          "flex gap-4 border-t border-border bg-bg-subtle px-3.5 py-2 text-[10px] tracking-[0.1em] text-fg-subtle",
+          "border-border bg-bg-subtle text-fg-subtle flex gap-4 border-t px-3.5 py-2 text-[10px] tracking-[0.1em]",
           className,
         )}
         {...rest}

@@ -134,22 +134,20 @@ Button.displayName = "Button";
  * </Button>
  * ```
  */
-export const ButtonKbd = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
-  function ButtonKbd({ className, children, ...rest }, ref) {
-    return (
-      <kbd
-        ref={ref}
-        className={cn(
-          "ml-1.5 text-[10px] tracking-normal normal-case opacity-55",
-          className,
-        )}
-        {...rest}
-      >
-        {children}
-      </kbd>
-    );
-  },
-);
+export const ButtonKbd = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(function ButtonKbd(
+  { className, children, ...rest },
+  ref,
+) {
+  return (
+    <kbd
+      ref={ref}
+      className={cn("ml-1.5 text-[10px] tracking-normal normal-case opacity-55", className)}
+      {...rest}
+    >
+      {children}
+    </kbd>
+  );
+});
 
 ButtonKbd.displayName = "ButtonKbd";
 

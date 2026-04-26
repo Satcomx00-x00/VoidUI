@@ -19,7 +19,8 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const sideClasses = {
-  right: "right-0 top-0 bottom-0 w-[320px] border-l border-border-strong shadow-[-8px_0_32px_color-mix(in_oklch,black_20%,transparent)]",
+  right:
+    "right-0 top-0 bottom-0 w-[320px] border-l border-border-strong shadow-[-8px_0_32px_color-mix(in_oklch,black_20%,transparent)]",
   left: "left-0 top-0 bottom-0 w-[320px] border-r border-border-strong shadow-[8px_0_32px_color-mix(in_oklch,black_20%,transparent)]",
   bottom:
     "left-0 right-0 bottom-0 max-h-[80vh] rounded-t-[12px] border-t border-border-strong shadow-[0_-8px_32px_color-mix(in_oklch,black_20%,transparent)]",
@@ -72,7 +73,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
         data-side={side}
         style={{ animation: `${sideAnimation[side]} 220ms var(--ease-snap)` }}
         className={cn(
-          "absolute flex flex-col overflow-hidden bg-surface-raised",
+          "bg-surface-raised absolute flex flex-col overflow-hidden",
           sideClasses[side],
           className,
         )}
@@ -81,7 +82,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
         {side === "bottom" ? (
           <div
             aria-hidden="true"
-            className="mx-auto mt-2.5 h-1 w-9 rounded-[2px] bg-border-strong"
+            className="bg-border-strong mx-auto mt-2.5 h-1 w-9 rounded-[2px]"
           />
         ) : null}
         {children}
@@ -105,14 +106,11 @@ export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>(functi
   return (
     <div
       ref={ref}
-      className={cn(
-        "flex items-center gap-3 border-b border-border px-[18px] py-3.5",
-        className,
-      )}
+      className={cn("border-border flex items-center gap-3 border-b px-[18px] py-3.5", className)}
       {...rest}
     >
       {title !== undefined ? (
-        <h4 className="m-0 font-display text-[22px] font-normal tracking-[0.02em] text-fg">
+        <h4 className="font-display text-fg m-0 text-[22px] font-normal tracking-[0.02em]">
           {title}
         </h4>
       ) : null}
@@ -122,7 +120,7 @@ export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>(functi
           type="button"
           aria-label="Close"
           onClick={onClose}
-          className="ml-auto inline-flex h-[18px] w-[18px] cursor-pointer items-center justify-center border border-border text-fg-muted hover:text-fg"
+          className="border-border text-fg-muted hover:text-fg ml-auto inline-flex h-[18px] w-[18px] cursor-pointer items-center justify-center border"
         >
           ×
         </button>
@@ -137,7 +135,10 @@ export const DrawerBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
     return (
       <div
         ref={ref}
-        className={cn("flex flex-1 flex-col gap-3.5 overflow-y-auto px-[18px] py-[18px]", className)}
+        className={cn(
+          "flex flex-1 flex-col gap-3.5 overflow-y-auto px-[18px] py-[18px]",
+          className,
+        )}
         {...rest}
       />
     );
@@ -150,10 +151,7 @@ export const DrawerFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex justify-end gap-2 border-t border-border px-[18px] py-3.5",
-          className,
-        )}
+        className={cn("border-border flex justify-end gap-2 border-t px-[18px] py-3.5", className)}
         {...rest}
       />
     );

@@ -68,7 +68,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(
         style={{ animation: "void-dialog-in 180ms var(--ease-snap)" }}
         className={cn(
           "relative mx-auto w-full max-w-[440px] overflow-hidden rounded-[10px]",
-          "border border-border-strong bg-surface-raised shadow-[8px_8px_0_var(--accent-soft)]",
+          "border-border-strong bg-surface-raised border shadow-[8px_8px_0_var(--accent-soft)]",
           className,
         )}
         {...rest}
@@ -95,8 +95,8 @@ export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(functi
     <div
       ref={ref}
       className={cn(
-        "flex items-center border-b border-border px-4 py-3",
-        "text-[10px] uppercase tracking-[0.18em] text-fg-muted",
+        "border-border flex items-center border-b px-4 py-3",
+        "text-fg-muted text-[10px] tracking-[0.18em] uppercase",
         className,
       )}
       {...rest}
@@ -108,7 +108,7 @@ export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(functi
           type="button"
           aria-label="Close"
           onClick={onClose}
-          className="ml-auto inline-flex h-[18px] w-[18px] cursor-pointer items-center justify-center border border-border text-fg-muted hover:text-fg"
+          className="border-border text-fg-muted hover:text-fg ml-auto inline-flex h-[18px] w-[18px] cursor-pointer items-center justify-center border"
         >
           ×
         </button>
@@ -131,7 +131,7 @@ export const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHea
       <h2
         ref={ref}
         className={cn(
-          "m-0 mb-2 font-display text-[28px] font-normal leading-tight tracking-[0.02em] text-fg",
+          "font-display text-fg m-0 mb-2 text-[28px] leading-tight font-normal tracking-[0.02em]",
           className,
         )}
         {...rest}
@@ -141,17 +141,18 @@ export const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHea
 );
 DialogTitle.displayName = "DialogTitle";
 
-export const DialogDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
-  function DialogDescription({ className, ...rest }, ref) {
-    return (
-      <p
-        ref={ref}
-        className={cn("m-0 mb-4 text-xs leading-[1.6] text-fg-muted", className)}
-        {...rest}
-      />
-    );
-  },
-);
+export const DialogDescription = forwardRef<
+  HTMLParagraphElement,
+  HTMLAttributes<HTMLParagraphElement>
+>(function DialogDescription({ className, ...rest }, ref) {
+  return (
+    <p
+      ref={ref}
+      className={cn("text-fg-muted m-0 mb-4 text-xs leading-[1.6]", className)}
+      {...rest}
+    />
+  );
+});
 DialogDescription.displayName = "DialogDescription";
 
 export const DialogFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
@@ -160,7 +161,7 @@ export const DialogFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
       <div
         ref={ref}
         className={cn(
-          "flex justify-end gap-2 border-t border-border bg-bg-subtle px-4 py-3",
+          "border-border bg-bg-subtle flex justify-end gap-2 border-t px-4 py-3",
           className,
         )}
         {...rest}

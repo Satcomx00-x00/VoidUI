@@ -17,11 +17,7 @@ import { cn } from "../../lib/cn";
 export const Table = forwardRef<HTMLTableElement, TableHTMLAttributes<HTMLTableElement>>(
   function Table({ className, ...rest }, ref) {
     return (
-      <table
-        ref={ref}
-        className={cn("w-full border-collapse text-xs", className)}
-        {...rest}
-      />
+      <table ref={ref} className={cn("w-full border-collapse text-xs", className)} {...rest} />
     );
   },
 );
@@ -41,17 +37,18 @@ export const Tbody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTabl
 );
 Tbody.displayName = "Tbody";
 
-export const Tr = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
-  function Tr({ className, ...rest }, ref) {
-    return (
-      <tr
-        ref={ref}
-        className={cn("transition-colors hover:[&>td]:bg-bg-subtle", className)}
-        {...rest}
-      />
-    );
-  },
-);
+export const Tr = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(function Tr(
+  { className, ...rest },
+  ref,
+) {
+  return (
+    <tr
+      ref={ref}
+      className={cn("hover:[&>td]:bg-bg-subtle transition-colors", className)}
+      {...rest}
+    />
+  );
+});
 Tr.displayName = "Tr";
 
 export interface ThProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -67,8 +64,8 @@ export const Th = forwardRef<HTMLTableCellElement, ThProps>(function Th(
     <th
       ref={ref}
       className={cn(
-        "select-none border-b border-border-strong px-3.5 py-2.5 align-middle",
-        "text-[10px] font-medium uppercase tracking-[0.18em] text-fg-muted",
+        "border-border-strong border-b px-3.5 py-2.5 align-middle select-none",
+        "text-fg-muted text-[10px] font-medium tracking-[0.18em] uppercase",
         numeric ? "text-right tabular-nums" : "text-left",
         className,
       )}
@@ -91,7 +88,7 @@ export const Td = forwardRef<HTMLTableCellElement, TdProps>(function Td(
     <td
       ref={ref}
       className={cn(
-        "border-b border-border px-3.5 py-2.5 align-middle",
+        "border-border border-b px-3.5 py-2.5 align-middle",
         numeric ? "text-right tabular-nums" : "text-left",
         className,
       )}
@@ -114,7 +111,7 @@ export const TableContainer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivE
     return (
       <div
         ref={ref}
-        className={cn("w-full overflow-x-auto rounded-lg border border-border", className)}
+        className={cn("border-border w-full overflow-x-auto rounded-lg border", className)}
         {...rest}
       />
     );
@@ -138,7 +135,7 @@ export const TableCaption = forwardRef<
     <caption
       ref={ref}
       className={cn(
-        "caption-bottom mt-3 text-[10px] uppercase tracking-[0.14em] text-fg-subtle",
+        "text-fg-subtle mt-3 caption-bottom text-[10px] tracking-[0.14em] uppercase",
         className,
       )}
       {...rest}
@@ -153,7 +150,7 @@ TableCaption.displayName = "TableCaption";
 
 /**
  * Table footer section — typically used for totals/summary rows.
- * Cells receive a slightly elevated background (`bg-surface-raised`) 
+ * Cells receive a slightly elevated background (`bg-surface-raised`)
  * and a top border that separates them from the body.
  */
 export const Tfoot = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
@@ -162,7 +159,7 @@ export const Tfoot = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTabl
       <tfoot
         ref={ref}
         className={cn(
-          "[&>tr>td]:border-t [&>tr>td]:border-border-strong",
+          "[&>tr>td]:border-border-strong [&>tr>td]:border-t",
           "[&>tr>td]:bg-bg-subtle [&>tr>td]:font-medium",
           className,
         )}
@@ -223,35 +220,33 @@ const SortIcon = ({ dir }: { dir: SortDir }): ReactNode => (
  * with the accent colour. Toggle direction externally — this component is
  * intentionally uncontrolled for maximum composability.
  */
-export const ThSortable = forwardRef<HTMLTableCellElement, ThSortableProps>(
-  function ThSortable(
-    { className, numeric = false, sortDir = "none", onSort, children, ...rest },
-    ref,
-  ) {
-    return (
-      <th
-        ref={ref}
-        aria-sort={sortDir === "asc" ? "ascending" : sortDir === "desc" ? "descending" : "none"}
-        onClick={onSort}
-        className={cn(
-          "select-none border-b border-border-strong px-3.5 py-2.5 align-middle",
-          "text-[10px] font-medium uppercase tracking-[0.18em] text-fg-muted",
-          "cursor-pointer transition-colors duration-[var(--dur-fast)]",
-          "hover:text-fg",
-          sortDir !== "none" && "text-fg",
-          numeric ? "text-right tabular-nums" : "text-left",
-          className,
-        )}
-        {...rest}
-      >
-        <span className="inline-flex items-center">
-          {children}
-          <SortIcon dir={sortDir} />
-        </span>
-      </th>
-    );
-  },
-);
+export const ThSortable = forwardRef<HTMLTableCellElement, ThSortableProps>(function ThSortable(
+  { className, numeric = false, sortDir = "none", onSort, children, ...rest },
+  ref,
+) {
+  return (
+    <th
+      ref={ref}
+      aria-sort={sortDir === "asc" ? "ascending" : sortDir === "desc" ? "descending" : "none"}
+      onClick={onSort}
+      className={cn(
+        "border-border-strong border-b px-3.5 py-2.5 align-middle select-none",
+        "text-fg-muted text-[10px] font-medium tracking-[0.18em] uppercase",
+        "cursor-pointer transition-colors duration-[var(--dur-fast)]",
+        "hover:text-fg",
+        sortDir !== "none" && "text-fg",
+        numeric ? "text-right tabular-nums" : "text-left",
+        className,
+      )}
+      {...rest}
+    >
+      <span className="inline-flex items-center">
+        {children}
+        <SortIcon dir={sortDir} />
+      </span>
+    </th>
+  );
+});
 ThSortable.displayName = "ThSortable";
 
 /* -------------------------------------------------------------------------- */
@@ -269,24 +264,25 @@ export interface TdPinProps extends TdHTMLAttributes<HTMLTableCellElement> {
  * Sticky-pinned data cell for frozen first/last columns.
  * The parent `<TableContainer>` adds the scroll context.
  */
-export const TdPin = forwardRef<HTMLTableCellElement, TdPinProps>(
-  function TdPin({ className, pin = "left", numeric = false, ...rest }, ref) {
-    return (
-      <td
-        ref={ref}
-        className={cn(
-          "border-b border-border px-3.5 py-2.5 align-middle",
-          "sticky z-[1] bg-surface-raised",
-          pin === "left" && "left-0 border-r border-border",
-          pin === "right" && "right-0 border-l border-border",
-          numeric ? "text-right tabular-nums" : "text-left",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
+export const TdPin = forwardRef<HTMLTableCellElement, TdPinProps>(function TdPin(
+  { className, pin = "left", numeric = false, ...rest },
+  ref,
+) {
+  return (
+    <td
+      ref={ref}
+      className={cn(
+        "border-border border-b px-3.5 py-2.5 align-middle",
+        "bg-surface-raised sticky z-[1]",
+        pin === "left" && "border-border left-0 border-r",
+        pin === "right" && "border-border right-0 border-l",
+        numeric ? "text-right tabular-nums" : "text-left",
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
 TdPin.displayName = "TdPin";
 
 export interface ThPinProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -299,25 +295,26 @@ export interface ThPinProps extends ThHTMLAttributes<HTMLTableCellElement> {
 /**
  * Sticky-pinned header cell — companion to `<TdPin>`.
  */
-export const ThPin = forwardRef<HTMLTableCellElement, ThPinProps>(
-  function ThPin({ className, pin = "left", numeric = false, ...rest }, ref) {
-    return (
-      <th
-        ref={ref}
-        className={cn(
-          "select-none border-b border-border-strong px-3.5 py-2.5 align-middle",
-          "text-[10px] font-medium uppercase tracking-[0.18em] text-fg-muted",
-          "sticky z-[2] bg-surface-raised",
-          pin === "left" && "left-0 border-r border-border",
-          pin === "right" && "right-0 border-l border-border",
-          numeric ? "text-right tabular-nums" : "text-left",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
+export const ThPin = forwardRef<HTMLTableCellElement, ThPinProps>(function ThPin(
+  { className, pin = "left", numeric = false, ...rest },
+  ref,
+) {
+  return (
+    <th
+      ref={ref}
+      className={cn(
+        "border-border-strong border-b px-3.5 py-2.5 align-middle select-none",
+        "text-fg-muted text-[10px] font-medium tracking-[0.18em] uppercase",
+        "bg-surface-raised sticky z-[2]",
+        pin === "left" && "border-border left-0 border-r",
+        pin === "right" && "border-border right-0 border-l",
+        numeric ? "text-right tabular-nums" : "text-left",
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
 ThPin.displayName = "ThPin";
 
 /* -------------------------------------------------------------------------- */
@@ -347,28 +344,24 @@ export interface TableEmptyProps extends HTMLAttributes<HTMLTableRowElement> {
  * </Tbody>
  * ```
  */
-export const TableEmpty = forwardRef<HTMLTableRowElement, TableEmptyProps>(
-  function TableEmpty({ colSpan, icon, message = "No data", hint, className, ...rest }, ref) {
-    return (
-      <tr ref={ref} className={cn("pointer-events-none", className)} {...rest}>
-        <td
-          colSpan={colSpan}
-          className="px-4 py-16 text-center align-middle"
-        >
-          <div className="mx-auto flex flex-col items-center gap-2">
-            {icon !== undefined && (
-              <span className="mb-1 block text-fg-subtle">{icon}</span>
-            )}
-            <span className="text-[13px] text-fg">{message}</span>
-            {hint !== undefined && (
-              <span className="text-[11px] tracking-wide text-fg-subtle">{hint}</span>
-            )}
-          </div>
-        </td>
-      </tr>
-    );
-  },
-);
+export const TableEmpty = forwardRef<HTMLTableRowElement, TableEmptyProps>(function TableEmpty(
+  { colSpan, icon, message = "No data", hint, className, ...rest },
+  ref,
+) {
+  return (
+    <tr ref={ref} className={cn("pointer-events-none", className)} {...rest}>
+      <td colSpan={colSpan} className="px-4 py-16 text-center align-middle">
+        <div className="mx-auto flex flex-col items-center gap-2">
+          {icon !== undefined && <span className="text-fg-subtle mb-1 block">{icon}</span>}
+          <span className="text-fg text-[13px]">{message}</span>
+          {hint !== undefined && (
+            <span className="text-fg-subtle text-[11px] tracking-wide">{hint}</span>
+          )}
+        </div>
+      </td>
+    </tr>
+  );
+});
 TableEmpty.displayName = "TableEmpty";
 
 /* -------------------------------------------------------------------------- */
@@ -384,14 +377,10 @@ export const TableToolbar = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
     return (
       <div
         ref={ref}
-        className={cn(
-          "mb-3 flex flex-wrap items-center justify-between gap-3",
-          className,
-        )}
+        className={cn("mb-3 flex flex-wrap items-center justify-between gap-3", className)}
         {...rest}
       />
     );
   },
 );
 TableToolbar.displayName = "TableToolbar";
-

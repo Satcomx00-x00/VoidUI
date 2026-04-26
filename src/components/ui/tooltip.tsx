@@ -51,7 +51,12 @@ export interface TooltipProps {
  * Lightweight hover/focus tooltip. Wraps a single trigger element,
  * positioning the bubble via CSS (no portal — keep the trigger non-clipped).
  */
-export function Tooltip({ content, children, side = "top", open: forceOpen }: TooltipProps): ReactElement {
+export function Tooltip({
+  content,
+  children,
+  side = "top",
+  open: forceOpen,
+}: TooltipProps): ReactElement {
   const [hovered, setHovered] = useState(false);
   const id = useId();
   const visible = forceOpen ?? hovered;
@@ -89,8 +94,8 @@ export function Tooltip({ content, children, side = "top", open: forceOpen }: To
         role="tooltip"
         hidden={!visible}
         className={cn(
-          "pointer-events-none absolute z-40 whitespace-nowrap rounded-[5px] bg-fg px-2.5 py-1.5",
-          "text-[10px] tracking-[0.1em] text-bg",
+          "bg-fg pointer-events-none absolute z-40 rounded-[5px] px-2.5 py-1.5 whitespace-nowrap",
+          "text-bg text-[10px] tracking-[0.1em]",
           sideClasses[side],
           !visible && "hidden",
         )}
@@ -110,23 +115,24 @@ export function Tooltip({ content, children, side = "top", open: forceOpen }: To
  * Static popover surface. The consumer is responsible for placement
  * (typically inside a relatively-positioned trigger) and visibility.
  */
-export const Popover = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function Popover({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        role="dialog"
-        style={{ animation: "void-popover-in 140ms var(--ease-snap)" }}
-        className={cn(
-          "min-w-[240px] rounded-[10px] border border-border-strong bg-surface-raised p-4",
-          "shadow-[0_8px_32px_color-mix(in_oklch,black_20%,transparent)]",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
+export const Popover = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function Popover(
+  { className, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      role="dialog"
+      style={{ animation: "void-popover-in 140ms var(--ease-snap)" }}
+      className={cn(
+        "border-border-strong bg-surface-raised min-w-[240px] rounded-[10px] border p-4",
+        "shadow-[0_8px_32px_color-mix(in_oklch,black_20%,transparent)]",
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
 Popover.displayName = "Popover";
 
 export const PopoverHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
@@ -147,7 +153,7 @@ export const PopoverTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHe
     return (
       <h5
         ref={ref}
-        className={cn("m-0 font-display text-[20px] font-normal text-fg", className)}
+        className={cn("font-display text-fg m-0 text-[20px] font-normal", className)}
         {...rest}
       />
     );
