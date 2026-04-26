@@ -5,26 +5,31 @@ All notable changes to **VoidUI** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and entries are generated from [Conventional Commits](https://www.conventionalcommits.org).
-
 ## [unreleased]
 
 ### ✨ Features
-
+- **button:** Add Button primitive with variants, sizes, loading state (44cdc8b)
 - Add Nothing UI inspired components (Radio, Slider, Chip, ListItem, Alert, Dialog, BottomNav, StatusDot) by @Copilot (a5fb0a1)
 - Add Checkbox, Textarea, Select, Avatar, Progress, Spinner, Tabs components by @Copilot (3e6d031)
 - Categorize components, add Badge hard/soft tones, HeatMap chart, Bun README by @Copilot (2ade66b)
 - Add GitHub Pages deployment by @Copilot (eff1568)
 - Scaffold VoidUI foundation — Nothing-inspired dark-first Next.js UI library by @Copilot (c70d0cf)
 
-### 🐛 Bug Fixes
 
+### 🎨 Styles
+- Prettier format (2113130)
+
+
+### 🐛 Bug Fixes
+- **build:** Disable incremental for dts and remove use-client banner (e345de5)
 - **ci:** Use --unreleased without --bump to avoid tag_pattern mismatch (869a034)
 - Make Chip dismiss button keyboard accessible by @Copilot (e40e9d4)
 - Address code review feedback on Checkbox label cursor and Avatar props by @Copilot (270e36a)
 - Use Bun in deploy workflow, replace emerald with void-palette in Badge success by @Copilot (1c9dc83)
 
-### 🧹 Chores
 
+### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (eafe526)
 - Configuration github page (47238e9)
 - Init (c0589e6)
 
