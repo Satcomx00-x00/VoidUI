@@ -23,7 +23,7 @@ export const Separator = forwardRef<HTMLDivElement, SeparatorProps>(function Sep
       role={role}
       data-orientation={orientation}
       className={cn(
-        "shrink-0 border-border",
+        "border-border shrink-0",
         orientation === "horizontal" ? "h-px w-full border-t" : "h-full w-px border-l",
         dashed ? "border-dashed" : "border-solid",
         className,

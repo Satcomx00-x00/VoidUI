@@ -46,17 +46,14 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
       data-variant={variant}
       className={cn(
         "inline-flex items-center gap-1.5 px-2 py-[3px]",
-        "border rounded-[5px] text-[10px] uppercase tracking-[0.18em]",
+        "rounded-[5px] border text-[10px] tracking-[0.18em] uppercase",
         variantClasses[variant],
         className,
       )}
       {...rest}
     >
       {dot ? (
-        <span
-          aria-hidden="true"
-          className="inline-block h-[5px] w-[5px] rounded-full bg-current"
-        />
+        <span aria-hidden="true" className="inline-block h-[5px] w-[5px] rounded-full bg-current" />
       ) : null}
       {children}
     </span>

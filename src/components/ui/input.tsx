@@ -44,7 +44,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         <span
           className={cn(
             "inline-flex items-center px-2.5",
-            "border border-r-0 border-border rounded-l-[6px]",
+            "border-border rounded-l-[6px] border border-r-0",
             "bg-bg-subtle text-fg-muted text-[11px] tracking-[0.1em] uppercase",
           )}
         >

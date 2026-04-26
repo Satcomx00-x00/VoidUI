@@ -51,38 +51,36 @@ export interface DotBackgroundProps extends HTMLAttributes<HTMLDivElement> {
  * Customise colour via the CSS custom property `--dot-color` on any ancestor,
  * or override the `background-image` directly through `className` / `style`.
  */
-export const DotBackground = forwardRef<HTMLDivElement, DotBackgroundProps>(
-  function DotBackground(
-    {
-      className,
-      style,
-      dotSize = 1,
-      spacing = 24,
-      opacity = 0.5,
-      mask = "linear-gradient(180deg, transparent, black 20%, black 60%, transparent)",
-      inset = true,
-      "aria-hidden": ariaHidden = true,
-      ...rest
-    },
-    ref,
-  ) {
-    return (
-      <div
-        ref={ref}
-        aria-hidden={ariaHidden}
-        className={cn(inset ? "absolute inset-0" : "relative w-full h-full", className)}
-        style={{
-          backgroundImage: `radial-gradient(var(--dot-color, var(--border)) ${dotSize}px, transparent ${dotSize}px)`,
-          backgroundSize: `${spacing}px ${spacing}px`,
-          opacity,
-          maskImage: mask === "none" ? undefined : mask,
-          WebkitMaskImage: mask === "none" ? undefined : mask,
-          pointerEvents: "none",
-          ...style,
-        }}
-        {...rest}
-      />
-    );
+export const DotBackground = forwardRef<HTMLDivElement, DotBackgroundProps>(function DotBackground(
+  {
+    className,
+    style,
+    dotSize = 1,
+    spacing = 24,
+    opacity = 0.5,
+    mask = "linear-gradient(180deg, transparent, black 20%, black 60%, transparent)",
+    inset = true,
+    "aria-hidden": ariaHidden = true,
+    ...rest
   },
-);
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      aria-hidden={ariaHidden}
+      className={cn(inset ? "absolute inset-0" : "relative h-full w-full", className)}
+      style={{
+        backgroundImage: `radial-gradient(var(--dot-color, var(--border)) ${dotSize}px, transparent ${dotSize}px)`,
+        backgroundSize: `${spacing}px ${spacing}px`,
+        opacity,
+        maskImage: mask === "none" ? undefined : mask,
+        WebkitMaskImage: mask === "none" ? undefined : mask,
+        pointerEvents: "none",
+        ...style,
+      }}
+      {...rest}
+    />
+  );
+});
 DotBackground.displayName = "DotBackground";

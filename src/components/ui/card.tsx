@@ -30,7 +30,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
       ref={ref}
       data-variant={variant}
       className={cn(
-        "relative overflow-hidden rounded-lg border border-border bg-surface-raised p-5",
+        "border-border bg-surface-raised relative overflow-hidden rounded-lg border p-5",
         "transition-all duration-[var(--dur-med)] ease-[var(--ease-snap)]",
         "hover:border-border-strong",
         variant === "interactive" && [
@@ -59,7 +59,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadi
       <h3
         ref={ref}
         className={cn(
-          "m-0 mb-2.5 font-display text-[24px] leading-none tracking-[0.02em] text-fg",
+          "font-display text-fg m-0 mb-2.5 text-[24px] leading-none tracking-[0.02em]",
           className,
         )}
         {...rest}
@@ -78,8 +78,8 @@ export const CardMeta = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement
       <div
         ref={ref}
         className={cn(
-          "mb-3.5 flex justify-between border-b border-dashed border-border pb-3.5",
-          "text-[10px] uppercase tracking-[0.18em] text-fg-muted",
+          "border-border mb-3.5 flex justify-between border-b border-dashed pb-3.5",
+          "text-fg-muted text-[10px] tracking-[0.18em] uppercase",
           className,
         )}
         {...rest}
@@ -95,11 +95,7 @@ CardMeta.displayName = "CardMeta";
 export const CardBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function CardBody({ className, ...rest }, ref) {
     return (
-      <div
-        ref={ref}
-        className={cn("text-xs leading-[1.6] text-fg-muted", className)}
-        {...rest}
-      />
+      <div ref={ref} className={cn("text-fg-muted text-xs leading-[1.6]", className)} {...rest} />
     );
   },
 );
@@ -114,8 +110,8 @@ export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
       <div
         ref={ref}
         className={cn(
-          "mt-4 flex items-center gap-1.5 border-t border-dashed border-border pt-3.5",
-          "text-[10px] uppercase tracking-[0.18em] text-fg-muted",
+          "border-border mt-4 flex items-center gap-1.5 border-t border-dashed pt-3.5",
+          "text-fg-muted text-[10px] tracking-[0.18em] uppercase",
           className,
         )}
         {...rest}
@@ -136,7 +132,7 @@ export const CardCorner = forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanEle
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-accent",
+          "bg-accent absolute top-2 right-2 h-1.5 w-1.5 rounded-full",
           "shadow-[0_0_0_3px_var(--accent-soft)]",
           className,
         )}
@@ -167,30 +163,31 @@ export interface CardImageProps extends HTMLAttributes<HTMLDivElement> {
  * Bleeds through the Card's padding via negative margins.
  * Place it as the first child of `<Card>` before any other content.
  */
-export const CardImage = forwardRef<HTMLDivElement, CardImageProps>(
-  function CardImage({ className, src, alt = "", aspectRatio = "video", children, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "-mx-5 -mt-5 mb-4",
-          aspectRatio === "video" && "aspect-video",
-          aspectRatio === "square" && "aspect-square",
-          aspectRatio === "wide" && "aspect-[3/1]",
-          className,
-        )}
-        {...rest}
-      >
-        {src ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={src} alt={alt} className="h-full w-full object-cover" />
-        ) : (
-          children ?? <div className="h-full w-full bg-bg-muted" />
-        )}
-      </div>
-    );
-  },
-);
+export const CardImage = forwardRef<HTMLDivElement, CardImageProps>(function CardImage(
+  { className, src, alt = "", aspectRatio = "video", children, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "-mx-5 -mt-5 mb-4",
+        aspectRatio === "video" && "aspect-video",
+        aspectRatio === "square" && "aspect-square",
+        aspectRatio === "wide" && "aspect-[3/1]",
+        className,
+      )}
+      {...rest}
+    >
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt={alt} className="h-full w-full object-cover" />
+      ) : (
+        (children ?? <div className="bg-bg-muted h-full w-full" />)
+      )}
+    </div>
+  );
+});
 CardImage.displayName = "CardImage";
 
 /* -------------------------------------------------------------------------- */
@@ -204,13 +201,7 @@ CardImage.displayName = "CardImage";
  */
 export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function CardHeader({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        className={cn("mb-3.5 flex items-center gap-3", className)}
-        {...rest}
-      />
-    );
+    return <div ref={ref} className={cn("mb-3.5 flex items-center gap-3", className)} {...rest} />;
   },
 );
 CardHeader.displayName = "CardHeader";
@@ -236,28 +227,27 @@ export interface CardStatProps extends HTMLAttributes<HTMLDivElement> {
  * Large dot-matrix metric display with optional trend delta.
  * Place standalone or combine multiple inside a Card.
  */
-export const CardStat = forwardRef<HTMLDivElement, CardStatProps>(
-  function CardStat({ className, value, label, delta, deltaDir = "neutral", ...rest }, ref) {
-    const deltaColor =
-      deltaDir === "up"
-        ? "text-[oklch(72%_0.18_145)]" /* muted green */
-        : deltaDir === "down"
-          ? "text-[oklch(60%_0.22_25)]" /* muted red   */
-          : "text-fg-muted";
+export const CardStat = forwardRef<HTMLDivElement, CardStatProps>(function CardStat(
+  { className, value, label, delta, deltaDir = "neutral", ...rest },
+  ref,
+) {
+  const deltaColor =
+    deltaDir === "up"
+      ? "text-[oklch(72%_0.18_145)]" /* muted green */
+      : deltaDir === "down"
+        ? "text-[oklch(60%_0.22_25)]" /* muted red   */
+        : "text-fg-muted";
 
-    return (
-      <div ref={ref} className={cn("flex flex-col gap-0.5", className)} {...rest}>
-        <div className="flex items-end gap-2">
-          <span className="font-dot text-[40px] leading-none tracking-[0.02em] text-fg">
-            {value}
-          </span>
-          {delta !== undefined && (
-            <span className={cn("mb-1 text-[11px] tracking-wide", deltaColor)}>{delta}</span>
-          )}
-        </div>
-        <span className="text-[10px] uppercase tracking-[0.18em] text-fg-muted">{label}</span>
+  return (
+    <div ref={ref} className={cn("flex flex-col gap-0.5", className)} {...rest}>
+      <div className="flex items-end gap-2">
+        <span className="font-dot text-fg text-[40px] leading-none tracking-[0.02em]">{value}</span>
+        {delta !== undefined && (
+          <span className={cn("mb-1 text-[11px] tracking-wide", deltaColor)}>{delta}</span>
+        )}
       </div>
-    );
-  },
-);
+      <span className="text-fg-muted text-[10px] tracking-[0.18em] uppercase">{label}</span>
+    </div>
+  );
+});
 CardStat.displayName = "CardStat";

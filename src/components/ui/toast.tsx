@@ -63,16 +63,16 @@ export interface ToastEntry {
 
 const variantBorder = {
   default: "border-border",
-  accent:  "border-[color-mix(in_oklch,var(--accent)_40%,var(--border))]",
+  accent: "border-[color-mix(in_oklch,var(--accent)_40%,var(--border))]",
   success: "border-border",
-  error:   "border-border",
+  error: "border-border",
 } as const satisfies Record<ToastVariant, string>;
 
 const variantIconColor = {
   default: "text-fg",
-  accent:  "text-accent",
+  accent: "text-accent",
   success: "text-[oklch(68%_0.14_150)]",
-  error:   "text-[oklch(62%_0.18_25)]",
+  error: "text-[oklch(62%_0.18_25)]",
 } as const satisfies Record<ToastVariant, string>;
 
 /* ========================================================================= */
@@ -105,7 +105,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { className, variant = "default", title, message, icon, action, onDismiss, children, ...rest },
   ref,
 ) {
-  const cols = onDismiss !== undefined ? "grid-cols-[auto_1fr_auto_auto]" : "grid-cols-[auto_1fr_auto]";
+  const cols =
+    onDismiss !== undefined ? "grid-cols-[auto_1fr_auto_auto]" : "grid-cols-[auto_1fr_auto]";
 
   return (
     <div
@@ -139,17 +140,17 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
       {/* Content */}
       <div className="min-w-0">
         {title !== undefined && (
-          <p className="m-0 mb-0.5 text-xs tracking-[0.04em] text-fg">{title}</p>
+          <p className="text-fg m-0 mb-0.5 text-xs tracking-[0.04em]">{title}</p>
         )}
         {message !== undefined && (
-          <p className="m-0 text-[11px] leading-snug text-fg-muted">{message}</p>
+          <p className="text-fg-muted m-0 text-[11px] leading-snug">{message}</p>
         )}
         {children}
       </div>
 
       {/* Action */}
       {action !== undefined && (
-        <span className="text-[10px] uppercase tracking-[0.18em] text-fg-subtle">{action}</span>
+        <span className="text-fg-subtle text-[10px] tracking-[0.18em] uppercase">{action}</span>
       )}
 
       {/* Dismiss button */}
@@ -160,8 +161,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
           aria-label="Dismiss notification"
           className={cn(
             "flex h-5 w-5 items-center justify-center rounded",
-            "text-[13px] leading-none text-fg-subtle",
-            "transition-colors duration-[var(--dur-fast)] hover:bg-bg-muted hover:text-fg",
+            "text-fg-subtle text-[13px] leading-none",
+            "hover:bg-bg-muted hover:text-fg transition-colors duration-[var(--dur-fast)]",
           )}
         >
           ✕
@@ -283,19 +284,17 @@ function ToastItem({
 /*  Position helpers                                                           */
 /* ========================================================================= */
 
-const BOTTOM_POSITIONS = new Set<ToastPosition>([
-  "bottom-left",
-  "bottom-center",
-  "bottom-right",
-]);
+const BOTTOM_POSITIONS = new Set<ToastPosition>(["bottom-left", "bottom-center", "bottom-right"]);
 
 const POSITION_CLASSES: Record<ToastPosition, string> = {
-  "top-left":      "fixed left-4 top-4 z-[200] flex w-full max-w-[380px] flex-col gap-2",
-  "top-center":    "fixed left-1/2 top-4 z-[200] flex w-full max-w-[380px] -translate-x-1/2 flex-col gap-2",
-  "top-right":     "fixed right-4 top-4 z-[200] flex w-full max-w-[380px] flex-col gap-2",
-  "bottom-left":   "fixed bottom-4 left-4 z-[200] flex w-full max-w-[380px] flex-col-reverse gap-2",
-  "bottom-center": "fixed bottom-4 left-1/2 z-[200] flex w-full max-w-[380px] -translate-x-1/2 flex-col-reverse gap-2",
-  "bottom-right":  "fixed bottom-4 right-4 z-[200] flex w-full max-w-[380px] flex-col-reverse gap-2",
+  "top-left": "fixed left-4 top-4 z-[200] flex w-full max-w-[380px] flex-col gap-2",
+  "top-center":
+    "fixed left-1/2 top-4 z-[200] flex w-full max-w-[380px] -translate-x-1/2 flex-col gap-2",
+  "top-right": "fixed right-4 top-4 z-[200] flex w-full max-w-[380px] flex-col gap-2",
+  "bottom-left": "fixed bottom-4 left-4 z-[200] flex w-full max-w-[380px] flex-col-reverse gap-2",
+  "bottom-center":
+    "fixed bottom-4 left-1/2 z-[200] flex w-full max-w-[380px] -translate-x-1/2 flex-col-reverse gap-2",
+  "bottom-right": "fixed bottom-4 right-4 z-[200] flex w-full max-w-[380px] flex-col-reverse gap-2",
 };
 
 /* ========================================================================= */
@@ -386,7 +385,12 @@ export function ToastProvider({
       {children}
       {/* One fixed container per active position */}
       {Array.from(byPosition.entries()).map(([pos, group]) => (
-        <div key={pos} aria-live="polite" aria-label={`${pos} notifications`} className={POSITION_CLASSES[pos]}>
+        <div
+          key={pos}
+          aria-live="polite"
+          aria-label={`${pos} notifications`}
+          className={POSITION_CLASSES[pos]}
+        >
           {(BOTTOM_POSITIONS.has(pos) ? [...group].reverse() : group).map((entry) => (
             <ToastItem key={entry.id} entry={entry} onRemove={dismiss} />
           ))}

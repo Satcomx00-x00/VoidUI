@@ -87,12 +87,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 
   return (
     <TabsContext.Provider value={ctx}>
-      <div
-        ref={ref}
-        data-variant={variant}
-        className={cn("flex flex-col", className)}
-        {...rest}
-      >
+      <div ref={ref} data-variant={variant} className={cn("flex flex-col", className)} {...rest}>
         {children}
       </div>
     </TabsContext.Provider>
@@ -188,7 +183,7 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(funct
         if (!event.defaultPrevented) setValue(value);
       }}
       className={cn(
-        "cursor-pointer text-[11px] uppercase tracking-[0.14em] text-fg-muted",
+        "text-fg-muted cursor-pointer text-[11px] tracking-[0.14em] uppercase",
         "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
         "hover:text-fg disabled:cursor-not-allowed disabled:opacity-50",
         triggerVariantClasses[variant],
@@ -220,7 +215,7 @@ export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(function
       aria-labelledby={`${baseId}-trigger-${value}`}
       hidden={hidden ?? !selected}
       data-state={selected ? "active" : "inactive"}
-      className={cn("py-5 text-xs leading-relaxed text-fg-muted", className)}
+      className={cn("text-fg-muted py-5 text-xs leading-relaxed", className)}
       {...rest}
     />
   );

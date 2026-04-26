@@ -82,10 +82,7 @@ export const AlertTitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
     return (
       <div
         ref={ref}
-        className={cn(
-          "mb-[3px] text-[11px] font-semibold uppercase tracking-[0.1em]",
-          className,
-        )}
+        className={cn("mb-[3px] text-[11px] font-semibold tracking-[0.1em] uppercase", className)}
         {...rest}
       />
     );
@@ -95,9 +92,7 @@ AlertTitle.displayName = "AlertTitle";
 
 export const AlertBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function AlertBody({ className, ...rest }, ref) {
-    return (
-      <div ref={ref} className={cn("leading-snug text-fg-muted", className)} {...rest} />
-    );
+    return <div ref={ref} className={cn("text-fg-muted leading-snug", className)} {...rest} />;
   },
 );
 AlertBody.displayName = "AlertBody";
@@ -109,7 +104,7 @@ export const AlertAction = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HT
         type={type}
         ref={ref}
         className={cn(
-          "cursor-pointer whitespace-nowrap pt-px text-[10px] uppercase tracking-[0.14em] opacity-70",
+          "cursor-pointer pt-px text-[10px] tracking-[0.14em] whitespace-nowrap uppercase opacity-70",
           "hover:opacity-100 focus-visible:opacity-100",
           className,
         )}

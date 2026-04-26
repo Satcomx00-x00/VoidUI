@@ -18,7 +18,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   return (
     <label
       className={cn(
-        "group inline-flex select-none items-center gap-2.5 text-xs text-fg",
+        "group text-fg inline-flex items-center gap-2.5 text-xs select-none",
         disabled === true ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         className,
       )}
@@ -35,15 +35,15 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
         aria-hidden="true"
         className={cn(
           "relative inline-block h-[18px] w-[34px] shrink-0",
-          "border border-border-strong rounded-full bg-bg",
+          "border-border-strong bg-bg rounded-full border",
           "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
           "peer-checked:border-accent peer-checked:bg-accent",
-          "peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-bg",
+          "peer-focus-visible:ring-accent peer-focus-visible:ring-offset-bg peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2",
           // thumb
-          "after:absolute after:left-0.5 after:top-0.5 after:block after:h-3 after:w-3",
-          "after:rounded-full after:bg-fg-muted",
+          "after:absolute after:top-0.5 after:left-0.5 after:block after:h-3 after:w-3",
+          "after:bg-fg-muted after:rounded-full",
           "after:transition-[left,background-color] after:duration-[var(--dur-fast)] after:ease-[var(--ease-snap)]",
-          "peer-checked:after:left-[18px] peer-checked:after:bg-accent-fg",
+          "peer-checked:after:bg-accent-fg peer-checked:after:left-[18px]",
         )}
       />
       {label !== undefined ? <span>{label}</span> : null}

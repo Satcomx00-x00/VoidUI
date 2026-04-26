@@ -18,8 +18,8 @@ export const Kbd = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(function
       ref={ref}
       className={cn(
         "inline-flex items-center justify-center px-1.5 py-[1px]",
-        "border border-border rounded-[3px]",
-        "font-mono text-[10px] tracking-[0.04em] text-fg-muted",
+        "border-border rounded-[3px] border",
+        "text-fg-muted font-mono text-[10px] tracking-[0.04em]",
         className,
       )}
       {...rest}
