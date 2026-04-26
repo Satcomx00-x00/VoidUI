@@ -9,7 +9,12 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
-  dts: true,
+  dts: {
+    compilerOptions: {
+      incremental: false,
+      composite: false,
+    },
+  },
   sourcemap: true,
   clean: true,
   treeshake: true,
@@ -18,9 +23,6 @@ export default defineConfig({
   target: "es2022",
   outDir: "dist",
   external: ["react", "react-dom"],
-  banner: {
-    js: '"use client";',
-  },
   async onSuccess() {
     // Copy the design-token stylesheet into the published bundle so consumers
     // can `import "voidui/styles.css"` from their app.
