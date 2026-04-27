@@ -19,7 +19,15 @@ import { Alert, AlertBody, AlertIcon, AlertTitle, alertVariants } from "../compo
 import { Badge, badgeVariants } from "../components/ui/badge";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "../components/ui/breadcrumb";
 import { Button, buttonVariants } from "../components/ui/button";
-import { Card, CardBody, CardFooter, CardHeader, CardMeta, CardTitle, cardVariants } from "../components/ui/card";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardMeta,
+  CardTitle,
+  cardVariants,
+} from "../components/ui/card";
 import { Checkbox } from "../components/ui/checkbox";
 import { Field, FieldHint, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
