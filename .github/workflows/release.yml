@@ -32,28 +32,32 @@ jobs:
           # Use a PAT here only if you need release commits to retrigger CI.
           # token: ${{ secrets.RELEASE_TOKEN }}
 
-      - name: Setup Node.js
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node.js (for npm publish)
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+        run: bun install --frozen-lockfile
 
       - name: Verify (lint + typecheck)
-        run: npm run check
+        run: bun run check
 
       - name: Build library
-        run: npm run build:lib
+        run: bun run build:lib
 
       - name: Create Release PR or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: npm run version
-          publish: npm run release
+          version: bun run version
+          publish: bun run release
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
           createGithubReleases: true
