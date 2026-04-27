@@ -1,0 +1,19 @@
+/* ============================================================================
+ * VoidUI — Library stylesheet (barrel)
+ * ----------------------------------------------------------------------------
+ * Backwards-compatible single import. Equivalent to:
+ *
+ *   import "@nextjs-voidui/voidui/tokens.css";
+ *   import "@nextjs-voidui/voidui/components.css";
+ *
+ * Or one-shot:
+ *
+ *   import "@nextjs-voidui/voidui/styles.css";
+ *
+ * Note: this file does NOT import Tailwind. Add `@import "tailwindcss";` to
+ * your own root stylesheet *before* importing this if you want token-aware
+ * Tailwind utilities.
+ * ========================================================================== */
+
+@import "./tokens.css";
+@import "./components.css";

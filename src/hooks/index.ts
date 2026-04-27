@@ -1,7 +1,7 @@
 /**
  * VoidUI — Custom React hooks.
- *
- * Add reusable hooks here (e.g. `use-controllable-state`, `use-media-query`).
  */
+
+export { useReducedMotion } from "./use-reduced-motion";
 
 export {};

@@ -1,5 +1,6 @@
 "use client";
 
+import { cva, type VariantProps } from "class-variance-authority";
 import {
   createContext,
   forwardRef,
@@ -17,9 +18,6 @@ import { cn } from "../../lib/cn";
 /* ========================================================================= */
 /*  Types                                                                      */
 /* ========================================================================= */
-
-/** Visual style of a toast card. */
-export type ToastVariant = "default" | "accent" | "success" | "error";
 
 /**
  * Screen position for a toast stack.
@@ -58,30 +56,58 @@ export interface ToastEntry {
 }
 
 /* ========================================================================= */
-/*  Variant maps                                                               */
+/*  CVA recipes                                                                */
 /* ========================================================================= */
 
-const variantBorder = {
-  default: "border-border",
-  accent: "border-[color-mix(in_oklch,var(--accent)_40%,var(--border))]",
-  success: "border-border",
-  error: "border-border",
-} as const satisfies Record<ToastVariant, string>;
+/**
+ * Border-color recipe for the toast card. Variants: `default` | `accent` |
+ * `success` | `error`.
+ */
+export const toastVariants = cva(
+  [
+    "grid items-start gap-3 rounded-lg border p-3.5",
+    "bg-surface-raised shadow-[4px_4px_0_var(--bg-muted)]",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "border-border",
+        accent: "border-[color-mix(in_oklch,var(--accent)_40%,var(--border))]",
+        success: "border-border",
+        error: "border-border",
+      },
+    },
+    defaultVariants: { variant: "default" },
+  },
+);
 
-const variantIconColor = {
-  default: "text-fg",
-  accent: "text-accent",
-  success: "text-[oklch(68%_0.14_150)]",
-  error: "text-[oklch(62%_0.18_25)]",
-} as const satisfies Record<ToastVariant, string>;
+/**
+ * Icon foreground recipe (matched to {@link toastVariants}).
+ */
+export const toastIconVariants = cva(
+  "grid h-5 w-5 place-items-center rounded-[5px] border border-current text-[11px] font-semibold",
+  {
+    variants: {
+      variant: {
+        default: "text-fg",
+        accent: "text-accent",
+        success: "text-[oklch(68%_0.14_150)]",
+        error: "text-[oklch(62%_0.18_25)]",
+      },
+    },
+    defaultVariants: { variant: "default" },
+  },
+);
+
+/** Visual style of a toast card. */
+export type ToastVariant = NonNullable<VariantProps<typeof toastVariants>["variant"]>;
 
 /* ========================================================================= */
 /*  Toast (presentational)                                                     */
 /* ========================================================================= */
 
-export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Visual variant. Defaults to `"default"`. */
-  variant?: ToastVariant;
+export interface ToastProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "title">, VariantProps<typeof toastVariants> {
   /** Bold first line of the toast. */
   title?: ReactNode;
   /** Body / description line. */
@@ -102,7 +128,7 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"
  * for the full managed system, or `<ToastStack>` for manual queues.
  */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
-  { className, variant = "default", title, message, icon, action, onDismiss, children, ...rest },
+  { className, variant, title, message, icon, action, onDismiss, children, ...rest },
   ref,
 ) {
   const cols =
@@ -112,25 +138,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
     <div
       ref={ref}
       role="status"
-      data-variant={variant}
-      className={cn(
-        "grid items-start gap-3 rounded-lg border p-3.5",
-        "bg-surface-raised shadow-[4px_4px_0_var(--bg-muted)]",
-        cols,
-        variantBorder[variant],
-        className,
-      )}
+      data-variant={variant ?? "default"}
+      className={cn(toastVariants({ variant }), cols, className)}
       {...rest}
     >
       {/* Icon slot */}
       {icon !== undefined ? (
-        <span
-          aria-hidden="true"
-          className={cn(
-            "grid h-5 w-5 place-items-center rounded-[5px] border border-current text-[11px] font-semibold",
-            variantIconColor[variant],
-          )}
-        >
+        <span aria-hidden="true" className={toastIconVariants({ variant })}>
           {icon}
         </span>
       ) : (

@@ -1,32 +1,78 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+"use client";
+
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
-/**
- * Floating menu surface — pure presentation. Position with absolute /
- * fixed at the call site, or via your headless positioning library.
- */
-export const DropdownMenu = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function DropdownMenu({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        role="menu"
-        style={{ animation: "void-popover-in 160ms var(--ease-snap)" }}
-        className={cn(
-          "border-border bg-surface-raised min-w-[240px] overflow-hidden rounded-xl border p-1.5 text-xs",
-          "shadow-[0_12px_32px_color-mix(in_oklch,black_28%,transparent),0_2px_8px_color-mix(in_oklch,black_12%,transparent)]",
-          "backdrop-blur-sm",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
-DropdownMenu.displayName = "DropdownMenu";
+/* -------------------------------------------------------------------------- */
+/* Compound — Radix-backed                                                    */
+/* -------------------------------------------------------------------------- */
 
-export interface DropdownItemProps extends HTMLAttributes<HTMLButtonElement> {
+/**
+ * Dropdown menu root. Compound: pair with {@link DropdownMenuTrigger} +
+ * {@link DropdownMenuContent}. Items use {@link DropdownItem}.
+ *
+ * ```tsx
+ * <DropdownMenu>
+ *   <DropdownMenuTrigger asChild><Button>Menu</Button></DropdownMenuTrigger>
+ *   <DropdownMenuContent>
+ *     <DropdownLabel>Account</DropdownLabel>
+ *     <DropdownItem>Profile</DropdownItem>
+ *     <DropdownSeparator />
+ *     <DropdownItem destructive>Sign out</DropdownItem>
+ *   </DropdownMenuContent>
+ * </DropdownMenu>
+ * ```
+ */
+export const DropdownMenu = DropdownMenuPrimitive.Root;
+export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
+export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
+export const DropdownMenuSubTrigger = DropdownMenuPrimitive.SubTrigger;
+export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+
+export interface DropdownMenuContentProps extends ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Content
+> {
+  /** Disable the default Portal mount. */
+  disablePortal?: boolean;
+}
+
+export const DropdownMenuContent = forwardRef<
+  ElementRef<typeof DropdownMenuPrimitive.Content>,
+  DropdownMenuContentProps
+>(function DropdownMenuContent(
+  { className, sideOffset = 6, align = "start", disablePortal = false, style, ...rest },
+  ref,
+) {
+  const node = (
+    <DropdownMenuPrimitive.Content
+      ref={ref}
+      align={align}
+      sideOffset={sideOffset}
+      style={{ animation: "void-popover-in 160ms var(--ease-snap)", ...style }}
+      className={cn(
+        "border-border bg-surface-raised z-50 min-w-[240px] overflow-hidden rounded-xl border p-1.5 text-xs",
+        "shadow-[0_12px_32px_color-mix(in_oklch,black_28%,transparent),0_2px_8px_color-mix(in_oklch,black_12%,transparent)]",
+        "backdrop-blur-sm focus:outline-none",
+        className,
+      )}
+      {...rest}
+    />
+  );
+  return disablePortal ? node : <DropdownMenuPrimitive.Portal>{node}</DropdownMenuPrimitive.Portal>;
+});
+DropdownMenuContent.displayName = "DropdownMenuContent";
+
+/* -------------------------------------------------------------------------- */
+/* Item                                                                       */
+/* -------------------------------------------------------------------------- */
+
+export interface DropdownItemProps extends Omit<
+  ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>,
+  "asChild" | "checked"
+> {
   /** Show the leading check mark and reserve space. */
   checked?: boolean;
   /** Render as a destructive item (red accent on hover). */
@@ -35,36 +81,20 @@ export interface DropdownItemProps extends HTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   /** Optional shortcut badge rendered trailing. */
   shortcut?: ReactNode;
-  /** Currently active row (focused via keyboard). */
-  active?: boolean;
-  /** Disable interaction. */
-  disabled?: boolean;
 }
 
-export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(function DropdownItem(
-  {
-    className,
-    checked = false,
-    destructive = false,
-    active = false,
-    icon,
-    shortcut,
-    children,
-    disabled,
-    ...rest
-  },
+export const DropdownItem = forwardRef<
+  ElementRef<typeof DropdownMenuPrimitive.Item>,
+  DropdownItemProps
+>(function DropdownItem(
+  { className, checked = false, destructive = false, icon, shortcut, children, ...rest },
   ref,
 ) {
   return (
-    <button
+    <DropdownMenuPrimitive.Item
       ref={ref}
-      type="button"
-      role="menuitem"
-      aria-checked={checked || undefined}
-      data-active={active || undefined}
       data-destructive={destructive || undefined}
       data-checked={checked || undefined}
-      disabled={disabled}
       className={cn(
         // Layout
         "group relative flex w-full cursor-pointer items-center gap-2 rounded-[7px] px-2.5 py-[7px] text-left select-none",
@@ -72,19 +102,14 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(fun
         "text-fg-muted font-mono text-[12px] leading-none",
         // Transition
         "transition-[background,color] duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
-        // Default hover / active
-        "hover:bg-bg-subtle hover:text-fg",
-        "data-[active=true]:bg-bg-subtle data-[active=true]:text-fg",
-        // Focus ring
-        "focus-visible:ring-accent focus-visible:ring-1 focus-visible:outline-none",
-        // Destructive hover
-        "data-[destructive=true]:hover:bg-[color-mix(in_oklch,oklch(62%_0.22_25)_10%,transparent)]",
-        "data-[destructive=true]:hover:text-[oklch(62%_0.22_25)]",
-        // Checked: accent left bar via box-shadow inset
-        "data-[checked=true]:text-fg",
+        // Highlight (Radix sets data-highlighted on keyboard/hover focus)
+        "data-[highlighted]:bg-bg-subtle data-[highlighted]:text-fg",
+        "focus:outline-none",
+        // Destructive highlight
+        "data-[destructive=true]:data-[highlighted]:bg-[color-mix(in_oklch,oklch(62%_0.22_25)_10%,transparent)]",
+        "data-[destructive=true]:data-[highlighted]:text-[oklch(62%_0.22_25)]",
         // Disabled
-        disabled === true &&
-          "hover:text-fg-muted cursor-not-allowed opacity-40 hover:bg-transparent",
+        "data-[disabled]:hover:text-fg-muted data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40 data-[disabled]:hover:bg-transparent",
         className,
       )}
       {...rest}
@@ -136,38 +161,43 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(fun
             ))}
         </span>
       ) : null}
-    </button>
+    </DropdownMenuPrimitive.Item>
   );
 });
 DropdownItem.displayName = "DropdownItem";
 
-export const DropdownSeparator = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function DropdownSeparator({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        role="separator"
-        className={cn("bg-border mx-2 my-1.5 h-px", className)}
-        {...rest}
-      />
-    );
-  },
-);
+/* -------------------------------------------------------------------------- */
+/* Separator / Label                                                          */
+/* -------------------------------------------------------------------------- */
+
+export const DropdownSeparator = forwardRef<
+  ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(function DropdownSeparator({ className, ...rest }, ref) {
+  return (
+    <DropdownMenuPrimitive.Separator
+      ref={ref}
+      className={cn("bg-border mx-2 my-1.5 h-px", className)}
+      {...rest}
+    />
+  );
+});
 DropdownSeparator.displayName = "DropdownSeparator";
 
-export const DropdownLabel = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function DropdownLabel({ className, ...rest }, ref) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "text-fg-subtle flex items-center gap-2 px-2.5 pt-2 pb-1 text-[9px] tracking-[0.18em] uppercase",
-          "before:bg-border after:bg-border before:h-px before:flex-1 after:h-px after:flex-1",
-          className,
-        )}
-        {...rest}
-      />
-    );
-  },
-);
+export const DropdownLabel = forwardRef<
+  ElementRef<typeof DropdownMenuPrimitive.Label>,
+  ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label>
+>(function DropdownLabel({ className, ...rest }, ref) {
+  return (
+    <DropdownMenuPrimitive.Label
+      ref={ref}
+      className={cn(
+        "text-fg-subtle flex items-center gap-2 px-2.5 pt-2 pb-1 text-[9px] tracking-[0.18em] uppercase",
+        "before:bg-border after:bg-border before:h-px before:flex-1 after:h-px after:flex-1",
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
 DropdownLabel.displayName = "DropdownLabel";

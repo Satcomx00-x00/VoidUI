@@ -1,34 +1,47 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type HTMLAttributes } from "react";
 
 import { cn } from "../../lib/cn";
 
 /**
- * Visual variants for the {@link Badge} component.
+ * Class-variance-authority recipe powering the {@link Badge} component.
  *
- * - `default` — Outlined neutral pill.
- * - `solid`   — Inverted fill (foreground bg, background text).
- * - `accent`  — Soft accent fill, accent foreground.
- * - `success` — Mint outline / text.
- * - `warning` — Amber outline / text.
- * - `error`   — Red outline / text.
+ * Variants:
+ * - `default` — outlined neutral pill
+ * - `solid`   — inverted fill (foreground bg, background text)
+ * - `accent`  — soft accent fill, accent foreground
+ * - `success` — mint outline / text
+ * - `warning` — amber outline / text
+ * - `error`   — red outline / text
  */
-export type BadgeVariant = "default" | "solid" | "accent" | "success" | "warning" | "error";
+export const badgeVariants = cva(
+  [
+    "inline-flex items-center gap-1.5 px-2 py-[3px]",
+    "rounded-[5px] border text-[10px] tracking-[0.18em] uppercase",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "bg-bg text-fg-muted border-border",
+        solid: "bg-fg text-bg border-fg",
+        accent:
+          "bg-accent-soft text-accent border-[color-mix(in_oklch,var(--accent)_40%,transparent)]",
+        success:
+          "bg-transparent text-[oklch(68%_0.14_150)] border-[color-mix(in_oklch,oklch(68%_0.14_150)_40%,transparent)]",
+        warning:
+          "bg-transparent text-[oklch(72%_0.16_70)] border-[color-mix(in_oklch,oklch(72%_0.16_70)_40%,transparent)]",
+        error:
+          "bg-transparent text-[oklch(62%_0.18_25)] border-[color-mix(in_oklch,oklch(62%_0.18_25)_40%,transparent)]",
+      },
+    },
+    defaultVariants: { variant: "default" },
+  },
+);
 
-const variantClasses = {
-  default: "bg-bg text-fg-muted border-border",
-  solid: "bg-fg text-bg border-fg",
-  accent: "bg-accent-soft text-accent border-[color-mix(in_oklch,var(--accent)_40%,transparent)]",
-  success:
-    "bg-transparent text-[oklch(68%_0.14_150)] border-[color-mix(in_oklch,oklch(68%_0.14_150)_40%,transparent)]",
-  warning:
-    "bg-transparent text-[oklch(72%_0.16_70)] border-[color-mix(in_oklch,oklch(72%_0.16_70)_40%,transparent)]",
-  error:
-    "bg-transparent text-[oklch(62%_0.18_25)] border-[color-mix(in_oklch,oklch(62%_0.18_25)_40%,transparent)]",
-} as const satisfies Record<BadgeVariant, string>;
+export type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>;
 
-export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  /** Visual style. Defaults to `"default"`. */
-  variant?: BadgeVariant;
+export interface BadgeProps
+  extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {
   /** Render a leading status dot in the current text color. */
   dot?: boolean;
 }
@@ -37,19 +50,14 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
  * Compact pill for status / metadata. Uppercased, wide-tracked, monospace.
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  { className, variant = "default", dot = false, children, ...rest },
+  { className, variant, dot = false, children, ...rest },
   ref,
 ) {
   return (
     <span
       ref={ref}
-      data-variant={variant}
-      className={cn(
-        "inline-flex items-center gap-1.5 px-2 py-[3px]",
-        "rounded-[5px] border text-[10px] tracking-[0.18em] uppercase",
-        variantClasses[variant],
-        className,
-      )}
+      data-variant={variant ?? "default"}
+      className={cn(badgeVariants({ variant }), className)}
       {...rest}
     >
       {dot ? (

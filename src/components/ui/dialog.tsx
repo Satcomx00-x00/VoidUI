@@ -1,84 +1,64 @@
 "use client";
 
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  type HTMLAttributes,
-  type ReactNode,
-} from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
-export interface DialogProps extends HTMLAttributes<HTMLDivElement> {
+export interface DialogProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Controls visibility. */
   open: boolean;
-  /** Called when the user dismisses (Esc / overlay click / `<DialogClose>`). */
+  /** Called when the user dismisses (Esc / overlay click / Close). */
   onOpenChange?: (open: boolean) => void;
-  /** Disable backdrop click to close. */
+  /** When false, backdrop click does NOT close. Defaults to true. */
   modal?: boolean;
   /** Optional ARIA label when no `<DialogTitle>` is rendered. */
   "aria-label"?: string;
 }
 
 /**
- * Modal dialog. Renders a fixed overlay + a centered panel. Locks body
- * scroll while open and dismisses on `Escape`.
- *
- * For non-modal popovers use `<Popover>` instead.
+ * Modal dialog. Built on Radix `@radix-ui/react-dialog` — focus trap,
+ * scroll-lock, ESC dismissal, ARIA, portal — handled for free.
  */
 export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(
   { className, open, onOpenChange, modal = true, children, ...rest },
   ref,
 ) {
-  const close = useCallback((): void => onOpenChange?.(false), [onOpenChange]);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") close();
-    };
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open, close]);
-
-  if (!open) return null;
-
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      style={{ animation: "void-overlay-in 180ms var(--ease-snap)" }}
-      className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center p-4",
-        "bg-[color-mix(in_oklch,var(--void-950)_60%,transparent)]",
-      )}
-      onClick={(event) => {
-        if (modal && event.target === event.currentTarget) close();
-      }}
-    >
-      <div
-        ref={ref}
-        style={{ animation: "void-dialog-in 180ms var(--ease-snap)" }}
-        className={cn(
-          "relative mx-auto w-full max-w-[440px] overflow-hidden rounded-[10px]",
-          "border-border-strong bg-surface-raised border shadow-[8px_8px_0_var(--accent-soft)]",
-          className,
-        )}
-        {...rest}
-      >
-        {children}
-      </div>
-    </div>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange} modal>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay
+          style={{ animation: "void-overlay-in 180ms var(--ease-snap)" }}
+          className="fixed inset-0 z-50 bg-[color-mix(in_oklch,var(--void-950)_60%,transparent)]"
+        />
+        <DialogPrimitive.Content
+          ref={ref}
+          onPointerDownOutside={(event) => {
+            if (!modal) event.preventDefault();
+          }}
+          onInteractOutside={(event) => {
+            if (!modal) event.preventDefault();
+          }}
+          style={{ animation: "void-dialog-in 180ms var(--ease-snap)" }}
+          className={cn(
+            "fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
+            "w-[calc(100%-2rem)] max-w-[440px] overflow-hidden rounded-[10px]",
+            "border-border-strong bg-surface-raised border shadow-[8px_8px_0_var(--accent-soft)]",
+            "focus:outline-none",
+            className,
+          )}
+          {...rest}
+        >
+          {children}
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 });
 Dialog.displayName = "Dialog";
+
+/** Radix Close primitive — wrap any button to dismiss. Optional helper. */
+export const DialogClose = DialogPrimitive.Close;
 
 export interface DialogHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional close affordance — receives a click handler. */
@@ -128,14 +108,16 @@ DialogBody.displayName = "DialogBody";
 export const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   function DialogTitle({ className, ...rest }, ref) {
     return (
-      <h2
-        ref={ref}
-        className={cn(
-          "font-display text-fg m-0 mb-2 text-[28px] leading-tight font-normal tracking-[0.02em]",
-          className,
-        )}
-        {...rest}
-      />
+      <DialogPrimitive.Title asChild>
+        <h2
+          ref={ref}
+          className={cn(
+            "font-display text-fg m-0 mb-2 text-[28px] leading-tight font-normal tracking-[0.02em]",
+            className,
+          )}
+          {...rest}
+        />
+      </DialogPrimitive.Title>
     );
   },
 );
@@ -146,11 +128,13 @@ export const DialogDescription = forwardRef<
   HTMLAttributes<HTMLParagraphElement>
 >(function DialogDescription({ className, ...rest }, ref) {
   return (
-    <p
-      ref={ref}
-      className={cn("text-fg-muted m-0 mb-4 text-xs leading-[1.6]", className)}
-      {...rest}
-    />
+    <DialogPrimitive.Description asChild>
+      <p
+        ref={ref}
+        className={cn("text-fg-muted m-0 mb-4 text-xs leading-[1.6]", className)}
+        {...rest}
+      />
+    </DialogPrimitive.Description>
   );
 });
 DialogDescription.displayName = "DialogDescription";
@@ -170,17 +154,3 @@ export const DialogFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
   },
 );
 DialogFooter.displayName = "DialogFooter";
-
-/**
- * Initial-focus trap helper — call from a button to mount focus inside the
- * dialog. Tiny convenience hook surface; not exported as part of the API.
- *
- * @internal
- */
-export function useDialogAutoFocus(open: boolean): React.RefObject<HTMLElement | null> {
-  const ref = useRef<HTMLElement | null>(null);
-  useEffect(() => {
-    if (open && ref.current !== null) ref.current.focus();
-  }, [open]);
-  return ref;
-}

@@ -1,20 +1,21 @@
 "use client";
 
-import { forwardRef, useCallback, useEffect, type HTMLAttributes, type ReactNode } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
 /** Edge the drawer slides in from. */
 export type DrawerSide = "right" | "left" | "bottom";
 
-export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
+export interface DrawerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Controls visibility. */
   open: boolean;
   /** Called when the user dismisses (Esc / overlay click). */
   onOpenChange?: (open: boolean) => void;
   /** Edge the drawer enters from. Defaults to `"right"`. */
   side?: DrawerSide;
-  /** Disable backdrop click to close. */
+  /** When false, backdrop click does NOT close. Defaults to true. */
   modal?: boolean;
 }
 
@@ -33,61 +34,47 @@ const sideAnimation = {
 } as const satisfies Record<DrawerSide, string>;
 
 /**
- * Edge-anchored sheet. Use `<DrawerHeader>`, `<DrawerBody>`, `<DrawerFooter>`
- * to compose. The `bottom` side renders the canonical pull-handle.
+ * Edge-anchored sheet. Built on Radix `@radix-ui/react-dialog` — inherits
+ * focus trap, scroll-lock, ESC handling, and ARIA from the dialog primitive.
  */
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   { className, open, onOpenChange, side = "right", modal = true, children, ...rest },
   ref,
 ) {
-  const close = useCallback((): void => onOpenChange?.(false), [onOpenChange]);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") close();
-    };
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open, close]);
-
-  if (!open) return null;
-
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      style={{ animation: "void-overlay-in 180ms var(--ease-snap)" }}
-      className="fixed inset-0 z-50 bg-[color-mix(in_oklch,var(--void-950)_60%,transparent)]"
-      onClick={(event) => {
-        if (modal && event.target === event.currentTarget) close();
-      }}
-    >
-      <div
-        ref={ref}
-        data-side={side}
-        style={{ animation: `${sideAnimation[side]} 220ms var(--ease-snap)` }}
-        className={cn(
-          "bg-surface-raised absolute flex flex-col overflow-hidden",
-          sideClasses[side],
-          className,
-        )}
-        {...rest}
-      >
-        {side === "bottom" ? (
-          <div
-            aria-hidden="true"
-            className="bg-border-strong mx-auto mt-2.5 h-1 w-9 rounded-[2px]"
-          />
-        ) : null}
-        {children}
-      </div>
-    </div>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange} modal>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay
+          style={{ animation: "void-overlay-in 180ms var(--ease-snap)" }}
+          className="fixed inset-0 z-50 bg-[color-mix(in_oklch,var(--void-950)_60%,transparent)]"
+        />
+        <DialogPrimitive.Content
+          ref={ref}
+          data-side={side}
+          onPointerDownOutside={(event) => {
+            if (!modal) event.preventDefault();
+          }}
+          onInteractOutside={(event) => {
+            if (!modal) event.preventDefault();
+          }}
+          style={{ animation: `${sideAnimation[side]} 220ms var(--ease-snap)` }}
+          className={cn(
+            "bg-surface-raised fixed z-50 flex flex-col overflow-hidden focus:outline-none",
+            sideClasses[side],
+            className,
+          )}
+          {...rest}
+        >
+          {side === "bottom" ? (
+            <div
+              aria-hidden="true"
+              className="bg-border-strong mx-auto mt-2.5 h-1 w-9 rounded-[2px]"
+            />
+          ) : null}
+          {children}
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 });
 Drawer.displayName = "Drawer";
@@ -110,9 +97,11 @@ export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>(functi
       {...rest}
     >
       {title !== undefined ? (
-        <h4 className="font-display text-fg m-0 text-[22px] font-normal tracking-[0.02em]">
-          {title}
-        </h4>
+        <DialogPrimitive.Title asChild>
+          <h4 className="font-display text-fg m-0 text-[22px] font-normal tracking-[0.02em]">
+            {title}
+          </h4>
+        </DialogPrimitive.Title>
       ) : null}
       {children}
       {onClose !== undefined ? (
