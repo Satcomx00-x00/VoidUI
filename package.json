@@ -158,7 +158,7 @@
     "next": "^15.1.0",
     "postcss": "^8.5.0",
     "prettier": "^3.4.0",
-    "prettier-plugin-tailwindcss": "^0.6.9",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "publint": "^0.3.18",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
