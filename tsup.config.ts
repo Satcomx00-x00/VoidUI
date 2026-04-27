@@ -24,9 +24,11 @@ export default defineConfig({
   outDir: "dist",
   external: ["react", "react-dom"],
   async onSuccess() {
-    // Copy the design-token stylesheet into the published bundle so consumers
-    // can `import "voidui/styles.css"` from their app.
+    // Copy the standalone library stylesheet into the published bundle so
+    // consumers can `import "@nextjs-voidui/voidui/styles.css"` from their
+    // app. The Next.js demo `globals.css` (with showcase chrome) is NOT
+    // shipped — only the decoupled `src/styles/voidui.css` is.
     const { copyFile } = await import("node:fs/promises");
-    await copyFile("src/app/globals.css", "dist/styles.css");
+    await copyFile("src/styles/voidui.css", "dist/styles.css");
   },
 });

@@ -712,7 +712,11 @@ export function Showcase(): ReactElement {
                   <Checkbox label="Anonymous telemetry" />
                   <Checkbox label="Sync drafts across devices" />
                   <Separator className="my-2" />
-                  <RadioGroup>
+                  <RadioGroup
+                    name="plan"
+                    value={plan}
+                    onValueChange={(v) => setPlan(v as typeof plan)}
+                  >
                     {(
                       [
                         ["free", "Free · 1 seat"],
@@ -720,14 +724,7 @@ export function Showcase(): ReactElement {
                         ["team", "Team · unlimited"],
                       ] as const
                     ).map(([value, label]) => (
-                      <Radio
-                        key={value}
-                        name="plan"
-                        value={value}
-                        checked={plan === value}
-                        onChange={() => setPlan(value)}
-                        label={label}
-                      />
+                      <Radio key={value} value={value} label={label} />
                     ))}
                   </RadioGroup>
                 </Demo>

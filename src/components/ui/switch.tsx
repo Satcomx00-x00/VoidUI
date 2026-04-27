@@ -1,51 +1,85 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
+"use client";
+
+import * as SwitchPrimitive from "@radix-ui/react-switch";
+import {
+  forwardRef,
+  useId,
+  type ChangeEvent,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from "react";
 
 import { cn } from "../../lib/cn";
 
-export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
-  /** Optional label rendered after the switch. */
+type SwitchPrimitiveProps = ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>;
+
+export interface SwitchProps
+  extends Omit<SwitchPrimitiveProps, "asChild" | "onChange" | "children"> {
+  /** Optional label rendered next to the switch. */
   label?: ReactNode;
+  /** Extra classes on the wrapping `<label>`. */
+  className?: string;
+  /**
+   * Backwards-compatible change handler. Fires a synthetic event with
+   * `currentTarget.checked` so existing `onChange={(e) => …}` keeps working.
+   * Prefer `onCheckedChange` for new code.
+   */
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
- * Pill-shaped on/off toggle. Renders a visually-hidden checkbox + a styled
- * track / thumb. Forwards its ref to the underlying input.
+ * Pill-shaped on/off toggle. Built on Radix `@radix-ui/react-switch` —
+ * proper `role="switch"`, keyboard, focus, and form-association.
  */
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-  { className, label, disabled, ...rest },
+export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
+  { className, label, disabled, onChange, onCheckedChange, id, ...rest },
   ref,
 ) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
+
   return (
     <label
+      htmlFor={inputId}
       className={cn(
         "group text-fg inline-flex items-center gap-2.5 text-xs select-none",
         disabled === true ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         className,
       )}
     >
-      <input
+      <SwitchPrimitive.Root
         ref={ref}
-        type="checkbox"
-        role="switch"
+        id={inputId}
         disabled={disabled}
-        className="peer pointer-events-none absolute h-0 w-0 opacity-0"
-        {...rest}
-      />
-      <span
-        aria-hidden="true"
+        onCheckedChange={(next) => {
+          onCheckedChange?.(next);
+          if (onChange !== undefined) {
+            const synthetic = {
+              target: { checked: next },
+              currentTarget: { checked: next },
+            } as unknown as ChangeEvent<HTMLInputElement>;
+            onChange(synthetic);
+          }
+        }}
         className={cn(
           "relative inline-block h-[18px] w-[34px] shrink-0",
           "border-border-strong bg-bg rounded-full border",
           "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
-          "peer-checked:border-accent peer-checked:bg-accent",
-          "peer-focus-visible:ring-accent peer-focus-visible:ring-offset-bg peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2",
-          // thumb
-          "after:absolute after:top-0.5 after:left-0.5 after:block after:h-3 after:w-3",
-          "after:bg-fg-muted after:rounded-full",
-          "after:transition-[left,background-color] after:duration-[var(--dur-fast)] after:ease-[var(--ease-snap)]",
-          "peer-checked:after:bg-accent-fg peer-checked:after:left-[18px]",
+          "data-[state=checked]:border-accent data-[state=checked]:bg-accent",
+          "focus-visible:ring-accent focus-visible:ring-offset-bg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+          "disabled:cursor-not-allowed disabled:opacity-50",
         )}
-      />
+        {...rest}
+      >
+        <SwitchPrimitive.Thumb
+          className={cn(
+            "block h-3 w-3 translate-x-0.5 rounded-full",
+            "bg-fg-muted",
+            "transition-transform duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
+            "data-[state=checked]:bg-accent-fg data-[state=checked]:translate-x-[18px]",
+          )}
+        />
+      </SwitchPrimitive.Root>
       {label !== undefined ? <span>{label}</span> : null}
     </label>
   );

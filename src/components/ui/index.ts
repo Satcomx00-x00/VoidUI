@@ -68,6 +68,7 @@ export type { CommandInputProps, CommandItemProps } from "./command";
 
 export {
   Dialog,
+  DialogClose,
   DialogHeader,
   DialogBody,
   DialogTitle,
@@ -97,7 +98,7 @@ export { Progress } from "./progress";
 export type { ProgressProps } from "./progress";
 
 export { Radio, RadioGroup } from "./radio";
-export type { RadioProps } from "./radio";
+export type { RadioProps, RadioGroupProps } from "./radio";
 
 export { Select, SelectOption } from "./select";
 export type { SelectProps, SelectOptionProps } from "./select";
@@ -155,3 +156,6 @@ export type {
   ToastPosition,
   ToastProviderProps,
 } from "./toast";
+
+export { VoidUIProvider } from "./provider";
+export type { VoidUIProviderProps } from "./provider";
