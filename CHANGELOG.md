@@ -33,6 +33,8 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- Remove dependabot (84de071)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7c3f362)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (567c73f)
 - Fmt (6da61ae)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (5a0f2a9)
