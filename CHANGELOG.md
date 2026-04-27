@@ -8,6 +8,8 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 ## [unreleased]
 
 ### ✨ Features
+- Overhaul distribution and ergonomics with cmdk integration, new tailwind preset, and accessibility improvements (1c30bd9)
+- Refactor Switch, Tabs, and Tooltip components to use Radix UI primitives (f244525)
 - **button:** Redesign to match templates.html — offset-shadow hover, fg-fill primary, accent variant, ButtonKbd (f1acc49)
 
 
@@ -16,6 +18,12 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🐛 Bug Fixes
+- **lint:** Update prettier command to check and write changes (aa696b9)
+- **test:** Remove unused container variable in Separator test (b1134a0)
+- **ci:** Raise body-max-line-length to 300 characters by @Satcomx00-x00 (a91cc81)
+- **ci:** Migrate workflows from npm to bun by @Satcomx00-x00 (539cc94)
+- **ci:** Migrate workflows from npm to bun (2330b4a)
+- **showcase:** Add space between demo body classes for better styling (5e8a1aa)
 - **ci:** Unblock Pages build and Changelog generation (0a791b2)
 - **select:** Resolve TypeScript strict-mode errors in [#22](https://github.com/Satcomx00-x00/VoidUI/pull/22) (4f5d6da)
 
@@ -25,6 +33,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (567c73f)
 - Fmt (6da61ae)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (5a0f2a9)
 - Add changeset for PR #21 [skip ci] by @github-actions[bot] (4999e31)
