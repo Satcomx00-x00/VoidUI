@@ -513,7 +513,7 @@ describe("HTML attribute passthrough", () => {
   });
 
   it("Separator passes data-testid", () => {
-    const { container } = render(<Separator data-testid="sep" />);
+    render(<Separator data-testid="sep" />);
     expect(screen.getByTestId("sep")).toBeInTheDocument();
   });
 
