@@ -13,8 +13,10 @@ import { cn } from "../../lib/cn";
 
 type CheckboxPrimitiveProps = ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>;
 
-export interface CheckboxProps
-  extends Omit<CheckboxPrimitiveProps, "asChild" | "onChange" | "children"> {
+export interface CheckboxProps extends Omit<
+  CheckboxPrimitiveProps,
+  "asChild" | "onChange" | "children"
+> {
   /** Optional label rendered next to the checkbox. */
   label?: ReactNode;
   /** Extra classes on the wrapping `<label>`. */

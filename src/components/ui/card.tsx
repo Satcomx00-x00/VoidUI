@@ -1,49 +1,63 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
 /* -------------------------------------------------------------------------- */
-/*  Card variant types                                                         */
+/*  Card variants                                                              */
 /* -------------------------------------------------------------------------- */
 
-export type CardVariant = "default" | "interactive" | "featured";
+/**
+ * Class-variance-authority recipe powering the {@link Card} container.
+ *
+ * Variants:
+ * - `default`     — static surface (border hover only)
+ * - `interactive` — clickable lift + shadow on hover, press feedback on active
+ * - `featured`    — accent border treatment to draw attention
+ */
+export const cardVariants = cva(
+  [
+    "border-border bg-surface-raised relative overflow-hidden rounded-lg border p-5",
+    "transition-all duration-[var(--dur-med)] ease-[var(--ease-snap)]",
+    "hover:border-border-strong",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "",
+        interactive: [
+          "cursor-pointer select-none",
+          "hover:-translate-y-0.5 hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5)]",
+          "active:translate-y-0 active:scale-[0.99]",
+        ].join(" "),
+        featured: [
+          "border-accent/30",
+          "shadow-[inset_0_0_0_1px_var(--accent-soft),0_0_48px_-12px_var(--accent-soft)]",
+        ].join(" "),
+      },
+    },
+    defaultVariants: { variant: "default" },
+  },
+);
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  /** Visual / behavioural variant.
-   * - `default`     — static surface (border hover only)
-   * - `interactive` — clickable lift + shadow on hover, press feedback on active
-   * - `featured`    — accent border treatment to draw attention
-   */
-  variant?: CardVariant;
-}
+export type CardVariant = NonNullable<VariantProps<typeof cardVariants>["variant"]>;
+
+export interface CardProps
+  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardVariants> {}
 
 /**
  * Outer Card container — bordered surface with subtle hover.
  * Add `overflow-hidden` so that `CardImage` bleeds edge-to-edge.
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { className, variant = "default", ...rest },
+  { className, variant, ...rest },
   ref,
 ) {
   return (
     <div
       ref={ref}
-      data-variant={variant}
-      className={cn(
-        "border-border bg-surface-raised relative overflow-hidden rounded-lg border p-5",
-        "transition-all duration-[var(--dur-med)] ease-[var(--ease-snap)]",
-        "hover:border-border-strong",
-        variant === "interactive" && [
-          "cursor-pointer select-none",
-          "hover:-translate-y-0.5 hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5)]",
-          "active:translate-y-0 active:scale-[0.99]",
-        ],
-        variant === "featured" && [
-          "border-accent/30",
-          "shadow-[inset_0_0_0_1px_var(--accent-soft),0_0_48px_-12px_var(--accent-soft)]",
-        ],
-        className,
-      )}
+      data-variant={variant ?? "default"}
+      className={cn(cardVariants({ variant }), className)}
       {...rest}
     />
   );

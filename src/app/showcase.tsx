@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactElement, type ReactNode } from "react";
+import { useEffect, useState, type ReactElement, type ReactNode } from "react";
 
 import {
   Accordion,
@@ -49,6 +49,8 @@ import {
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
   DropdownSeparator,
   Field,
   FieldHint,
@@ -56,8 +58,10 @@ import {
   Input,
   Kbd,
   Popover,
+  PopoverContent,
   PopoverHeader,
   PopoverTitle,
+  PopoverTrigger,
   Progress,
   Radio,
   RadioGroup,
@@ -141,7 +145,7 @@ function Demo({ name, meta, col = false, children }: DemoProps): ReactElement {
         <span className="spacer" />
         {meta ? <span>{meta}</span> : null}
       </div>
-      <div className={`void-demo-body${col ? " col" : ""}`}>{children}</div>
+      <div className={`void-demo-body${col ? "col" : ""}`}>{children}</div>
     </div>
   );
 }
@@ -483,20 +487,7 @@ function ShowcaseMountToast({ version }: { version: string }): null {
 export function Showcase(): ReactElement {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownCompact, setDropdownCompact] = useState(true);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    function handleOutside(e: MouseEvent): void {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleOutside);
-    return () => document.removeEventListener("mousedown", handleOutside);
-  }, [dropdownOpen]);
   const [drawerSide, setDrawerSide] = useState<"right" | "left" | "bottom">("right");
   const [accent, setAccent] = useState(true);
   const [airplane, setAirplane] = useState(false);
@@ -932,16 +923,21 @@ export function Showcase(): ReactElement {
                   </Tooltip>
                 </Demo>
                 <Demo name="POPOVER">
-                  <Popover className="static w-full max-w-[280px]">
-                    <PopoverHeader>
-                      <PopoverTitle>Notifications</PopoverTitle>
-                      <Badge variant="accent" dot>
-                        3
-                      </Badge>
-                    </PopoverHeader>
-                    <div className="text-fg-muted px-4 py-3 text-xs leading-relaxed">
-                      All new comments will be batched and delivered as a daily digest.
-                    </div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="secondary">Notifications</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[280px]">
+                      <PopoverHeader>
+                        <PopoverTitle>Notifications</PopoverTitle>
+                        <Badge variant="accent" dot>
+                          3
+                        </Badge>
+                      </PopoverHeader>
+                      <div className="text-fg-muted text-xs leading-relaxed">
+                        All new comments will be batched and delivered as a daily digest.
+                      </div>
+                    </PopoverContent>
                   </Popover>
                 </Demo>
               </div>
@@ -956,77 +952,50 @@ export function Showcase(): ReactElement {
               sub="Floating menu surface with check rows, separators, icons, and shortcuts."
             >
               <Demo name="DROPDOWN · INTERACTIVE">
-                <div ref={dropdownRef} className="relative inline-block">
-                  <Button
-                    variant="secondary"
-                    onClick={() => setDropdownOpen((o) => !o)}
-                    aria-haspopup="menu"
-                    aria-expanded={dropdownOpen}
-                  >
-                    Account
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        display: "inline-block",
-                        marginLeft: 6,
-                        fontSize: 9,
-                        transition: "transform 160ms var(--ease-snap)",
-                        transform: dropdownOpen ? "rotateX(180deg)" : "none",
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="secondary" aria-haspopup="menu">
+                      Account
+                      <span
+                        aria-hidden="true"
+                        className="ml-1.5 text-[9px] transition-transform duration-[var(--dur-fast)] ease-[var(--ease-snap)] data-[state=open]:rotate-180"
+                      >
+                        ▾
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <DropdownLabel>Account</DropdownLabel>
+                    <DropdownItem icon="◉" shortcut="⌘P">
+                      Profile
+                    </DropdownItem>
+                    <DropdownItem icon="◈" shortcut="⌘,">
+                      Preferences
+                    </DropdownItem>
+                    <DropdownItem
+                      icon="◧"
+                      checked={dropdownCompact}
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        setDropdownCompact((v) => !v);
                       }}
                     >
-                      ▾
-                    </span>
-                  </Button>
-
-                  {dropdownOpen && (
-                    <DropdownMenu
-                      style={{
-                        position: "absolute",
-                        top: "calc(100% + 6px)",
-                        left: 0,
-                        zIndex: 50,
-                      }}
-                    >
-                      <DropdownLabel>Account</DropdownLabel>
-                      <DropdownItem icon="◉" shortcut="⌘P" onClick={() => setDropdownOpen(false)}>
-                        Profile
-                      </DropdownItem>
-                      <DropdownItem icon="◈" shortcut="⌘," onClick={() => setDropdownOpen(false)}>
-                        Preferences
-                      </DropdownItem>
-                      <DropdownItem
-                        icon="◧"
-                        checked={dropdownCompact}
-                        onClick={() => setDropdownCompact((v) => !v)}
-                      >
-                        Compact mode
-                      </DropdownItem>
-                      <DropdownItem icon="◬" disabled>
-                        Appearance
-                      </DropdownItem>
-                      <DropdownSeparator />
-                      <DropdownLabel>Workspace</DropdownLabel>
-                      <DropdownItem icon="◎" onClick={() => setDropdownOpen(false)}>
-                        Invite teammates
-                      </DropdownItem>
-                      <DropdownItem icon="◇" onClick={() => setDropdownOpen(false)}>
-                        Billing
-                      </DropdownItem>
-                      <DropdownItem icon="◰" onClick={() => setDropdownOpen(false)}>
-                        Usage &amp; limits
-                      </DropdownItem>
-                      <DropdownSeparator />
-                      <DropdownItem
-                        destructive
-                        icon="⊗"
-                        shortcut="⌘⇧Q"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        Sign out
-                      </DropdownItem>
-                    </DropdownMenu>
-                  )}
-                </div>
+                      Compact mode
+                    </DropdownItem>
+                    <DropdownItem icon="◬" disabled>
+                      Appearance
+                    </DropdownItem>
+                    <DropdownSeparator />
+                    <DropdownLabel>Workspace</DropdownLabel>
+                    <DropdownItem icon="◎">Invite teammates</DropdownItem>
+                    <DropdownItem icon="◇">Billing</DropdownItem>
+                    <DropdownItem icon="◰">Usage &amp; limits</DropdownItem>
+                    <DropdownSeparator />
+                    <DropdownItem destructive icon="⊗" shortcut="⌘⇧Q">
+                      Sign out
+                    </DropdownItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </Demo>
             </Section>
 
@@ -1659,7 +1628,7 @@ export function Showcase(): ReactElement {
             <div className="void-foot-links">
               <a href="#overview">DOCS</a>
               <a href="https://github.com/Satcomx00-x00/VoidUI">GITHUB</a>
-              <a href="#">CHANGELOG</a>
+              <a href="#changelog">CHANGELOG</a>
             </div>
           </footer>
         </main>

@@ -1,11 +1,7 @@
 "use client";
 
 import * as SelectPrimitive from "@radix-ui/react-select";
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
+import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
 
 import { cn } from "../../lib/cn";
 
@@ -13,8 +9,10 @@ import { cn } from "../../lib/cn";
 /* SelectOption                                                                */
 /* -------------------------------------------------------------------------- */
 
-export interface SelectOptionProps
-  extends Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Item>, "asChild"> {
+export interface SelectOptionProps extends Omit<
+  ComponentPropsWithoutRef<typeof SelectPrimitive.Item>,
+  "asChild"
+> {
   /** Optional icon glyph shown in the leading slot. */
   icon?: ReactNode;
 }

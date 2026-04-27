@@ -11,11 +11,10 @@ import {
 
 import { cn } from "../../lib/cn";
 
-export interface RadioProps
-  extends Omit<
-    ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>,
-    "asChild" | "onChange" | "children"
-  > {
+export interface RadioProps extends Omit<
+  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>,
+  "asChild" | "onChange" | "children"
+> {
   /** Optional label rendered next to the radio. */
   label?: ReactNode;
   /** Extra classes on the wrapping `<label>`. */
@@ -38,7 +37,17 @@ export interface RadioProps
  * inside `<RadioGroup>` for keyboard navigation, ARIA, and selection.
  */
 export const Radio = forwardRef<HTMLButtonElement, RadioProps>(function Radio(
-  { className, label, value, disabled, id, checked: _checked, onChange: _onChange, name: _name, ...rest },
+  {
+    className,
+    label,
+    value,
+    disabled,
+    id,
+    checked: _checked,
+    onChange: _onChange,
+    name: _name,
+    ...rest
+  },
   ref,
 ) {
   const generatedId = useId();
@@ -76,11 +85,10 @@ export const Radio = forwardRef<HTMLButtonElement, RadioProps>(function Radio(
 });
 Radio.displayName = "Radio";
 
-export interface RadioGroupProps
-  extends Omit<
-    ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
-    "asChild" | "orientation"
-  > {
+export interface RadioGroupProps extends Omit<
+  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
+  "asChild" | "orientation"
+> {
   /** Layout direction. Defaults to `"vertical"`. */
   orientation?: "vertical" | "horizontal";
 }

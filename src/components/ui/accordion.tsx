@@ -15,8 +15,10 @@ type RootMultipleProps = ComponentPropsWithoutRef<typeof AccordionPrimitive.Root
   type: "multiple";
 };
 
-export interface AccordionProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue" | "dir"> {
+export interface AccordionProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "defaultValue" | "dir"
+> {
   /** Selection mode. Defaults to `"single"`. */
   type?: AccordionType;
   /** Open item value(s) — controlled. Always pass an array. */
@@ -85,8 +87,9 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(function Acc
 });
 Accordion.displayName = "Accordion";
 
-export interface AccordionItemProps
-  extends ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {
+export interface AccordionItemProps extends ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Item
+> {
   /** Identifier shared by the trigger and content. */
   value: string;
 }
@@ -118,7 +121,7 @@ export const AccordionTrigger = forwardRef<
           "text-fg text-xs tracking-[0.06em]",
           "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
           "hover:bg-bg-subtle data-[state=open]:bg-bg-subtle",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+          "focus-visible:ring-accent focus-visible:ring-1 focus-visible:outline-none",
           className,
         )}
         {...rest}

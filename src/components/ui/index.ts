@@ -60,8 +60,11 @@ export {
   Command,
   CommandInput,
   CommandList,
+  CommandEmpty,
+  CommandGroup,
   CommandGroupLabel,
   CommandItem,
+  CommandSeparator,
   CommandFooter,
 } from "./command";
 export type { CommandInputProps, CommandItemProps } from "./command";
@@ -80,8 +83,19 @@ export type { DialogProps, DialogHeaderProps } from "./dialog";
 export { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from "./drawer";
 export type { DrawerProps, DrawerHeaderProps, DrawerSide } from "./drawer";
 
-export { DropdownMenu, DropdownItem, DropdownSeparator, DropdownLabel } from "./dropdown-menu";
-export type { DropdownItemProps } from "./dropdown-menu";
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+  DropdownItem,
+  DropdownSeparator,
+  DropdownLabel,
+} from "./dropdown-menu";
+export type { DropdownItemProps, DropdownMenuContentProps } from "./dropdown-menu";
 
 export { Field, FieldLabel, FieldHint } from "./field";
 export type { FieldProps, FieldLabelProps } from "./field";
@@ -91,8 +105,17 @@ export type { InputProps } from "./input";
 
 export { Kbd } from "./kbd";
 
-export { Popover, PopoverHeader, PopoverTitle, Tooltip } from "./tooltip";
-export type { TooltipProps, TooltipSide } from "./tooltip";
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  PopoverAnchor,
+  PopoverHeader,
+  PopoverTitle,
+  Tooltip,
+} from "./tooltip";
+export type { TooltipProps, TooltipSide, PopoverContentProps } from "./tooltip";
 
 export { Progress } from "./progress";
 export type { ProgressProps } from "./progress";

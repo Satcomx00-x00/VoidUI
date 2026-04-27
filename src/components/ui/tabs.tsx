@@ -1,12 +1,7 @@
 "use client";
 
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import {
-  createContext,
-  forwardRef,
-  useContext,
-  type ComponentPropsWithoutRef,
-} from "react";
+import { createContext, forwardRef, useContext, type ComponentPropsWithoutRef } from "react";
 
 import { cn } from "../../lib/cn";
 
@@ -21,8 +16,10 @@ export type TabsVariant = "underline" | "pill" | "boxed";
 
 const VariantContext = createContext<TabsVariant>("underline");
 
-export interface TabsProps
-  extends Omit<ComponentPropsWithoutRef<typeof TabsPrimitive.Root>, "asChild"> {
+export interface TabsProps extends Omit<
+  ComponentPropsWithoutRef<typeof TabsPrimitive.Root>,
+  "asChild"
+> {
   /** Visual variant. Defaults to `"underline"`. */
   variant?: TabsVariant;
 }
@@ -71,8 +68,7 @@ export const TabsList = forwardRef<
 });
 TabsList.displayName = "TabsList";
 
-export interface TabsTriggerProps
-  extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
   /** Identifier matching a `<TabsContent value>`. */
   value: string;
 }
@@ -106,7 +102,7 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(funct
         "text-fg-muted cursor-pointer text-[11px] tracking-[0.14em] uppercase",
         "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-snap)]",
         "hover:text-fg disabled:cursor-not-allowed disabled:opacity-50",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+        "focus-visible:ring-accent focus-visible:ring-1 focus-visible:outline-none",
         triggerVariantClasses[variant],
         className,
       )}
@@ -116,8 +112,7 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(funct
 });
 TabsTrigger.displayName = "TabsTrigger";
 
-export interface TabsContentProps
-  extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
+export interface TabsContentProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
   /** Identifier matching a `<TabsTrigger value>`. */
   value: string;
 }

@@ -31,17 +31,33 @@
   "sideEffects": [
     "**/*.css"
   ],
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     },
     "./styles.css": "./dist/styles.css",
-    "./package.json": "./package.json"
+    "./tokens.css": "./dist/tokens.css",
+    "./components.css": "./dist/components.css",
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/components/ui/*.d.ts",
+      "import": "./dist/components/ui/*.js"
+    },
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./tailwind": {
+      "types": "./dist/styles/preset.d.ts",
+      "import": "./dist/styles/preset.js"
+    }
   },
   "files": [
     "dist",
@@ -63,14 +79,44 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "clean": "rm -rf .next dist node_modules/.cache",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "check:exports": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm no-resolution",
+    "check:publish": "publint",
+    "size": "size-limit",
+    "prepublishOnly": "npm run build:lib && npm run check:publish"
   },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "size-limit": [
+    {
+      "name": "root barrel",
+      "path": "dist/index.js",
+      "limit": "75 kB"
+    },
+    {
+      "name": "button",
+      "path": "dist/components/ui/button.js",
+      "limit": "10 kB"
+    },
+    {
+      "name": "dialog",
+      "path": "dist/components/ui/dialog.js",
+      "limit": "22 kB"
+    }
+  ],
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
-    "react-dom": "^18.2.0 || ^19.0.0"
+    "react-dom": "^18.2.0 || ^19.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -84,29 +130,42 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.11",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
+    "@size-limit/preset-small-lib": "^12.1.0",
     "@tailwindcss/postcss": "^4.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.1.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "jsdom": "^29.1.0",
     "next": "^15.1.0",
     "postcss": "^8.5.0",
     "prettier": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.9",
+    "publint": "^0.3.18",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "size-limit": "^12.1.0",
     "tailwindcss": "^4.0.0",
     "tsup": "^8.3.5",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.5"
   }
 }

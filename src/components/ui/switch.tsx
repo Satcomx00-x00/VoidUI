@@ -13,8 +13,10 @@ import { cn } from "../../lib/cn";
 
 type SwitchPrimitiveProps = ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>;
 
-export interface SwitchProps
-  extends Omit<SwitchPrimitiveProps, "asChild" | "onChange" | "children"> {
+export interface SwitchProps extends Omit<
+  SwitchPrimitiveProps,
+  "asChild" | "onChange" | "children"
+> {
   /** Optional label rendered next to the switch. */
   label?: ReactNode;
   /** Extra classes on the wrapping `<label>`. */

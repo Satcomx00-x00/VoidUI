@@ -1,9 +1,21 @@
 "use client";
 
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { forwardRef, type HTMLAttributes, type ReactElement, type ReactNode } from "react";
+import {
+  forwardRef,
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type HTMLAttributes,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 
 import { cn } from "../../lib/cn";
+
+/* -------------------------------------------------------------------------- */
+/* Tooltip                                                                    */
+/* -------------------------------------------------------------------------- */
 
 /** Side of the trigger the tooltip pops from. */
 export type TooltipSide = "top" | "bottom" | "left" | "right";
@@ -64,30 +76,72 @@ export function Tooltip({
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/* Popover — Radix-backed compound                                              */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Static popover surface. The consumer is responsible for placement
- * (typically inside a relatively-positioned trigger) and visibility.
+ * Popover root. Wraps {@link PopoverTrigger} + {@link PopoverContent}.
+ *
+ * ```tsx
+ * <Popover>
+ *   <PopoverTrigger asChild><Button>Open</Button></PopoverTrigger>
+ *   <PopoverContent>
+ *     <PopoverHeader><PopoverTitle>Notifications</PopoverTitle></PopoverHeader>
+ *     ...
+ *   </PopoverContent>
+ * </Popover>
+ * ```
  */
-export const Popover = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function Popover(
-  { className, ...rest },
+export const Popover = PopoverPrimitive.Root;
+
+/** Popover trigger — use with `asChild` to project styling onto your own element. */
+export const PopoverTrigger = PopoverPrimitive.Trigger;
+
+/** Imperative close button rendered inside a {@link PopoverContent}. */
+export const PopoverClose = PopoverPrimitive.Close;
+
+/** Popover anchor — attach the popover to a different element than the trigger. */
+export const PopoverAnchor = PopoverPrimitive.Anchor;
+
+export interface PopoverContentProps extends ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Content
+> {
+  /** Disable the default Portal mount (for cases needing in-place rendering). */
+  disablePortal?: boolean;
+}
+
+/**
+ * Floating popover surface. Animated, focus-managed, and dismissable via
+ * Escape / outside-click out of the box (Radix).
+ */
+export const PopoverContent = forwardRef<
+  ElementRef<typeof PopoverPrimitive.Content>,
+  PopoverContentProps
+>(function PopoverContent(
+  { className, disablePortal = false, sideOffset = 8, align = "start", style, ...rest },
   ref,
 ) {
-  return (
-    <div
+  const node = (
+    <PopoverPrimitive.Content
       ref={ref}
-      role="dialog"
-      style={{ animation: "void-popover-in 140ms var(--ease-snap)" }}
+      align={align}
+      sideOffset={sideOffset}
+      style={{ animation: "void-popover-in 140ms var(--ease-snap)", ...style }}
       className={cn(
-        "border-border-strong bg-surface-raised min-w-[240px] rounded-[10px] border p-4",
+        "border-border-strong bg-surface-raised z-50 min-w-[240px] rounded-[10px] border p-4",
         "shadow-[0_8px_32px_color-mix(in_oklch,black_20%,transparent)]",
+        "focus:outline-none",
         className,
       )}
       {...rest}
     />
   );
+  return disablePortal ? node : <PopoverPrimitive.Portal>{node}</PopoverPrimitive.Portal>;
 });
-Popover.displayName = "Popover";
+PopoverContent.displayName = "PopoverContent";
 
+/** Header row inside a {@link PopoverContent}. */
 export const PopoverHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function PopoverHeader({ className, ...rest }, ref) {
     return (
@@ -101,6 +155,7 @@ export const PopoverHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEl
 );
 PopoverHeader.displayName = "PopoverHeader";
 
+/** Title heading inside a {@link PopoverHeader}. */
 export const PopoverTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   function PopoverTitle({ className, ...rest }, ref) {
     return (

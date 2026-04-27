@@ -1,6 +1,7 @@
 import nextPlugin from "@next/eslint-plugin-next";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import prettierConfig from "eslint-config-prettier";
 
 /**
@@ -27,10 +28,15 @@ const eslintConfig = [
     plugins: {
       "@next/next": nextPlugin,
       "@typescript-eslint": tsPlugin,
+      "jsx-a11y": jsxA11y,
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
+      ...jsxA11y.configs.recommended.rules,
+      // Wrapper primitives forward `children` via `{...rest}`, which the
+      // static rule can't see. The rule still applies to direct usage.
+      "jsx-a11y/heading-has-content": "off",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",

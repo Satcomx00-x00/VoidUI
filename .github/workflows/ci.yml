@@ -94,6 +94,16 @@ jobs:
       - name: Build library
         run: npm run build:lib
 
+      - name: Check published exports (attw)
+        run: npm run check:exports
+        continue-on-error: true
+
+      - name: Lint package metadata (publint)
+        run: npm run check:publish
+
+      - name: Bundle size budgets
+        run: npm run size
+
       - name: Build Next.js app
         run: npm run build
         env:

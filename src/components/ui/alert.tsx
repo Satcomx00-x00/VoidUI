@@ -1,57 +1,62 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from "react";
 
 import { cn } from "../../lib/cn";
 
 /**
- * Visual / semantic level of an Alert.
+ * Class-variance-authority recipe powering the {@link Alert} component.
+ *
+ * Variants: `info` (accent), `success`, `warning`, `error`.
  */
-export type AlertVariant = "info" | "success" | "warning" | "error";
+export const alertVariants = cva(
+  "grid grid-cols-[auto_1fr_auto] items-start gap-x-3.5 gap-y-3 rounded-lg border p-3.5 text-xs",
+  {
+    variants: {
+      variant: {
+        info: [
+          "border-[color-mix(in_oklch,var(--accent)_40%,transparent)]",
+          "bg-accent-soft text-accent",
+        ].join(" "),
+        success: [
+          "border-[color-mix(in_oklch,oklch(64%_0.22_150)_40%,transparent)]",
+          "bg-[color-mix(in_oklch,oklch(64%_0.22_150)_10%,transparent)]",
+          "text-[oklch(64%_0.22_150)]",
+        ].join(" "),
+        warning: [
+          "border-[color-mix(in_oklch,oklch(74%_0.2_70)_40%,transparent)]",
+          "bg-[color-mix(in_oklch,oklch(74%_0.2_70)_10%,transparent)]",
+          "text-[oklch(74%_0.2_70)]",
+        ].join(" "),
+        error: [
+          "border-[color-mix(in_oklch,oklch(64%_0.24_25)_40%,transparent)]",
+          "bg-[color-mix(in_oklch,oklch(64%_0.24_25)_10%,transparent)]",
+          "text-[oklch(64%_0.24_25)]",
+        ].join(" "),
+      },
+    },
+    defaultVariants: { variant: "info" },
+  },
+);
 
-const variantClasses = {
-  info: [
-    "border-[color-mix(in_oklch,var(--accent)_40%,transparent)]",
-    "bg-accent-soft text-accent",
-  ].join(" "),
-  success: [
-    "border-[color-mix(in_oklch,oklch(64%_0.22_150)_40%,transparent)]",
-    "bg-[color-mix(in_oklch,oklch(64%_0.22_150)_10%,transparent)]",
-    "text-[oklch(64%_0.22_150)]",
-  ].join(" "),
-  warning: [
-    "border-[color-mix(in_oklch,oklch(74%_0.2_70)_40%,transparent)]",
-    "bg-[color-mix(in_oklch,oklch(74%_0.2_70)_10%,transparent)]",
-    "text-[oklch(74%_0.2_70)]",
-  ].join(" "),
-  error: [
-    "border-[color-mix(in_oklch,oklch(64%_0.24_25)_40%,transparent)]",
-    "bg-[color-mix(in_oklch,oklch(64%_0.24_25)_10%,transparent)]",
-    "text-[oklch(64%_0.24_25)]",
-  ].join(" "),
-} as const satisfies Record<AlertVariant, string>;
+export type AlertVariant = NonNullable<VariantProps<typeof alertVariants>["variant"]>;
 
-export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
-  /** Visual / semantic level. Defaults to `"info"`. */
-  variant?: AlertVariant;
-}
+export interface AlertProps
+  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {}
 
 /**
  * Inline message banner. Compose with `<AlertIcon>`, `<AlertTitle>`,
  * `<AlertBody>`, and `<AlertAction>`.
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  { className, variant = "info", role = "status", ...rest },
+  { className, variant, role = "status", ...rest },
   ref,
 ) {
   return (
     <div
       ref={ref}
       role={role}
-      data-variant={variant}
-      className={cn(
-        "grid grid-cols-[auto_1fr_auto] items-start gap-x-3.5 gap-y-3 rounded-lg border p-3.5 text-xs",
-        variantClasses[variant],
-        className,
-      )}
+      data-variant={variant ?? "info"}
+      className={cn(alertVariants({ variant }), className)}
       {...rest}
     />
   );

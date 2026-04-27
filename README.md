@@ -59,6 +59,66 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
 
+## Consuming VoidUI in your app
+
+VoidUI ships as a **bundled npm package** (`@nextjs-voidui/voidui`) — semver
+upgrades, no copy-paste, no CLI required. (A future `voidui add` scaffolder is
+on the roadmap, but the npm package is the canonical distribution today.)
+
+### 1. Install
+
+```bash
+npm install @nextjs-voidui/voidui
+```
+
+### 2. Import the stylesheet (once)
+
+In your root layout or `globals.css`:
+
+```ts
+// app/layout.tsx
+import "@nextjs-voidui/voidui/styles.css";
+```
+
+Or pull tokens / components separately if you want to override layers:
+
+```ts
+import "@nextjs-voidui/voidui/tokens.css"; // design tokens only
+import "@nextjs-voidui/voidui/components.css"; // base resets + keyframes
+```
+
+### 3. Mount the provider (once)
+
+```tsx
+// app/layout.tsx
+import { VoidUIProvider } from "@nextjs-voidui/voidui";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <VoidUIProvider>{children}</VoidUIProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### 4. Use components
+
+```tsx
+// Barrel import — convenient, marked "use client"
+import { Button, Card } from "@nextjs-voidui/voidui";
+
+// Deep import — best tree-shaking, only the primitive ships to the client
+import { Button } from "@nextjs-voidui/voidui/button";
+import { Card } from "@nextjs-voidui/voidui/card";
+```
+
+> RSC note: each client-only primitive carries its own `"use client"` directive.
+> Deep imports keep server bundles minimal; the barrel is itself a client
+> boundary for ergonomic single-line imports.
+
 ## Release & CI/CD
 
 VoidUI ships through **Changesets** + **GitHub Actions** with **npm provenance**.
