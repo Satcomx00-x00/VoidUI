@@ -18,6 +18,7 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🐛 Bug Fixes
+- **ci:** Format test file and fix check script to use bun run (d9df81f)
 - **lint:** Update prettier command to check and write changes (aa696b9)
 - **test:** Remove unused container variable in Separator test (b1134a0)
 - **ci:** Raise body-max-line-length to 300 characters by @Satcomx00-x00 (a91cc81)
@@ -33,6 +34,8 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 
 
 ### 🧹 Chores
+- **changeset:** Add minor release changeset for v0.1.0 (37a341f)
+- **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (fc92bff)
 - Remove dependabot (84de071)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (7c3f362)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (567c73f)
