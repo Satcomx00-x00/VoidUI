@@ -59,7 +59,7 @@ jobs:
         run: bun x commitlint --from "${{ steps.range.outputs.from }}" --to "${{ steps.range.outputs.to }}" --verbose
 
   verify:
-    name: Lint · Typecheck · Build
+    name: Lint \u00b7 Typecheck \u00b7 Build
     needs: commitlint
     runs-on: ubuntu-latest
     timeout-minutes: 10
