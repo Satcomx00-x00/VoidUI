@@ -141,7 +141,7 @@ function Demo({ name, meta, col = false, children }: DemoProps): ReactElement {
         <span className="spacer" />
         {meta ? <span>{meta}</span> : null}
       </div>
-      <div className={`void-demo-body${col ? "col" : ""}`}>{children}</div>
+      <div className={`void-demo-body${col ? " col" : ""}`}>{children}</div>
     </div>
   );
 }
