@@ -74,7 +74,7 @@
     "build": "next build",
     "build:lib": "tsup",
     "start": "next start",
-    "lint": "eslint . && prettier --check .",
+    "lint": "eslint . && prettier --check --write .",
     "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
