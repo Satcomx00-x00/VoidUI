@@ -45,6 +45,7 @@ jobs:
 
       - name: Generate changelog
         id: cliff
+        continue-on-error: true
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
@@ -54,6 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit changelog
+        if: steps.cliff.outcome == 'success'
         run: |
           set -euo pipefail
           if [[ -z "$(git status --porcelain CHANGELOG.md)" ]]; then
