@@ -1,23 +1,69 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- 1c30bd9: Distribution & ergonomics overhaul
+  - **`Command` palette** now powered by [`cmdk`](https://cmdk.paco.me): fuzzy
+    filtering, keyboard navigation, ARIA combobox semantics, empty-state, and
+    separators ship out of the box. New exports: `CommandGroup`, `CommandEmpty`,
+    `CommandSeparator`. The legacy `<CommandGroupLabel>` and `active` prop on
+    `CommandItem` remain for back-compat, but new code should prefer the
+    `<CommandGroup heading="…">` pattern.
+  - **Tailwind preset** — `import voidui from "@nextjs-voidui/voidui/tailwind"`
+    exposes the design tokens (colors, radii, font families, durations,
+    easings) for consumers who don't want to load `tokens.css`.
+  - **`tailwindcss` is now an optional peer** (`peerDependenciesMeta`).
+    Required only when using the Tailwind preset.
+  - **Publish hardening** — `publint`, `@arethetypeswrong/cli`, and
+    `size-limit` are wired as scripts (`check:publish`, `check:exports`,
+    `size`) and run in CI. `prepublishOnly` runs `build:lib` + `publint`.
+  - **Accessibility lint** — `eslint-plugin-jsx-a11y` is enabled with the
+    recommended ruleset.
+
+- 37a341f: ## VoidUI v0.1.0
+
+  ### New Features
+  - **Radix UI primitives** — Switch, Tabs, and Tooltip now use Radix UI for accessible, unstyled primitives
+  - **cmdk integration** — Command palette component migrated to `cmdk` for improved keyboard navigation and accessibility
+  - **New Tailwind preset** — Exportable `voidui/tailwind` preset with full design token configuration
+  - **Button redesign** — Offset-shadow hover effect, `fg-fill` primary variant, `accent` variant, and `ButtonKbd` sub-component
+  - **Distribution overhaul** — Multi-entry ESM-only tsup build with proper `exports` map and CSS bundle splitting
+  - **VoidUIProvider** — Theme context provider for dark-first token injection
+  - **CVA variants** — Badge, Alert, Card, and Toast fully migrated to `class-variance-authority`
+
+  ### Bug Fixes
+  - Resolve TypeScript strict-mode errors in Select component
+  - Fix Prettier `--write` vs `--check` in lint script
+  - Migrate CI workflows from npm to Bun (`oven-sh/setup-bun@v2`)
+  - Raise commitlint `body-max-line-length` to 300 characters
+  - Fix unused variable in test suite
+
+### Patch Changes
+
+- 4999e31: Feat/amethyst retheme (PR #21)
+
 All notable changes to **VoidUI** are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and entries are generated from [Conventional Commits](https://www.conventionalcommits.org).
+
 ## [unreleased]
 
 ### ✨ Features
+
 - Overhaul distribution and ergonomics with cmdk integration, new tailwind preset, and accessibility improvements (1c30bd9)
 - Refactor Switch, Tabs, and Tooltip components to use Radix UI primitives (f244525)
 - **button:** Redesign to match templates.html — offset-shadow hover, fg-fill primary, accent variant, ButtonKbd (f1acc49)
 
-
 ### 🌀 Other
+
 - Code structure for improved readability and maintainability (43df65d)
 
-
 ### 🐛 Bug Fixes
+
 - **ci:** Format test file and fix check script to use bun run (d9df81f)
 - **lint:** Update prettier command to check and write changes (aa696b9)
 - **test:** Remove unused container variable in Separator test (b1134a0)
@@ -28,12 +74,12 @@ and entries are generated from [Conventional Commits](https://www.conventionalco
 - **ci:** Unblock Pages build and Changelog generation (0a791b2)
 - **select:** Resolve TypeScript strict-mode errors in [#22](https://github.com/Satcomx00-x00/VoidUI/pull/22) (4f5d6da)
 
-
 ### 🤖 CI/CD
+
 - **commitlint:** Raise header-max-length to 300 characters (310e64c)
 
-
 ### 🧹 Chores
+
 - **changeset:** Add minor release changeset for v0.1.0 (37a341f)
 - **changelog:** Update CHANGELOG.md [skip ci] by @github-actions[bot] (fc92bff)
 - Remove dependabot (84de071)
