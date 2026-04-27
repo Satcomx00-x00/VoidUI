@@ -45,6 +45,7 @@ jobs:
 
       - name: Generate changelog
         id: cliff
+        continue-on-error: true
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
@@ -54,6 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit changelog
+        if: steps.cliff.outcome == 'success'
         run: |
           set -euo pipefail
           if [[ -z "$(git status --porcelain CHANGELOG.md)" ]]; then
@@ -86,21 +88,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate release notes for ${{ github.ref_name }}
+      - name: Generate release notes
         id: cliff
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          args: --latest --strip header
+          args: --verbose --latest
         env:
           OUTPUT: RELEASE_NOTES.md
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update GitHub Release body
+      - name: Attach to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
           body_path: RELEASE_NOTES.md
-          append_body: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
